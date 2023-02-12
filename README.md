@@ -6,7 +6,7 @@ console input), and will also allow the user to compose music and play it back l
 
 ## User Stories
 
-- As a user, I want to be able to tune my instruments to the correct pitch.
+- As a user, I want to be able to tune my instruments to the correct pitch. 
 - As a user, I want to be able to view the history of the notes I have tuned. 
 - As a user, I want to be able to compose music pieces of varying lengths. 
 (arbitrary number of notes, added to a piece)
