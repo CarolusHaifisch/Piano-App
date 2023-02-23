@@ -15,11 +15,19 @@ public class Note {
     // EFFECTS: Constructs a note with given name, duration, and octave value
     // Note names must be Capital letters.
     public Note(char noteName, double noteDuration, int noteOctave, boolean noteIsSharp, boolean noteIsFlat) {
-        if (noteName != )
+        //if (noteName != 0) {
+         //  
+       // }
         this.name = noteName;
         this.duration = noteDuration;
         this.octave = noteOctave;
         this.isSharp = noteIsSharp;
         this.isFlat = noteIsFlat;
     }
+
+    // EFFECTS: Returns note duration
+    public double getDuration() {
+        return duration;
+    }
+
 }
