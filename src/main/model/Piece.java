@@ -26,4 +26,9 @@ public class Piece {
         return piecetime;
     }
 
+    // MODIFIES: piece
+    // EFFECTS: Adds Note to piece.
+    public void addNote(Note n) {
+            piece.add(n);
+    }
 }
