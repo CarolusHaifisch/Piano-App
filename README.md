@@ -13,7 +13,14 @@ console input), and will also allow the user to compose music and play it back l
 - As a user, I want to be able to save composed pieces to a memory for playback later. 
 - As a user, I want to be able to see how long each piece composed is.
 - As a user, I want to be able to edit and modify saved music pieces that I have already composed. 
+
+
 - As a user, I want to be able to compose music with notes with different instrument sounds in the same piece.
+- This last point WILL BE ADDED LAST, THINKING OF HOW TO BEST IMPLEMENT THIS 
+- (EITHER SPECIFY INSTRUMENT IN NOTE CLASS (1)
+- OR SPECIFY IT IN COMPOSER AND FIND A WAY TO MERGE IT INTO THE PIECE(2))
+- 1 IS LESS ELEGANT BUT SIMPLER TO IMPLEMENT
+- 2 IS MORE ELEGANT AND SIMPLIFIED BUT HARDER TO IMLEMENT
 
 ## Stretch goals:
 - Potentially add a minigame where the user will need to playback a series of notes, with a few select
