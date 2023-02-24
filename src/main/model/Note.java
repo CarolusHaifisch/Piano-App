@@ -14,9 +14,9 @@ public class Note {
     private boolean noteIsFlat;
 
 
-    // REQUIRES: octave >= 0 && octave <= 10, duration > 0, isSharp ^ isFlat
+    // REQUIRES: octave >= 0 && octave <= 10, duration > 0 && duration <= MAX_DURATION, isSharp ^ isFlat
     // EFFECTS: Constructs a note with given name, duration, and octave value
-    // Note names must be Capital letters.
+    // Note names must be Capital letters. Maximum duration MAX_DURATION is defined in NoteConstants.
     public Note(char name, double duration, int octave, boolean isSharp, boolean isFlat) {
         //if (noteName != 0) {
          //

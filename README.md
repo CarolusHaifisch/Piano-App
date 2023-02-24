@@ -12,5 +12,10 @@ console input), and will also allow the user to compose music and play it back l
 (arbitrary number of notes, added to a piece)
 - As a user, I want to be able to save composed pieces to a memory for playback later. 
 - As a user, I want to be able to see how long each piece composed is.
+- As a user, I want to be able to edit and modify saved music pieces that I have already composed. 
 - As a user, I want to be able to compose music with notes with different instrument sounds in the same piece.
 
+## Stretch goals:
+- Potentially add a minigame where the user will need to playback a series of notes, with a few select
+- difficulties. Correctly playing back the notes will earn points which will be displayed at the end of the game.
+- Game will end once X amount of notes are successfully played back or Y amount of wrong notes are played back.
