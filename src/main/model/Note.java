@@ -7,37 +7,39 @@ public class Note {
      * note is on, and whether the note is a sharp or flat. A note can only be either sharp or flat, or neither, it
      * cannot be both.
      */
-    private char name;
-    private double duration;
-    private int octave;
-    private boolean isSharp;
-    private boolean isFlat;
+    private char noteName;
+    private double noteDuration;
+    private int noteOctave;
+    private boolean noteIsSharp;
+    private boolean noteIsFlat;
 
 
-    // REQUIRES: noteOctave >= 0 && noteOctave <= 10, noteDuration > 0, isSharp ^ isFlat
+    // REQUIRES: octave >= 0 && octave <= 10, duration > 0, isSharp ^ isFlat
     // EFFECTS: Constructs a note with given name, duration, and octave value
     // Note names must be Capital letters.
-    public Note(char noteName, double noteDuration, int noteOctave, boolean noteIsSharp, boolean noteIsFlat) {
+    public Note(char name, double duration, int octave, boolean isSharp, boolean isFlat) {
         //if (noteName != 0) {
          //
        // }
-        this.name = noteName;
-        this.duration = noteDuration;
-        this.octave = noteOctave;
-        this.isSharp = noteIsSharp;
-        this.isFlat = noteIsFlat;
+        this.noteName = name;
+        this.noteDuration = duration;
+        this.noteOctave = octave;
+        this.noteIsSharp = isSharp;
+        this.noteIsFlat = isFlat;
     }
 
     // EFFECTS: Returns note duration
     public double getDuration() {
-        return duration;
+        return noteDuration;
     }
+
     // EFFECTS: Returns note name
     public double getName() {
-        return name;
+        return noteName;
     }
+
     // EFFECTS: Returns note octave
     public double getOctave() {
-        return octave;
+        return noteOctave;
     }
 }
