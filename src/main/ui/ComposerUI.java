@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import model.Composer;
 import model.NoteConstants;
 import model.Piece;
 import model.PiecesMemory;
@@ -36,59 +37,36 @@ public class ComposerUI {
      * in memory with JFugue.
      */
 
-    // EFFECTS: Returns true if memory file already exists, false otherwise.
-    private boolean memExists() {
-        File memorypath = new File(NoteConstants.getFilePath());
-        return memorypath.isFile();
-    }
 
-    // MODIFIES: Pieces_memory file in /data folder
-    // EFFECTS: Creates a new Pieces_memory file to save PiecesMemory data if it doesn't already exist and returns the
-    // PiecesMemory, otherwise retrieves the saved PiecesMemory from the file.
-    public PiecesMemory memRetrieve() throws IOException, ClassNotFoundException {
-        if (memExists()) {
-            FileInputStream fis = new FileInputStream(NoteConstants.getFilePath() + "Pieces_memory");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            PiecesMemory memory = (PiecesMemory) ois.readObject();
-            fis.close();
-            ois.close();
-            return memory;
-        }
-        FileOutputStream fos = new FileOutputStream(NoteConstants.getFilePath() + "Pieces_memory");
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        PiecesMemory newMemory = new PiecesMemory();
-        oos.writeObject(newMemory);
-        fos.close();
-        oos.close();
-        FileInputStream fis = new FileInputStream(NoteConstants.getFilePath() + "Pieces_memory");
-        ObjectInputStream ois = new ObjectInputStream(fis);
-        PiecesMemory memory = (PiecesMemory) ois.readObject();
-        fis.close();
-        ois.close();
-        return memory;
-    }
-
-    // MODIFIES: Pieces_memory file in /data.
+    // MODIFIES: Pieces_memory file in /data folder.
     // EFFECTS: Saves current PiecesMemory to the Pieces_memory file in /data. Prints a string to screen indicating
     // whether save was successful or not. This will overwrite whatever was originally in the Pieces_memory file.
+
+    // Move this to the Composer class in Model, and add something to catch the exception here and print the success
+    // statement if successful somewhere in the UI body.
     public void memSave(PiecesMemory currentPMem) throws IOException {
-        FileOutputStream fos = new FileOutputStream(NoteConstants.getFilePath() + "Pieces_memory");
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(currentPMem);
-        fos.close();
-        oos.close();
+        try {
+            FileOutputStream fos = new FileOutputStream(NoteConstants.getFilePath() + "Pieces_memory");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(currentPMem);
+            fos.close();
+            oos.close();
+            System.out.println("Save Successful!");
+        } catch (IOException) {
+            System.out.println("Did not save properly.");
+        }
     }
 
     // Constructs new composer instance
     // EFFECTS: Initializes a new Composer in the console
 
     public ComposerUI() {
-        System.out.println("Welcome to the Composer V0.1. To compose a new piece press N, to edit an existing piece in"
-                + "memory press E, to play a piece from memory press P, and to exit the program press W.");
+        System.out.println("Welcome to the Composer V0.1-Alpha. To compose a new piece press N, to edit an existing" +
+                "piece in memory press E, to play a piece from memory press P, and to exit the program press W.");
         // Need to use the scanner to detect char inputs
         Scanner input = new Scanner(System.in);
         char keyInput = input.nextLine().charAt(0);
-        this.memExists();
+        Composer.memExists();
         switch (keyInput) {
             case 'N': {
                 Piece newPiece = new Piece();
