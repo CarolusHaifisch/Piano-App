@@ -1,13 +1,20 @@
 package ui;
 
+import java.io.*;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import model.NoteConstants;
 import model.Piece;
+import model.PiecesMemory;
 import org.jfugue.player.Player;
 
 public class ComposerUI {
+    /** Googled certain components such as serialization of list data and scanner to read console inputs for this class.
+     * Read some documentation on how to write and retrieve data stored in a serialization.
+     */
+
     // Add notes to piece until program interrupted, then save piece
     // (Add x to y arbitrarily)
     // Allow for changing instruments halfway through piece (with keyboard)
@@ -29,14 +36,59 @@ public class ComposerUI {
      * in memory with JFugue.
      */
 
+    // EFFECTS: Returns true if memory file already exists, false otherwise.
+    private boolean memExists() {
+        File memorypath = new File(NoteConstants.getFilePath());
+        return memorypath.isFile();
+    }
+
+    // MODIFIES: Pieces_memory file in /data folder
+    // EFFECTS: Creates a new Pieces_memory file to save PiecesMemory data if it doesn't already exist and returns the
+    // PiecesMemory, otherwise retrieves the saved PiecesMemory from the file.
+    public PiecesMemory memRetrieve() throws IOException, ClassNotFoundException {
+        if (memExists()) {
+            FileInputStream fis = new FileInputStream(NoteConstants.getFilePath() + "Pieces_memory");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            PiecesMemory memory = (PiecesMemory) ois.readObject();
+            fis.close();
+            ois.close();
+            return memory;
+        }
+        FileOutputStream fos = new FileOutputStream(NoteConstants.getFilePath() + "Pieces_memory");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        PiecesMemory newMemory = new PiecesMemory();
+        oos.writeObject(newMemory);
+        fos.close();
+        oos.close();
+        FileInputStream fis = new FileInputStream(NoteConstants.getFilePath() + "Pieces_memory");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        PiecesMemory memory = (PiecesMemory) ois.readObject();
+        fis.close();
+        ois.close();
+        return memory;
+    }
+
+    // MODIFIES: Pieces_memory file in /data.
+    // EFFECTS: Saves current PiecesMemory to the Pieces_memory file in /data. Prints a string to screen indicating
+    // whether save was successful or not. This will overwrite whatever was originally in the Pieces_memory file.
+    public void memSave(PiecesMemory currentPMem) throws IOException {
+        FileOutputStream fos = new FileOutputStream(NoteConstants.getFilePath() + "Pieces_memory");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(currentPMem);
+        fos.close();
+        oos.close();
+    }
+
     // Constructs new composer instance
     // EFFECTS: Initializes a new Composer in the console
+
     public ComposerUI() {
         System.out.println("Welcome to the Composer V0.1. To compose a new piece press N, to edit an existing piece in"
                 + "memory press E, to play a piece from memory press P, and to exit the program press W.");
         // Need to use the scanner to detect char inputs
         Scanner input = new Scanner(System.in);
         char keyInput = input.nextLine().charAt(0);
+        this.memExists();
         switch (keyInput) {
             case 'N': {
                 Piece newPiece = new Piece();

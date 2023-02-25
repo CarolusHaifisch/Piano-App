@@ -25,8 +25,12 @@ public class NoteConstants {
     public static final int NOTE_G = 392;
     public static final int NOTE_Gsharp = 415;
 
-    private String basePath = new File("").getAbsolutePath();
-    String filePath = basePath + "/data";
+    private static String basePath = new File("").getAbsolutePath();
+    private static String getFilePath = basePath + "/data";
+
+    public static String getFilePath() {
+        return getFilePath;
+    }
 
 
 }
