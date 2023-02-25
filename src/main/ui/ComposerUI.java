@@ -5,10 +5,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import model.Composer;
-import model.NoteConstants;
-import model.Piece;
-import model.PiecesMemory;
+import model.*;
 import org.jfugue.player.Player;
 
 public class ComposerUI {
@@ -48,12 +45,19 @@ public class ComposerUI {
         System.out.println("Welcome to the Composer V0.1-Alpha. To compose a new piece press N, to edit an existing"
                 + "piece in memory press E, to delete a piece from memory press D, to play a piece from memory press P,"
                 + " and to save Pieces and exit the program press W.");
-        // Need to use the scanner to detect char inputs
+        this.composerMenu();
+    }
+
+    // EFFECTS: Takes in a char input and completes the corresponding action depending on input.
+    private void composerMenu() {
         Scanner input = new Scanner(System.in);
         char keyInput = input.nextLine().charAt(0);
         switch (keyInput) {
             case 'N': {
-                Piece piece = new Piece();
+                Scanner inputpiecename = new Scanner(System.in);
+                String newpiecename = inputpiecename.nextLine();
+                Piece piece = new Piece(newpiecename, new ArrayList<Note>());
+
                 // Need code to start composing new piece after creating the new blank piece
                 // IE move to a different UI method to edit the piece
             }
@@ -110,6 +114,7 @@ public class ComposerUI {
             System.out.println("Invalid index, please try again!");
             this.dmethod();
         }
+        this.composerMenu();
     }
 
     // EFFECTS: Plays the given piece in JFugue. If no piece of given name exists, an empty piece is played.
@@ -119,14 +124,21 @@ public class ComposerUI {
         String pieceName = inputp.nextLine();
         Player piecePlayer = new Player();  // Creates new JFugue Player
         Piece selectedPiece = memory.getPieceWithName(pieceName);
-        piecePlayer.play(selectedPiece.getPieceContents());
-        // ABOVE LINE WILL NOT WORK AS IS. WILL NEED TO CONVERT THE ARRAYLIST TO A STRING AND
-        // JOIN ALL THE NOTES WITH SPACES.
-        // TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        String pieceString = selectedPiece.pieceToString();
+        piecePlayer.play(pieceString);
+        System.out.println("Input Y to play another piece, or N to return to menu");
+        Scanner inputp2 = new Scanner(System.in);
+        char inputval = inputp2.nextLine().charAt(0);
+        if (inputval == 'Y') {
+            this.pmethod();
+        } else if (inputval == 'N') {
+            this.composerMenu();
+        }
         // Code to play piece in Jfugue. If none exist with given name in memory ...........
 
 
     }
+
 
     public static void main(String[]args) {
         new ComposerUI();

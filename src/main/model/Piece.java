@@ -14,6 +14,15 @@ public class Piece {
         this.pieceName = name;
     }
 
+    // EFFECTS: Decompiles the Piece and converts it into a string format to be played by JFugue.
+    public String pieceToString() {
+        String pieceString = "";
+        for (Note n : this.getPieceContents()) {
+            pieceString += n.getName() + n.getOctave() + "/" + n.getDuration() + " ";
+        }
+        return pieceString;
+    }
+
     // EFFECTS: Returns number of notes in the piece
     public int length() {
         return this.pieceContents.size();
