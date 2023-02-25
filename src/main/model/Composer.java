@@ -14,20 +14,20 @@ public class Composer {
     // PiecesMemory, otherwise retrieves the saved PiecesMemory from the file.
     public PiecesMemory memRetrieve() throws IOException, ClassNotFoundException {
         if (memExists()) {
-            FileInputStream fis = new FileInputStream(NoteConstants.getFilePath() + "Pieces_memory");
+            FileInputStream fis = new FileInputStream(NoteConstants.getFilePath() + "/Pieces_memory.ser");
             ObjectInputStream ois = new ObjectInputStream(fis);
             PiecesMemory memory = (PiecesMemory) ois.readObject();
             fis.close();
             ois.close();
             return memory;
         }
-        FileOutputStream fos = new FileOutputStream(NoteConstants.getFilePath() + "Pieces_memory");
+        FileOutputStream fos = new FileOutputStream(NoteConstants.getFilePath() + "/Pieces_memory.ser");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         PiecesMemory newMemory = new PiecesMemory();
         oos.writeObject(newMemory);
         fos.close();
         oos.close();
-        FileInputStream fis = new FileInputStream(NoteConstants.getFilePath() + "Pieces_memory");
+        FileInputStream fis = new FileInputStream(NoteConstants.getFilePath() + "/Pieces_memory.ser");
         ObjectInputStream ois = new ObjectInputStream(fis);
         PiecesMemory memory = (PiecesMemory) ois.readObject();
         fis.close();
@@ -43,7 +43,7 @@ public class Composer {
     // statement if successful somewhere in the UI body. NOT SURE IF THE CATCH IOEXCEPTION E IS CORRECT. SHOULD IT BE
     // E??? OR ALL???? NEED TO CHECK
     public void memSave(PiecesMemory currentPMem) throws IOException {
-        FileOutputStream fos = new FileOutputStream(NoteConstants.getFilePath() + "Pieces_memory");
+        FileOutputStream fos = new FileOutputStream(NoteConstants.getFilePath() + "/Pieces_memory.ser");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(currentPMem);
         fos.close();

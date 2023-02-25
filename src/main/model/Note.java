@@ -1,6 +1,8 @@
 package model;
 
-public class Note {
+import java.io.Serializable;
+
+public class Note implements Serializable {
     /** Class to represent a note, to be stored in a list of notes (A piece),
      * to simplify handling data, which will then be converted into music with JFugue. A note has a char name,
      * representing the musical note, a duration as a number of beats, an octave value representing which octave the

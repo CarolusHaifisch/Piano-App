@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Piece {
+public class Piece implements Serializable {
     /** Class representing a music piece (list of notes).
      */
     private ArrayList<Note> pieceContents;

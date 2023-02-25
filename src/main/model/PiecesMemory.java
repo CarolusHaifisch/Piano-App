@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class PiecesMemory {
+public class PiecesMemory extends LinkedList<Piece> {
     /**
      * Class representing the memory of the program where composed pieces are saved. Pieces are saved in reverse order
      * as they are saved into memory (newest piece is first in memory).

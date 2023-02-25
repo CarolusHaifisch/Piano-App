@@ -10,7 +10,17 @@ import org.jfugue.player.Player;
 
 public class ComposerUI {
     private Composer composer = new Composer(); // Necessary to avoid the non static/static error (See documentation)
-    PiecesMemory memory = composer.memRetrieve(); // UNHANDLED EXCEPTIONS!!! NEED TO FIX W TRY CATCH
+    PiecesMemory memory;
+
+    {
+        try {
+            memory = composer.memRetrieve();
+        } //catch (IOException e) {
+        //System.out.println("Could not retrieve memory.");
+        catch (ClassNotFoundException e) {
+            System.out.println("Could not find PiecesMemory class.");
+        }
+    }
     /** Googled certain components such as serialization of list data and scanner to read console inputs for this class.
      * Read some documentation on how to write and retrieve data stored in a serialization.
      */
@@ -41,15 +51,14 @@ public class ComposerUI {
     // Constructs new composer instance
     // EFFECTS: Initializes a new Composer in the console
 
-    public ComposerUI() {
-        System.out.println("Welcome to the Composer V0.1-Alpha. To compose a new piece press N, to edit an existing"
-                + "piece in memory press E, to delete a piece from memory press D, to play a piece from memory press P,"
-                + " and to save Pieces and exit the program press W.");
+    public ComposerUI() throws IOException, ClassNotFoundException {
+        System.out.println("Welcome to the Composer V0.1-Alpha.");
         this.composerMenu();
     }
 
     // EFFECTS: Takes in a char input and completes the corresponding action depending on input.
-    private void composerMenu() {
+    private void composerMenu() throws IOException {
+        System.out.println(NoteConstants.getMenuInstructions());
         Scanner input = new Scanner(System.in);
         char keyInput = input.nextLine().charAt(0);
         switch (keyInput) {
@@ -63,7 +72,7 @@ public class ComposerUI {
             }
             case 'E': {
                 Piece piece = this.emethod();
-                System.out.println("Editing" + piece.getPieceName());
+                System.out.println("Editing " + piece.getPieceName());
                 // Then move to a different UI method to handle editing of the piece
             }
             case 'D': {
@@ -73,13 +82,11 @@ public class ComposerUI {
                 this.pmethod();
             }
             case 'W': {
-                try {
-                    composer.memSave(memory);
-                } catch (IOException e) {  // This might not even be necessary because IOexceptions shouldn't be thrown
-                    // in normal circumstances.
-                    System.out.println("Did not save properly.");
-                }
+                composer.memSave(memory);
                 System.exit(0);
+            }
+            case 'C': {
+
             }
         }
     }
@@ -98,7 +105,7 @@ public class ComposerUI {
     // MODIFIES: PiecesMemory memory
     // EFFECTS: Deletes piece from memory with given index. If given index falls outside of valid indices,
     // prints error message and you can try again.
-    private void dmethod() {
+    private void dmethod() throws IOException {
         System.out.println("Please provide the index of the piece you want to delete from memory");
         Scanner inputd = new Scanner(System.in);
         // Code to search through PiecesMemory to find piece with said name: If none exist.....
@@ -118,7 +125,7 @@ public class ComposerUI {
     }
 
     // EFFECTS: Plays the given piece in JFugue. If no piece of given name exists, an empty piece is played.
-    private void pmethod() {
+    private void pmethod() throws IOException {
         System.out.println("Please provide the name of the piece you want to play with JFugue");
         Scanner inputp = new Scanner(System.in);
         String pieceName = inputp.nextLine();
@@ -140,7 +147,7 @@ public class ComposerUI {
     }
 
 
-    public static void main(String[]args) {
+    public static void main(String[]args) throws IOException, ClassNotFoundException {
         new ComposerUI();
 
     }
