@@ -12,6 +12,8 @@ import model.PiecesMemory;
 import org.jfugue.player.Player;
 
 public class ComposerUI {
+    private Composer composer = new Composer(); // Necessary to avoid the non static/static error (See documentation)
+    PiecesMemory memory = composer.memRetrieve(); // UNHANDLED EXCEPTIONS!!! NEED TO FIX W TRY CATCH
     /** Googled certain components such as serialization of list data and scanner to read console inputs for this class.
      * Read some documentation on how to write and retrieve data stored in a serialization.
      */
@@ -38,62 +40,92 @@ public class ComposerUI {
      */
 
 
-    // MODIFIES: Pieces_memory file in /data folder.
-    // EFFECTS: Saves current PiecesMemory to the Pieces_memory file in /data. Prints a string to screen indicating
-    // whether save was successful or not. This will overwrite whatever was originally in the Pieces_memory file.
-
-    // Move this to the Composer class in Model, and add something to catch the exception here and print the success
-    // statement if successful somewhere in the UI body.
-    public void memSave(PiecesMemory currentPMem) throws IOException {
-        try {
-            FileOutputStream fos = new FileOutputStream(NoteConstants.getFilePath() + "Pieces_memory");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(currentPMem);
-            fos.close();
-            oos.close();
-            System.out.println("Save Successful!");
-        } catch (IOException) {
-            System.out.println("Did not save properly.");
-        }
-    }
 
     // Constructs new composer instance
     // EFFECTS: Initializes a new Composer in the console
 
     public ComposerUI() {
-        System.out.println("Welcome to the Composer V0.1-Alpha. To compose a new piece press N, to edit an existing" +
-                "piece in memory press E, to play a piece from memory press P, and to exit the program press W.");
+        System.out.println("Welcome to the Composer V0.1-Alpha. To compose a new piece press N, to edit an existing"
+                + "piece in memory press E, to delete a piece from memory press D, to play a piece from memory press P,"
+                + " and to save Pieces and exit the program press W.");
         // Need to use the scanner to detect char inputs
         Scanner input = new Scanner(System.in);
         char keyInput = input.nextLine().charAt(0);
-        Composer.memExists();
         switch (keyInput) {
             case 'N': {
-                Piece newPiece = new Piece();
+                Piece piece = new Piece();
                 // Need code to start composing new piece after creating the new blank piece
                 // IE move to a different UI method to edit the piece
             }
             case 'E': {
-                System.out.println("Please provide the name of the piece you want to edit");
-                Scanner inpute = new Scanner(System.in);
-                String pieceName = inpute.nextLine();
-                // Code to search through PiecesMemory to find piece with said name: If none exist.....
+                Piece piece = this.emethod();
+                System.out.println("Editing" + piece.getPieceName());
                 // Then move to a different UI method to handle editing of the piece
-
+            }
+            case 'D': {
+                this.dmethod();
             }
             case 'P': {
-                System.out.println("Please provide the name of the piece you want to play with JFugue");
-                Scanner inputp = new Scanner(System.in);
-                String pieceName = inputp.nextLine();
-
-                Player piecePlayer = new Player();  // Creates new JFugue Player
-                piecePlayer.play();
-                // Code to play piece in Jfugue. If none exist with given name in memory ...........
+                this.pmethod();
             }
             case 'W': {
+                try {
+                    composer.memSave(memory);
+                } catch (IOException e) {  // This might not even be necessary because IOexceptions shouldn't be thrown
+                    // in normal circumstances.
+                    System.out.println("Did not save properly.");
+                }
                 System.exit(0);
             }
         }
+    }
+
+    // MODIFIES: PiecesMemory memory
+    // EFFECTS: Returns the piece with the given name, if none exist a new piece is created and added to memory.
+    private Piece emethod() {
+        System.out.println("Please provide the name of the piece you want to edit");
+        Scanner inpute = new Scanner(System.in);
+        String pieceName = inpute.nextLine();
+        // Code to search through PiecesMemory to find piece with said name: If none exist.....
+        return memory.getPieceWithName(pieceName);
+    }
+
+    // REQUIRES: Given index is a valid index of memory. (Does not exceed index of memory)
+    // MODIFIES: PiecesMemory memory
+    // EFFECTS: Deletes piece from memory with given index. If given index falls outside of valid indices,
+    // prints error message and you can try again.
+    private void dmethod() {
+        System.out.println("Please provide the index of the piece you want to delete from memory");
+        Scanner inputd = new Scanner(System.in);
+        // Code to search through PiecesMemory to find piece with said name: If none exist.....
+        // Then move to a different UI method to handle editing of the piece
+        while (!inputd.hasNextInt()) {
+            inputd.next();
+        }
+        int pieceindex = inputd.nextInt();
+        if (pieceindex < memory.numSavedPieces()) {
+            memory.delPiece(pieceindex);
+            System.out.println("Deleted piece" + memory.getPieceWithIndex(pieceindex).getPieceName());
+        } else {
+            System.out.println("Invalid index, please try again!");
+            this.dmethod();
+        }
+    }
+
+    // EFFECTS: Plays the given piece in JFugue. If no piece of given name exists, an empty piece is played.
+    private void pmethod() {
+        System.out.println("Please provide the name of the piece you want to play with JFugue");
+        Scanner inputp = new Scanner(System.in);
+        String pieceName = inputp.nextLine();
+        Player piecePlayer = new Player();  // Creates new JFugue Player
+        Piece selectedPiece = memory.getPieceWithName(pieceName);
+        piecePlayer.play(selectedPiece.getPieceContents());
+        // ABOVE LINE WILL NOT WORK AS IS. WILL NEED TO CONVERT THE ARRAYLIST TO A STRING AND
+        // JOIN ALL THE NOTES WITH SPACES.
+        // TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // Code to play piece in Jfugue. If none exist with given name in memory ...........
+
+
     }
 
     public static void main(String[]args) {

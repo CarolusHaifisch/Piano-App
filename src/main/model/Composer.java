@@ -4,7 +4,7 @@ import java.io.*;
 
 public class Composer {
     // EFFECTS: Returns true if memory file already exists, false otherwise.
-    private boolean memExists() {
+    public boolean memExists() {
         File memorypath = new File(NoteConstants.getFilePath());
         return memorypath.isFile();
     }
@@ -35,6 +35,21 @@ public class Composer {
         return memory;
     }
 
+    // MODIFIES: Pieces_memory file in /data folder.
+    // EFFECTS: Saves current PiecesMemory to the Pieces_memory file in /data. Prints a string to screen indicating
+    // whether save was successful or not. This will overwrite whatever was originally in the Pieces_memory file.
+
+    // Move this to the Composer class in Model, and add something to catch the exception here and print the success
+    // statement if successful somewhere in the UI body. NOT SURE IF THE CATCH IOEXCEPTION E IS CORRECT. SHOULD IT BE
+    // E??? OR ALL???? NEED TO CHECK
+    public void memSave(PiecesMemory currentPMem) throws IOException {
+        FileOutputStream fos = new FileOutputStream(NoteConstants.getFilePath() + "Pieces_memory");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(currentPMem);
+        fos.close();
+        oos.close();
+        System.out.println("Save Successful!");
+    }
 /*
     int keyCode =
             switch(keyCode) {

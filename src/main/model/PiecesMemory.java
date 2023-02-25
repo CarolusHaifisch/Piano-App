@@ -49,4 +49,9 @@ public class PiecesMemory {
         this.addPiece(newPiece);
         return newPiece;
     }
+
+    // EFFECTS: Returns the piece at the given index.
+    public Piece getPieceWithIndex(int index) {
+        return memory.get(index);
+    }
 }
