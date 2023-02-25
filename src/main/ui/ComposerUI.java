@@ -72,7 +72,6 @@ public class ComposerUI {
             }
             case 'E': {
                 Piece piece = this.emethod();
-                System.out.println("Editing " + piece.getPieceName());
                 // Then move to a different UI method to handle editing of the piece
             }
             case 'D': {
@@ -86,7 +85,8 @@ public class ComposerUI {
                 System.exit(0);
             }
             case 'C': {
-
+                memory = new PiecesMemory();
+                System.out.println("PiecesMemory cleared.");
             }
         }
     }
@@ -98,6 +98,7 @@ public class ComposerUI {
         Scanner inpute = new Scanner(System.in);
         String pieceName = inpute.nextLine();
         // Code to search through PiecesMemory to find piece with said name: If none exist.....
+        System.out.println("Editing " + pieceName);
         return memory.getPieceWithName(pieceName);
     }
 
