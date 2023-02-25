@@ -35,7 +35,7 @@ public class PiecesMemory {
     // REQUIRES: pieces have unique names
     // MODIFIES: this
     // EFFECTS: Returns piece with the given piece name. If none have the given name creates a new empty Piece with
-    // given name, adds it to the memory, and returns this new piece.***** Potentially add a control here where we can
+    // given name, adds it to th e memory, and returns this new piece.***** Potentially add a control here where we can
     // control whether we want to add a new piece or not with keyboard presses controlled in Composer. This can be done
     // with exception handling where we can throw an exception here if piece is not found and deal with it however we
     // want.

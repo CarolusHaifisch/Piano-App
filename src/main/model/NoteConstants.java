@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.util.ArrayList;
 import static java.util.Arrays.asList;
 
@@ -23,6 +24,9 @@ public class NoteConstants {
     public static final int NOTE_Fsharp = 370;
     public static final int NOTE_G = 392;
     public static final int NOTE_Gsharp = 415;
+
+    private String basePath = new File("").getAbsolutePath();
+    String filePath = basePath + "/data";
 
 
 }
