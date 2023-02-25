@@ -36,7 +36,9 @@ public class PiecesMemory {
     // MODIFIES: this
     // EFFECTS: Returns piece with the given piece name. If none have the given name creates a new empty Piece with
     // given name, adds it to the memory, and returns this new piece.***** Potentially add a control here where we can
-    // control whether we want to add a new piece or not with keyboard presses controlled in Composer.
+    // control whether we want to add a new piece or not with keyboard presses controlled in Composer. This can be done
+    // with exception handling where we can throw an exception here if piece is not found and deal with it however we
+    // want.
     public Piece getPieceWithName(String name) {
         for (Piece p : memory) {
             if (p.getPieceName() == name) {
