@@ -7,7 +7,8 @@ import static java.util.Arrays.asList;
 public class ComposerConstants {
     /** Class containing all common constants used throughout the program.
      */
-    private static final ArrayList<Character> notesList = new ArrayList<Character>(asList('C','D','E','F','G','A','B','R'));
+    private static final ArrayList<Character> notesList =
+            new ArrayList<Character>(asList('C','D','E','F','G','A','B','R'));
     private static final double MAX_DURATION = 10;  // Limit max duration of each note
     private static final int DEFAULT_TEMPO = 80;
     private static final int MIN_TEMPO = 40;
@@ -28,12 +29,6 @@ public class ComposerConstants {
     private static String basePath = new File("").getAbsolutePath();
     private static String FilePath = basePath + "/data";
 
-    private static String menuInstructions = "To compose a new piece or edit an existing piece in memory "
-            + "enter E, to delete a piece from memory enter D, to play a piece from memory enter P,"
-            + " to save Pieces and exit the program enter W, and to clear all pieces from PiecesMemory enter C.";
-
-    private static String saveFailed = "Unable to save properly. Save unsuccessful.";
-
     // EFFECTS: Returns FilePath of the memory file.
     public static String getFilePath() {
         return FilePath;
@@ -41,6 +36,9 @@ public class ComposerConstants {
 
     // EFFECTS: Returns the menuInstructions string.
     public static String getMenuInstructions() {
+        String menuInstructions = "To compose a new piece or edit an existing piece in memory "
+                + "enter E, to delete a piece from memory enter D, to play a piece from memory enter P,"
+                + " to save Pieces and exit the program enter W, and to clear all pieces from PiecesMemory enter C.";
         return menuInstructions;
     }
 
@@ -49,7 +47,16 @@ public class ComposerConstants {
         return notesList;
     }
 
+    // EFFECTS: Returns saveFailed string.
     public static String getSaveFailed() {
+        String saveFailed = "Unable to save properly. Save unsuccessful.";
         return saveFailed;
+    }
+
+    //EFFECTS: Returns pieceComposerPrompt string.
+    public static String getPieceComposerPrompt() {
+        String pieceComposerPrompt = "Please input the note parameters when prompted to add a note"
+                + " to the piece. When finished, enter X in place of noteName to finish piece and save the memory.";
+        return pieceComposerPrompt;
     }
 }

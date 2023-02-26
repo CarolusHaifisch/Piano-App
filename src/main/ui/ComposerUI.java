@@ -6,6 +6,10 @@ import model.*;
 import org.jfugue.player.Player;
 
 public class ComposerUI {
+    /** Googled certain components such as serialization of list data and scanner to read console inputs for this class.
+     * Read some documentation on how to write and retrieve data stored in a serialization, and read particularly on
+     * how to use the scanner methods to obtain the desired data from console inputs.
+     */
     private Composer composer = new Composer(); // Necessary to avoid the non static/static error (See documentation)
     PiecesMemory memory;
 
@@ -18,9 +22,8 @@ public class ComposerUI {
             System.out.println("Could not find PiecesMemory class.");
         }
     }
-    /** Googled certain components such as serialization of list data and scanner to read console inputs for this class.
-     * Read some documentation on how to write and retrieve data stored in a serialization.
-     */
+
+
 
     // Add notes to piece until program interrupted, then save piece
     // (Add x to y arbitrarily)
@@ -60,10 +63,7 @@ public class ComposerUI {
         char keyInput = input.nextLine().charAt(0);
         switch (keyInput) {
             case 'E': {
-                Piece piece = this.emethod();
-                pieceComposer(piece);
-                System.out.println("Composed piece so far: " + piece.pieceToString());
-                this.composerMenu();
+                this.emethod();
             }
             case 'D': {
                 this.dmethod();
@@ -82,13 +82,41 @@ public class ComposerUI {
         }
     }
 
+    // EFFECTS: Links pieceComposer to pieceSelect, so that the selected piece is the one that is being composed.
+    // Prints out list of piece names currently in memory to console.
+    // Also allows for note deletion after finishing composing the piece.
+    private void emethod() {
+        System.out.println(memory.getPieceNames());
+        Piece piece = this.pieceSelect();
+        this.pieceComposer(piece);
+        this.noteDelete(piece);
+    }
+
+    // MODIFIES: piece
+    // EFFECTS: Allows for deleting notes at given indices, or returns to composerMenu. Prints out current piece
+    // contents to console before each note deletion.
+    private void noteDelete(Piece piece) {
+        System.out.println("Current piece: " + piece.pieceToString());
+        System.out.println("To delete a note from the piece, enter D. Enter any other key to return to menu.");
+        Scanner sc = new Scanner(System.in);
+        char d = sc.nextLine().charAt(0);
+        if (d == 'D') {
+            System.out.println("Enter index of note to be deleted");
+            int i = sc.nextInt();
+            sc.nextLine();
+            piece.delNote(i);
+            noteDelete(piece);
+        }
+        this.composerMenu();
+    }
+
     // REQUIRES: name input is a name of a piece in memory
     // MODIFIES: PiecesMemory memory
     // EFFECTS: Returns the piece with the given name, if none exist a new piece is created and added to memory.
-    private Piece emethod() {
+    private Piece pieceSelect() {
         System.out.println("Please provide the name of the piece you want to edit");
-        Scanner inpute = new Scanner(System.in);
-        String pieceName = inpute.nextLine();
+        Scanner piecenameinput = new Scanner(System.in);
+        String pieceName = piecenameinput.nextLine();
         // Code to search through PiecesMemory to find piece with said name: If none exist.....
         System.out.println("Editing " + pieceName);
         return memory.getPieceWithName(pieceName);
@@ -117,9 +145,8 @@ public class ComposerUI {
         this.composerMenu();
     }
 
-    // REQUIRES: name input is a name of a piece in memory
-    // EFFECTS: Plays the given piece in JFugue. If no piece of given name exists, an empty piece is played.
-    // Also prints the piece as a string to console.
+    // EFFECTS: Plays the given piece in JFugue. If no piece of given name exists, an empty piece is added to
+    // memory and is played. Also prints the piece's contents as a string to console.
     private void pmethod() {
         System.out.println("Please provide the name of the piece you want to play with JFugue");
         Scanner inputp = new Scanner(System.in);
@@ -148,6 +175,7 @@ public class ComposerUI {
         } catch (IOException e) {
             System.out.println(ComposerConstants.getSaveFailed());
         }
+        System.out.println("Save Successful!");
         System.exit(0);
     }
 
@@ -155,26 +183,26 @@ public class ComposerUI {
     // EFFECTS: Composes a piece by adding notes to the piece until user finishes the piece
     private void pieceComposer(Piece piece) {
         boolean isFinished = false;
-        System.out.println("Please input the note parameters when prompted to add a note to the piece. When finished,"
-                + "enter X in place of noteName to finish piece and save the memory.");
+        System.out.println(ComposerConstants.getPieceComposerPrompt());
         while (!isFinished) {
-            System.out.println("Please enter the note name");
+            System.out.println("Please enter the note name, or X to finish piece. Enter R for a rest.");
             Scanner s = new Scanner(System.in);
             char inputNoteName = s.nextLine().charAt(0);
             if (ComposerConstants.getNotesList().contains(inputNoteName)) {
                 Note note = this.noteCreator(inputNoteName);
                 piece.addNote(note);
+                System.out.println("Piece so far: " + piece.pieceToString());
             } else if (inputNoteName == 'X') {
-                System.out.println("Piece has been finished. Saving....");
+                System.out.println("Piece has been finished. Saving...");
                 isFinished = true;
                 try {
                     composer.memSave(memory);
                 } catch (IOException e) {
                     System.out.println(ComposerConstants.getSaveFailed());
                 }
+                System.out.println("Save Successful!");
             } else {
                 System.out.println("Invalid note entered, please try again");
-                inputNoteName = s.nextLine().charAt(0);
             }
         }
     }
@@ -204,10 +232,5 @@ public class ComposerUI {
 
     public static void main(String[]args) {
         new ComposerUI();
-
     }
 }
-
-
-// TODO: NEED TO ADD METHODS TO GET THE CURRENT LIST OF PIECES IN PIECESMEMORY AND PRINTS OUT THEIR NAMES TO CONSOLE
-// TODO: Same for the piece, to get list of notes in piece and print it out to console

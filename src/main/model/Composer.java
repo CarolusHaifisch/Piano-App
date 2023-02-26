@@ -12,8 +12,8 @@ public class Composer {
     }
 
     // MODIFIES: Pieces_memory file in /data folder
-    // EFFECTS: Creates a new Pieces_memory file to save PiecesMemory data if it doesn't already exist and returns the
-    // PiecesMemory, otherwise retrieves the saved PiecesMemory from the file.
+    // EFFECTS: Creates a new Pieces_memory file to save serialized PiecesMemory data if it doesn't already exist
+    // and returns the PiecesMemory, otherwise retrieves the saved PiecesMemory from the file.
     public PiecesMemory memRetrieve() throws IOException, ClassNotFoundException {
         if (memExists()) {
             FileInputStream fis = new FileInputStream(ComposerConstants.getFilePath() + "/Pieces_memory.ser");
@@ -50,7 +50,6 @@ public class Composer {
         oos.writeObject(currentPMem);
         fos.close();
         oos.close();
-        System.out.println("Save Successful!");
     }
 /*
     int keyCode =

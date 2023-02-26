@@ -17,6 +17,7 @@ public class Note implements Serializable {
 
 
     // REQUIRES: octave >= 0 && octave <= 10, duration > 0 && duration <= MAX_DURATION, isSharp ^ isFlat
+    // noteName is one of C, D, E, F, G, A, B, or R
     // EFFECTS: Constructs a note with given name, duration, and octave value
     // Note names must be Capital letters.
     public Note(char name, double duration, int octave, boolean isSharp, boolean isFlat) {
