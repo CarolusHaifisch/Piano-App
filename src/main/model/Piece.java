@@ -19,13 +19,7 @@ public class Piece implements Serializable {
     public String pieceToString() {
         String pieceString = "";
         for (Note n : this.getPieceContents()) {
-            if (n.getSharp()) {
-                pieceString += String.valueOf(n.getName()) + "#" + n.getOctave() + "/" + n.getDuration() + " ";
-            } else if (n.getFlat()) {
-                pieceString += String.valueOf(n.getName()) + "b" + n.getOctave() + "/" + n.getDuration() + " ";
-            } else {
-                pieceString += String.valueOf(n.getName()) + n.getOctave() + "/" + n.getDuration() + " ";
-            }
+            pieceString += Note.noteToString(n);
         }
         return pieceString;
     }
@@ -42,6 +36,11 @@ public class Piece implements Serializable {
             piecetime += n.getDuration();
         }
         return piecetime;
+    }
+
+    // EFFECTS: Returns note at given index
+    public Note getNoteAtIndex(int index) {
+        return this.pieceContents.get(index);
     }
 
     // EFFECTS: Returns the name of the piece.

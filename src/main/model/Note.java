@@ -31,6 +31,21 @@ public class Note implements Serializable {
         this.noteIsFlat = isFlat;
     }
 
+    // EFFECTS:
+    public static String noteToString(Note n) {
+        if (n.getSharp()) {
+            String noteString = String.valueOf(n.getName()) + "#" + n.getOctave() + "/" + n.getDuration() + " ";
+            return noteString;
+        } else if (n.getFlat()) {
+            String noteString = String.valueOf(n.getName()) + "b" + n.getOctave() + "/" + n.getDuration() + " ";
+            return noteString;
+        } else {
+            String noteString = String.valueOf(n.getName()) + n.getOctave() + "/" + n.getDuration() + " ";
+            return noteString;
+        }
+    }
+
+
     // EFFECTS: Returns note duration
     public double getDuration() {
         return noteDuration;

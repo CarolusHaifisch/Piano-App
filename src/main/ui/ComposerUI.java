@@ -114,8 +114,9 @@ public class ComposerUI {
         Scanner s = new Scanner(System.in);
         int i = s.nextInt();
         s.nextLine();
+        System.out.println("Deleted note" + Note.noteToString(piece.getNoteAtIndex(i)));
         piece.delNote(i);
-        System.out.println("Delete another note? If yes, enter D");
+        System.out.println("Delete another note? If yes, enter D, enter any other key to return to menu.");
         char d = s.nextLine().charAt(0);
         if (d == 'D') {
             noteDelete(piece);
