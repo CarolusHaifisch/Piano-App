@@ -9,6 +9,7 @@ public class Note implements Serializable {
      * note is on, and whether the note is a sharp or flat. A note can only be either sharp or flat, or neither, it
      * cannot be both.
      */
+    private static final long serialVersionUID = 1L;
     private char noteName;
     private double noteDuration;
     private int noteOctave;
@@ -32,15 +33,17 @@ public class Note implements Serializable {
     }
 
     // EFFECTS:
-    public static String noteToString(Note n) {
-        if (n.getSharp()) {
-            String noteString = String.valueOf(n.getName()) + "#" + n.getOctave() + "/" + n.getDuration() + " ";
+    public String noteToString() {
+        if (this.getSharp()) {
+            String noteString = String.valueOf(this.getName()) + "#" + this.getOctave() + "/"
+                    + this.getDuration() + " ";
             return noteString;
-        } else if (n.getFlat()) {
-            String noteString = String.valueOf(n.getName()) + "b" + n.getOctave() + "/" + n.getDuration() + " ";
+        } else if (this.getFlat()) {
+            String noteString = String.valueOf(this.getName()) + "b" + this.getOctave() + "/"
+                    + this.getDuration() + " ";
             return noteString;
         } else {
-            String noteString = String.valueOf(n.getName()) + n.getOctave() + "/" + n.getDuration() + " ";
+            String noteString = String.valueOf(this.getName()) + this.getOctave() + "/" + this.getDuration() + " ";
             return noteString;
         }
     }

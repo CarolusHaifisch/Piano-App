@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Piece implements Serializable {
     /** Class representing a music piece (list of notes).
      */
+    private static final long serialVersionUID = 1L;
     private ArrayList<Note> pieceContents;
     private String pieceName;
 
@@ -19,7 +20,7 @@ public class Piece implements Serializable {
     public String pieceToString() {
         String pieceString = "";
         for (Note n : this.getPieceContents()) {
-            pieceString += Note.noteToString(n);
+            pieceString += n.noteToString();
         }
         return pieceString;
     }

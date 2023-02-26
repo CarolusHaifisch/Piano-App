@@ -114,7 +114,7 @@ public class ComposerUI {
         Scanner s = new Scanner(System.in);
         int i = s.nextInt();
         s.nextLine();
-        System.out.println("Deleted note" + Note.noteToString(piece.getNoteAtIndex(i)));
+        System.out.println("Deleted note " + piece.getNoteAtIndex(i).noteToString());
         piece.delNote(i);
         System.out.println("Delete another note? If yes, enter D, enter any other key to return to menu.");
         char d = s.nextLine().charAt(0);
@@ -169,7 +169,7 @@ public class ComposerUI {
         Player piecePlayer = new Player();  // Creates new JFugue Player
         Piece selectedPiece = memory.getPieceWithName(pieceName);
         String pieceString = selectedPiece.pieceToString();
-        System.out.println("Piece being played: " + pieceName + pieceString);
+        System.out.println("Piece being played: " + pieceName + " " + pieceString);
         piecePlayer.play(pieceString);
         System.out.println("Input Y to play another piece, or N to return to menu");
         Scanner inputp2 = new Scanner(System.in);
