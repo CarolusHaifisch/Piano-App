@@ -39,13 +39,5 @@ class TestNote {
         String Resthstring = "R/0.5 ";
         assertTrue(Resthstring.equals(Rest1half.noteToString()) && Resthstring.equals(Rest5half.noteToString()));
     }
-
-    public void testGetDuration() {
-
-    }
-
-    public void testGetOctave() {
-
-    }
 }
 //TODO: Finish the tests for this class and the other classes!!!

@@ -8,11 +8,12 @@ public class PiecesMemory extends LinkedList<Piece> {
      * Class representing the memory of the program where composed pieces are saved. Pieces are saved in reverse order
      * as they are saved into memory (newest piece is first in memory).
      */
+    private static final long serialVersionUID = 1L;
     private LinkedList<Piece> memory;
 
     // EFFECTS: Constructs a new blank memory of pieces
-    public PiecesMemory() {
-        memory = new LinkedList<Piece>();
+    public PiecesMemory(LinkedList<Piece> mem) {
+        this.memory = mem;
     }
 
     // EFFECTS: Returns number of saved pieces in memory

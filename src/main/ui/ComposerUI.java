@@ -1,6 +1,7 @@
 package ui;
 
 import java.io.*;
+import java.util.LinkedList;
 import java.util.Scanner;
 import model.*;
 import org.jfugue.player.Player;
@@ -15,7 +16,7 @@ public class ComposerUI {
 
     {
         try {
-            memory = composer.memRetrieve();
+            memory = composer.memRetrieve(ComposerConstants.getFilePath() + "/Pieces_memory.ser");
         } catch (IOException e) {
             System.out.println("Could not retrieve memory.");
         } catch (ClassNotFoundException e) {
@@ -75,7 +76,7 @@ public class ComposerUI {
                 this.wmethod();
             }
             case 'C': {
-                memory = new PiecesMemory();
+                memory = new PiecesMemory(new LinkedList<Piece>());
                 System.out.println("PiecesMemory cleared.");
                 this.composerMenu();
             }
@@ -90,7 +91,7 @@ public class ComposerUI {
         Piece piece = this.pieceSelect();
         System.out.println("Current piece: " + piece.pieceToString());
         System.out.println("To add to the piece, enter A. To delete notes from the piece, enter D. To view properties"
-                + "of the piece, enter P. Enter any other key to return to menu.");
+                + "of the piece, enter P. Enter any other key to return to menu. All inputs are case sensitive.");
         Scanner sc = new Scanner(System.in);
         char einput = sc.nextLine().charAt(0);
         switch (einput) {
@@ -190,7 +191,7 @@ public class ComposerUI {
     // EFFECTS: Tries to save piecesmemory to the serialized file, and then exits the program.
     private void wmethod() {
         try {
-            composer.memSave(memory);
+            composer.memSave(memory, ComposerConstants.getFilePath() + "/Pieces_memory.ser");
         } catch (IOException e) {
             System.out.println(ComposerConstants.getSaveFailed());
         }
@@ -215,7 +216,7 @@ public class ComposerUI {
                 System.out.println("Piece has been finished. Saving...");
                 isFinished = true;
                 try {
-                    composer.memSave(memory);
+                    composer.memSave(memory, ComposerConstants.getFilePath() + "/Pieces_memory.ser");
                 } catch (IOException e) {
                     System.out.println(ComposerConstants.getSaveFailed());
                 }
