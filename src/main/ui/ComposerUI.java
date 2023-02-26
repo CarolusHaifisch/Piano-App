@@ -115,7 +115,13 @@ public class ComposerUI {
         int i = s.nextInt();
         s.nextLine();
         piece.delNote(i);
-        noteDelete(piece);
+        System.out.println("Delete another note? If yes, enter D");
+        char d = s.nextLine().charAt(0);
+        if (d == 'D') {
+            noteDelete(piece);
+        } else {
+            this.composerMenu();
+        }
     }
 
     // REQUIRES: name input is a name of a piece in memory
