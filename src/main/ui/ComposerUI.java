@@ -55,7 +55,7 @@ public class ComposerUI {
 
     // EFFECTS: Takes in a char input and completes the corresponding action depending on input.
     private void composerMenu() {
-        System.out.println(NoteConstants.getMenuInstructions());
+        System.out.println(ComposerConstants.getMenuInstructions());
         Scanner input = new Scanner(System.in);
         char keyInput = input.nextLine().charAt(0);
         switch (keyInput) {
@@ -64,8 +64,6 @@ public class ComposerUI {
                 pieceComposer(piece);
                 System.out.println("Composed piece so far: " + piece.pieceToString());
                 this.composerMenu();
-                // Need code to start composing new piece after creating the new blank piece
-                // Then move to a different UI method to handle editing of the piece
             }
             case 'D': {
                 this.dmethod();
@@ -121,8 +119,7 @@ public class ComposerUI {
 
     // REQUIRES: name input is a name of a piece in memory
     // EFFECTS: Plays the given piece in JFugue. If no piece of given name exists, an empty piece is played.
-    // TODO: PROBLEM: EACH TIME THIS CODE IS RUN NUMBER OF PIECES IN MEMORY INCREASES WHEN IT SHOULDNT
-    // TODO: problem seems to be that it appends the same piece again every time it is run
+    // Also prints the piece as a string to console.
     private void pmethod() {
         System.out.println("Please provide the name of the piece you want to play with JFugue");
         Scanner inputp = new Scanner(System.in);
@@ -130,6 +127,7 @@ public class ComposerUI {
         Player piecePlayer = new Player();  // Creates new JFugue Player
         Piece selectedPiece = memory.getPieceWithName(pieceName);
         String pieceString = selectedPiece.pieceToString();
+        System.out.println(pieceString);
         piecePlayer.play(pieceString);
         piecePlayer.play("C5/0.5 D5/0.5");
         System.out.println("Input Y to play another piece, or N to return to menu");
@@ -148,7 +146,7 @@ public class ComposerUI {
         try {
             composer.memSave(memory);
         } catch (IOException e) {
-            System.out.println(NoteConstants.getSaveFailed());
+            System.out.println(ComposerConstants.getSaveFailed());
         }
         System.exit(0);
     }
@@ -163,7 +161,7 @@ public class ComposerUI {
             System.out.println("Please enter the note name");
             Scanner s = new Scanner(System.in);
             char inputNoteName = s.nextLine().charAt(0);
-            if (NoteConstants.getNotesList().contains(inputNoteName)) {
+            if (ComposerConstants.getNotesList().contains(inputNoteName)) {
                 Note note = this.noteCreator(inputNoteName);
                 piece.addNote(note);
             } else if (inputNoteName == 'X') {
@@ -172,7 +170,7 @@ public class ComposerUI {
                 try {
                     composer.memSave(memory);
                 } catch (IOException e) {
-                    System.out.println(NoteConstants.getSaveFailed());
+                    System.out.println(ComposerConstants.getSaveFailed());
                 }
             } else {
                 System.out.println("Invalid note entered, please try again");
