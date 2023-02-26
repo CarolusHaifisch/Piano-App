@@ -17,14 +17,11 @@ public class Note implements Serializable {
     private boolean noteIsFlat;
 
 
-    // REQUIRES: octave >= 0 && octave <= 10, duration > 0 && duration <= MAX_DURATION, isSharp ^ isFlat
+    // REQUIRES: octave >= 0 && octave <= 9, duration > 0 && duration <= MAX_DURATION, isSharp ^ isFlat
     // noteName is one of C, D, E, F, G, A, B, or R
     // EFFECTS: Constructs a note with given name, duration, and octave value
     // Note names must be Capital letters.
     public Note(char name, double duration, int octave, boolean isSharp, boolean isFlat) {
-        //if (noteName != 0) {
-         //
-       // }
         this.noteName = name;
         this.noteDuration = duration;
         this.noteOctave = octave;
@@ -34,7 +31,9 @@ public class Note implements Serializable {
 
     // EFFECTS:
     public String noteToString() {
-        if (this.getSharp()) {
+        if (this.getName() == 'R') {
+            return this.restToString();
+        } else if (this.getSharp()) {
             String noteString = String.valueOf(this.getName()) + "#" + this.getOctave() + "/"
                     + this.getDuration() + " ";
             return noteString;
@@ -48,6 +47,11 @@ public class Note implements Serializable {
         }
     }
 
+    // EFFECTS: Converts a rest note to a string format.
+    public String restToString() {
+        String noteString = String.valueOf(this.getName()) + "/" + this.getDuration() + " ";
+        return noteString;
+    }
 
     // EFFECTS: Returns note duration
     public double getDuration() {

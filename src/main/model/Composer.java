@@ -38,12 +38,8 @@ public class Composer {
     }
 
     // MODIFIES: Pieces_memory file in /data folder.
-    // EFFECTS: Saves current PiecesMemory to the Pieces_memory file in /data. Prints a string to screen indicating
-    // whether save was successful or not. This will overwrite whatever was originally in the Pieces_memory file.
-
-    // Move this to the Composer class in Model, and add something to catch the exception here and print the success
-    // statement if successful somewhere in the UI body. NOT SURE IF THE CATCH IOEXCEPTION E IS CORRECT. SHOULD IT BE
-    // E??? OR ALL???? NEED TO CHECK
+    // EFFECTS: Saves current PiecesMemory to the Pieces_memory file in /data.
+    // This will overwrite whatever was originally in the Pieces_memory file.
     public void memSave(PiecesMemory currentPMem) throws IOException {
         FileOutputStream fos = new FileOutputStream(ComposerConstants.getFilePath() + "/Pieces_memory.ser");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -51,19 +47,4 @@ public class Composer {
         fos.close();
         oos.close();
     }
-/*
-    int keyCode =
-            switch(keyCode) {
-                //Implement a keyboard keyinstance switch case here one per each of the outlined cases above.
-                // NOTE: THIS WILL NOT WORK. KEYEVENT ETC IS ONLY FOR SWING AND GUIS!!!!
-
-
-                // ********************************************************
-                // Do I even need this class? The SpaceInvaders has something like this but I could fit everything that
-                // would go here into the ComposerUI class, I'll leave this here for now
-                // ***********************************************************
-                case
-            }
-
- */
 }
