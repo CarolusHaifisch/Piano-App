@@ -51,13 +51,13 @@ public class ComposerUI {
     // Constructs new composer instance
     // EFFECTS: Initializes a new Composer in the console
 
-    public ComposerUI() throws IOException, ClassNotFoundException {
+    public ComposerUI() {
         System.out.println("Welcome to the Composer V0.1-Alpha.");
         this.composerMenu();
     }
 
     // EFFECTS: Takes in a char input and completes the corresponding action depending on input.
-    private void composerMenu() throws IOException {
+    private void composerMenu() {
         System.out.println(NoteConstants.getMenuInstructions());
         Scanner input = new Scanner(System.in);
         char keyInput = input.nextLine().charAt(0);
@@ -74,8 +74,7 @@ public class ComposerUI {
                 this.pmethod();
             }
             case 'W': {
-                composer.memSave(memory);
-                System.exit(0);
+                this.wmethod();
             }
             case 'C': {
                 memory = new PiecesMemory();
@@ -84,6 +83,7 @@ public class ComposerUI {
         }
     }
 
+    // REQUIRES: name input is a name of a piece in memory
     // MODIFIES: PiecesMemory memory
     // EFFECTS: Returns the piece with the given name, if none exist a new piece is created and added to memory.
     private Piece emethod() {
@@ -99,7 +99,7 @@ public class ComposerUI {
     // MODIFIES: PiecesMemory memory
     // EFFECTS: Deletes piece from memory with given index. If given index falls outside of valid indices,
     // prints error message and you can try again.
-    private void dmethod() throws IOException {
+    private void dmethod() {
         System.out.println("Please provide the index of the piece you want to delete from memory");
         Scanner inputd = new Scanner(System.in);
         // Code to search through PiecesMemory to find piece with said name: If none exist.....
@@ -110,7 +110,7 @@ public class ComposerUI {
         int pieceindex = inputd.nextInt();
         if (pieceindex < memory.numSavedPieces()) {
             memory.delPiece(pieceindex);
-            System.out.println("Deleted piece" + memory.getPieceWithIndex(pieceindex).getPieceName());
+            System.out.println("Deleted piece " + memory.getPieceWithIndex(pieceindex).getPieceName());
         } else {
             System.out.println("Invalid index, please try again!");
             this.dmethod();
@@ -118,8 +118,9 @@ public class ComposerUI {
         this.composerMenu();
     }
 
+    // REQUIRES: name input is a name of a piece in memory
     // EFFECTS: Plays the given piece in JFugue. If no piece of given name exists, an empty piece is played.
-    private void pmethod() throws IOException {
+    private void pmethod() {
         System.out.println("Please provide the name of the piece you want to play with JFugue");
         Scanner inputp = new Scanner(System.in);
         String pieceName = inputp.nextLine();
@@ -136,8 +137,16 @@ public class ComposerUI {
             this.composerMenu();
         }
         // Code to play piece in Jfugue. If none exist with given name in memory ...........
+    }
 
-
+    // EFFECTS: Tries to save piecesmemory to the serialized file, and then exits the program.
+    private void wmethod() {
+        try {
+            composer.memSave(memory);
+        } catch (IOException e) {
+            System.out.println(NoteConstants.getSaveFailed());
+        }
+        System.exit(0);
     }
 
     // MODIFIES: piece
@@ -150,9 +159,11 @@ public class ComposerUI {
             Scanner s = new Scanner(System.in);
             char inputNoteName = s.nextLine().charAt(0);
             if (NoteConstants.getNotesList().contains(inputNoteName)) {
-// TODO: NEED TO ADD STUFF HERE!!!!!
+                Note note = this.noteCreator(inputNoteName);
+                piece.addNote(note);
             } else if (inputNoteName == 'X') {
                 System.out.println("Piece has been finished. Saving....");
+                isFinished = true;
                 try {
                     composer.memSave(memory);
                 } catch (IOException e) {
@@ -162,11 +173,33 @@ public class ComposerUI {
                 System.out.println("Invalid note entered, please try again");
                 inputNoteName = s.nextLine().charAt(0);
             }
-
         }
     }
 
-    public static void main(String[]args) throws IOException, ClassNotFoundException {
+    // ****************************************************
+    private Note noteCreator(char inputNoteName) {
+        Scanner s = new Scanner(System.in);
+        System.out.println("Please enter the duration of the note.");
+        double inputNoteDuration = s.nextDouble();
+        s.nextLine();
+        System.out.println("Please enter the octave of the note.");
+        int inputNoteOctave = s.nextInt();
+        s.nextLine();
+        System.out.println("Is this note a sharp, flat, or natural?"
+                + " Enter S for sharp, F for flat, any other input for natural");
+        char inputNoteIdentity = s.nextLine().charAt(0);
+        switch (inputNoteIdentity) {
+            case 'S' : {
+                return new Note(inputNoteName, inputNoteDuration, inputNoteOctave, true, false);
+            }
+            case 'F' : {
+                return new Note(inputNoteName, inputNoteDuration, inputNoteOctave, false, true);
+            }
+        }
+        return new Note(inputNoteName, inputNoteDuration, inputNoteOctave, false, false);
+    }
+
+    public static void main(String[]args) {
         new ComposerUI();
 
     }
@@ -174,3 +207,4 @@ public class ComposerUI {
 
 
 // TODO: NEED TO ADD METHODS TO GET THE CURRENT LIST OF PIECES IN PIECESMEMORY AND PRINTS OUT THEIR NAMES TO CONSOLE
+// TODO: Same for the piece, to get list of notes in piece and print it out to console

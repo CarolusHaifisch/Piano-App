@@ -11,6 +11,7 @@ console input), and will also allow the user to compose music and play it back l
 - As a user, I want to be able to compose music pieces of varying lengths of single notes only.
 (arbitrary number of notes, added to a piece)
 - As a user, I want to be able to save composed pieces to a memory for playback later. 
+- As a user, I want to be able to play back composed pieces.
 - As a user, I want to be able to see how long each piece composed is.
 - As a user, I want to be able to edit and modify saved music pieces that I have already composed. 
 

@@ -54,4 +54,14 @@ public class PiecesMemory extends LinkedList<Piece> {
     public Piece getPieceWithIndex(int index) {
         return memory.get(index);
     }
+
+    // EFFECTS: Returns a string with all the piece names of the pieces in memory,
+    // in same order as memory (newest first)
+    public String getPieceNames() {
+        String names = "";
+        for (Piece p : this) {
+            names += p.getPieceName() + ", ";
+        }
+        return names;
+    }
 }
