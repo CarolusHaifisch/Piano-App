@@ -86,28 +86,36 @@ public class ComposerUI {
     // Prints out list of piece names currently in memory to console.
     // Also allows for note deletion after finishing composing the piece.
     private void emethod() {
-        System.out.println(memory.getPieceNames());
+        System.out.println("Current pieces in memory: " + memory.getPieceNames());
         Piece piece = this.pieceSelect();
-        this.pieceComposer(piece);
-        this.noteDelete(piece);
+        System.out.println("Current piece: " + piece.pieceToString());
+        System.out.println("To add to the piece, enter A. To delete notes from the piece, enter D. Enter any other"
+                + "key to return to menu.");
+        Scanner sc = new Scanner(System.in);
+        char einput = sc.nextLine().charAt(0);
+        if (einput == 'A') {
+            this.pieceComposer(piece);
+            this.composerMenu();
+        } else if (einput == 'D') {
+            this.noteDelete(piece);
+            this.composerMenu();
+        } else {
+            this.composerMenu();
+        }
     }
 
+    // REQUIRES: index must be a valid index of the piece (index value given cannot exceed maximum index of piece)
+    // TODO: Add an if block to check against case when index exceeds max index of piece.
     // MODIFIES: piece
     // EFFECTS: Allows for deleting notes at given indices, or returns to composerMenu. Prints out current piece
     // contents to console before each note deletion.
     private void noteDelete(Piece piece) {
-        System.out.println("Current piece: " + piece.pieceToString());
-        System.out.println("To delete a note from the piece, enter D. Enter any other key to return to menu.");
-        Scanner sc = new Scanner(System.in);
-        char d = sc.nextLine().charAt(0);
-        if (d == 'D') {
-            System.out.println("Enter index of note to be deleted");
-            int i = sc.nextInt();
-            sc.nextLine();
-            piece.delNote(i);
-            noteDelete(piece);
-        }
-        this.composerMenu();
+        System.out.println("Enter index of note to be deleted");
+        Scanner s = new Scanner(System.in);
+        int i = s.nextInt();
+        s.nextLine();
+        piece.delNote(i);
+        noteDelete(piece);
     }
 
     // REQUIRES: name input is a name of a piece in memory
@@ -127,17 +135,16 @@ public class ComposerUI {
     // EFFECTS: Deletes piece from memory with given index. If given index falls outside of valid indices,
     // prints error message and you can try again.
     private void dmethod() {
-        System.out.println("Please provide the index of the piece you want to delete from memory");
+        System.out.println("Please provide the index of the piece you want to delete from memory. Note pieces are"
+                + " indexed in reverse order with last piece composed being first in order.");
         Scanner inputd = new Scanner(System.in);
-        // Code to search through PiecesMemory to find piece with said name: If none exist.....
-        // Then move to a different UI method to handle editing of the piece
         while (!inputd.hasNextInt()) {
             inputd.next();
         }
         int pieceindex = inputd.nextInt();
         if (pieceindex < memory.numSavedPieces()) {
-            memory.delPiece(pieceindex);
             System.out.println("Deleted piece " + memory.getPieceWithIndex(pieceindex).getPieceName());
+            memory.delPiece(pieceindex);
         } else {
             System.out.println("Invalid index, please try again!");
             this.dmethod();
@@ -149,14 +156,14 @@ public class ComposerUI {
     // memory and is played. Also prints the piece's contents as a string to console.
     private void pmethod() {
         System.out.println("Please provide the name of the piece you want to play with JFugue");
+        System.out.println("Current pieces in memory are: " + memory.getPieceNames());
         Scanner inputp = new Scanner(System.in);
         String pieceName = inputp.nextLine();
         Player piecePlayer = new Player();  // Creates new JFugue Player
         Piece selectedPiece = memory.getPieceWithName(pieceName);
         String pieceString = selectedPiece.pieceToString();
-        System.out.println(pieceString);
+        System.out.println("Piece being played: " + pieceName + pieceString);
         piecePlayer.play(pieceString);
-        piecePlayer.play("C5/0.5 D5/0.5");
         System.out.println("Input Y to play another piece, or N to return to menu");
         Scanner inputp2 = new Scanner(System.in);
         char inputval = inputp2.nextLine().charAt(0);
@@ -165,7 +172,6 @@ public class ComposerUI {
         } else if (inputval == 'N') {
             this.composerMenu();
         }
-        // Code to play piece in Jfugue. If none exist with given name in memory ...........
     }
 
     // EFFECTS: Tries to save piecesmemory to the serialized file, and then exits the program.
