@@ -15,9 +15,9 @@ public class ComposerUI {
     {
         try {
             memory = composer.memRetrieve();
-        } //catch (IOException e) {
-        //System.out.println("Could not retrieve memory.");
-        catch (ClassNotFoundException e) {
+        } catch (IOException e) {
+            System.out.println("Could not retrieve memory.");
+        } catch (ClassNotFoundException e) {
             System.out.println("Could not find PiecesMemory class.");
         }
     }
@@ -62,16 +62,9 @@ public class ComposerUI {
         Scanner input = new Scanner(System.in);
         char keyInput = input.nextLine().charAt(0);
         switch (keyInput) {
-            case 'N': {
-                Scanner inputpiecename = new Scanner(System.in);
-                String newpiecename = inputpiecename.nextLine();
-                Piece piece = new Piece(newpiecename, new ArrayList<Note>());
-
-                // Need code to start composing new piece after creating the new blank piece
-                // IE move to a different UI method to edit the piece
-            }
             case 'E': {
                 Piece piece = this.emethod();
+                // Need code to start composing new piece after creating the new blank piece
                 // Then move to a different UI method to handle editing of the piece
             }
             case 'D': {
@@ -147,6 +140,31 @@ public class ComposerUI {
 
     }
 
+    // MODIFIES: piece
+    // EFFECTS: Composes a piece by adding notes to the piece until user finishes the piece
+    private void pieceComposer(Piece piece) {
+        boolean isFinished = false;
+        System.out.println("Please input the note parameters when prompted to add a note to the piece. When finished,"
+                + "enter X in place of noteName to finish piece and save the memory.");
+        while (!isFinished) {
+            Scanner s = new Scanner(System.in);
+            char inputNoteName = s.nextLine().charAt(0);
+            if (NoteConstants.getNotesList().contains(inputNoteName)) {
+// TODO: NEED TO ADD STUFF HERE!!!!!
+            } else if (inputNoteName == 'X') {
+                System.out.println("Piece has been finished. Saving....");
+                try {
+                    composer.memSave(memory);
+                } catch (IOException e) {
+                    System.out.println(NoteConstants.getSaveFailed());
+                }
+            } else {
+                System.out.println("Invalid note entered, please try again");
+                inputNoteName = s.nextLine().charAt(0);
+            }
+
+        }
+    }
 
     public static void main(String[]args) throws IOException, ClassNotFoundException {
         new ComposerUI();
@@ -155,3 +173,4 @@ public class ComposerUI {
 }
 
 
+// TODO: NEED TO ADD METHODS TO GET THE CURRENT LIST OF PIECES IN PIECESMEMORY AND PRINTS OUT THEIR NAMES TO CONSOLE

@@ -7,7 +7,7 @@ import static java.util.Arrays.asList;
 public class NoteConstants {
     /** Class containing all common constants used throughout the program.
      */
-    ArrayList<Character> notesList = new ArrayList<Character>(asList('C','D','E','F','G','A','B','R'));
+    private static final ArrayList<Character> notesList = new ArrayList<Character>(asList('C','D','E','F','G','A','B','R'));
     private static final double MAX_DURATION = 10;  // Limit max duration of each note
     private static final int DEFAULT_TEMPO = 80;
     private static final int MIN_TEMPO = 40;
@@ -28,9 +28,11 @@ public class NoteConstants {
     private static String basePath = new File("").getAbsolutePath();
     private static String FilePath = basePath + "/data";
 
-    private static String menuInstructions = "To compose a new piece press N, to edit an existing piece in memory "
+    private static String menuInstructions = "To compose a new piece or edit an existing piece in memory "
             + "enter E, to delete a piece from memory enter D, to play a piece from memory enter P,"
             + " to save Pieces and exit the program enter W, and to clear all pieces from PiecesMemory enter C.";
+
+    private static String saveFailed = "Unable to save properly. Save unsuccessful.";
 
     // EFFECTS: Returns FilePath of the memory file.
     public static String getFilePath() {
@@ -42,5 +44,12 @@ public class NoteConstants {
         return menuInstructions;
     }
 
+    // EFFECTS: Returns the list of valid notes notesList
+    public static ArrayList<Character> getNotesList() {
+        return notesList;
+    }
 
+    public static String getSaveFailed() {
+        return saveFailed;
+    }
 }
