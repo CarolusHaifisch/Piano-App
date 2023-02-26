@@ -42,14 +42,11 @@ public class PiecesMemory extends LinkedList<Piece> {
     public Piece getPieceWithName(String name) {
         for (Piece p : memory) {
             if (p.getPieceName().equals(name)) {
-                System.out.println("EEE");
-                System.out.println(p.getPieceName()); //DEBUG
                 return p;
             }
         }
         Piece newPiece = new Piece(name, new ArrayList<Note>());
         this.addPiece(newPiece);
-        System.out.println(memory);// DEBUG USE ONLY
         return newPiece;
     }
 

@@ -62,7 +62,7 @@ public class ComposerUI {
             case 'E': {
                 Piece piece = this.emethod();
                 pieceComposer(piece);
-                System.out.println(piece.pieceToString()); //DEBUG USE ONLY
+                System.out.println("Composed piece so far: " + piece.pieceToString());
                 this.composerMenu();
                 // Need code to start composing new piece after creating the new blank piece
                 // Then move to a different UI method to handle editing of the piece
@@ -128,11 +128,8 @@ public class ComposerUI {
         Scanner inputp = new Scanner(System.in);
         String pieceName = inputp.nextLine();
         Player piecePlayer = new Player();  // Creates new JFugue Player
-        System.out.println(memory.numSavedPieces()); // DEBUG USE
-        System.out.println(memory.getPieceNames()); //DEBUG USE ONLY
         Piece selectedPiece = memory.getPieceWithName(pieceName);
         String pieceString = selectedPiece.pieceToString();
-        System.out.println(pieceString); // DEBUG USE ONLY
         piecePlayer.play(pieceString);
         piecePlayer.play("C5/0.5 D5/0.5");
         System.out.println("Input Y to play another piece, or N to return to menu");

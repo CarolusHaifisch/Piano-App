@@ -19,7 +19,13 @@ public class Piece implements Serializable {
     public String pieceToString() {
         String pieceString = "";
         for (Note n : this.getPieceContents()) {
-            pieceString += String.valueOf(n.getName()) + n.getOctave() + "/" + n.getDuration() + " ";
+            if (n.getSharp()) {
+                pieceString += String.valueOf(n.getName()) + "#" + n.getOctave() + "/" + n.getDuration() + " ";
+            } else if (n.getFlat()) {
+                pieceString += String.valueOf(n.getName()) + "b" + n.getOctave() + "/" + n.getDuration() + " ";
+            } else {
+                pieceString += String.valueOf(n.getName()) + n.getOctave() + "/" + n.getDuration() + " ";
+            }
         }
         return pieceString;
     }

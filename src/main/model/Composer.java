@@ -5,8 +5,7 @@ import java.io.*;
 public class Composer {
     // EFFECTS: Returns true if memory file already exists, false otherwise.
     public boolean memExists() {
-        File memorypath = new File(NoteConstants.getFilePath()+"/Pieces_memory.ser");
-        System.out.println(NoteConstants.getFilePath());
+        File memorypath = new File(NoteConstants.getFilePath() + "/Pieces_memory.ser");
         return memorypath.isFile();
     }
 
@@ -18,7 +17,6 @@ public class Composer {
             FileInputStream fis = new FileInputStream(NoteConstants.getFilePath() + "/Pieces_memory.ser");
             ObjectInputStream ois = new ObjectInputStream(fis);
             PiecesMemory memory = (PiecesMemory) ois.readObject();
-            System.out.println("Successfully loaded memory");
             fis.close();
             ois.close();
             return memory;
@@ -32,7 +30,6 @@ public class Composer {
         FileInputStream fis = new FileInputStream(NoteConstants.getFilePath() + "/Pieces_memory.ser");
         ObjectInputStream ois = new ObjectInputStream(fis);
         PiecesMemory memory = (PiecesMemory) ois.readObject();
-        System.out.println("New Memory created");
         fis.close();
         ois.close();
         return memory;

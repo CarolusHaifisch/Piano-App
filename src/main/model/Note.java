@@ -44,4 +44,14 @@ public class Note implements Serializable {
     public int getOctave() {
         return noteOctave;
     }
+
+    // EFFECTS: Returns boolean whether note is sharp or not
+    public boolean getSharp() {
+        return noteIsSharp;
+    }
+
+    // EFFECTS: Returns boolean whether note is sharp or not
+    public boolean getFlat() {
+        return noteIsFlat;
+    }
 }
