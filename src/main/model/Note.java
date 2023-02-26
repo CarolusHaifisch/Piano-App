@@ -36,12 +36,12 @@ public class Note implements Serializable {
     }
 
     // EFFECTS: Returns note name
-    public double getName() {
+    public char getName() {
         return noteName;
     }
 
     // EFFECTS: Returns note octave
-    public double getOctave() {
+    public int getOctave() {
         return noteOctave;
     }
 }

@@ -41,12 +41,15 @@ public class PiecesMemory extends LinkedList<Piece> {
     // want.
     public Piece getPieceWithName(String name) {
         for (Piece p : memory) {
-            if (p.getPieceName() == name) {
+            if (p.getPieceName().equals(name)) {
+                System.out.println("EEE");
+                System.out.println(p.getPieceName()); //DEBUG
                 return p;
             }
         }
         Piece newPiece = new Piece(name, new ArrayList<Note>());
         this.addPiece(newPiece);
+        System.out.println(memory);// DEBUG USE ONLY
         return newPiece;
     }
 
@@ -59,8 +62,9 @@ public class PiecesMemory extends LinkedList<Piece> {
     // in same order as memory (newest first)
     public String getPieceNames() {
         String names = "";
-        for (Piece p : this) {
+        for (Piece p : memory) {
             names += p.getPieceName() + ", ";
+
         }
         return names;
     }

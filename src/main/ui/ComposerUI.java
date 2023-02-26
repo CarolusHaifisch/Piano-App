@@ -2,9 +2,6 @@ package ui;
 
 import java.io.*;
 import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.LinkedList;
-
 import model.*;
 import org.jfugue.player.Player;
 
@@ -64,6 +61,9 @@ public class ComposerUI {
         switch (keyInput) {
             case 'E': {
                 Piece piece = this.emethod();
+                pieceComposer(piece);
+                System.out.println(piece.pieceToString()); //DEBUG USE ONLY
+                this.composerMenu();
                 // Need code to start composing new piece after creating the new blank piece
                 // Then move to a different UI method to handle editing of the piece
             }
@@ -79,6 +79,7 @@ public class ComposerUI {
             case 'C': {
                 memory = new PiecesMemory();
                 System.out.println("PiecesMemory cleared.");
+                this.composerMenu();
             }
         }
     }
@@ -120,14 +121,20 @@ public class ComposerUI {
 
     // REQUIRES: name input is a name of a piece in memory
     // EFFECTS: Plays the given piece in JFugue. If no piece of given name exists, an empty piece is played.
+    // TODO: PROBLEM: EACH TIME THIS CODE IS RUN NUMBER OF PIECES IN MEMORY INCREASES WHEN IT SHOULDNT
+    // TODO: problem seems to be that it appends the same piece again every time it is run
     private void pmethod() {
         System.out.println("Please provide the name of the piece you want to play with JFugue");
         Scanner inputp = new Scanner(System.in);
         String pieceName = inputp.nextLine();
         Player piecePlayer = new Player();  // Creates new JFugue Player
+        System.out.println(memory.numSavedPieces()); // DEBUG USE
+        System.out.println(memory.getPieceNames()); //DEBUG USE ONLY
         Piece selectedPiece = memory.getPieceWithName(pieceName);
         String pieceString = selectedPiece.pieceToString();
+        System.out.println(pieceString); // DEBUG USE ONLY
         piecePlayer.play(pieceString);
+        piecePlayer.play("C5/0.5 D5/0.5");
         System.out.println("Input Y to play another piece, or N to return to menu");
         Scanner inputp2 = new Scanner(System.in);
         char inputval = inputp2.nextLine().charAt(0);
@@ -156,6 +163,7 @@ public class ComposerUI {
         System.out.println("Please input the note parameters when prompted to add a note to the piece. When finished,"
                 + "enter X in place of noteName to finish piece and save the memory.");
         while (!isFinished) {
+            System.out.println("Please enter the note name");
             Scanner s = new Scanner(System.in);
             char inputNoteName = s.nextLine().charAt(0);
             if (NoteConstants.getNotesList().contains(inputNoteName)) {
