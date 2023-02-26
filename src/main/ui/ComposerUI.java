@@ -89,19 +89,25 @@ public class ComposerUI {
         System.out.println("Current pieces in memory: " + memory.getPieceNames());
         Piece piece = this.pieceSelect();
         System.out.println("Current piece: " + piece.pieceToString());
-        System.out.println("To add to the piece, enter A. To delete notes from the piece, enter D. Enter any other"
-                + "key to return to menu.");
+        System.out.println("To add to the piece, enter A. To delete notes from the piece, enter D. To view properties"
+                + "of the piece, enter P. Enter any other key to return to menu.");
         Scanner sc = new Scanner(System.in);
         char einput = sc.nextLine().charAt(0);
-        if (einput == 'A') {
-            this.pieceComposer(piece);
-            this.composerMenu();
-        } else if (einput == 'D') {
-            this.noteDelete(piece);
-            this.composerMenu();
-        } else {
-            this.composerMenu();
+        switch (einput) {
+            case 'A': {
+                this.pieceComposer(piece);
+                this.composerMenu();
+            }
+            case 'D': {
+                this.noteDelete(piece);
+                this.composerMenu();
+            }
+            case 'P': {
+                System.out.println("Length of piece in number of notes: " + piece.length());
+                System.out.println("Entire duration of piece in number of beats: " + piece.getPieceDuration());
+            }
         }
+        this.composerMenu();
     }
 
     // REQUIRES: index must be a valid index of the piece (index value given cannot exceed maximum index of piece)
