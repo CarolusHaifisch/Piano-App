@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/** Class containing all tests for methods in Note class.
+ *
+ */
+
 class TestNote {
     Note C5quarter;
     Note D0quarter;

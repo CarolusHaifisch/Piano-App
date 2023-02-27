@@ -8,6 +8,10 @@ import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/** Class containing all tests for methods in PiecesMemory class.
+ *
+ */
+
 public class TestPiecesMemory {
     Note C5quarter;
     Note D0quarter;

@@ -7,6 +7,10 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/** Class containing all tests for methods in Piece class.
+ *
+ */
+
 public class TestPiece {
     Note C5quarter;
     Note D0quarter;

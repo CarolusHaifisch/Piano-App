@@ -29,6 +29,10 @@ public class ComposerConstants {
     private static String basePath = new File("").getAbsolutePath();
     private static String FilePath = basePath + "/data";
 
+    // EFFECTS: Private constructor for ComposerConstants to restrict constructing instances of this utility
+    // class.
+    private ComposerConstants() {}
+
     // EFFECTS: Returns the FilePath string.
     public static String getFilePath() {
         return FilePath;

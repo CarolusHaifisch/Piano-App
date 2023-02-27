@@ -7,12 +7,15 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+/** Class representing the main Composer UI. Contains all the methods accepting console inputs and printing
+ * to console.
+ */
 public class ComposerUI {
     /** Googled certain components such as serialization of list data and scanner to read console inputs for this class.
      * Read some documentation on how to write and retrieve data stored in a serialization, and read particularly on
      * how to use the scanner methods to obtain the desired data from console inputs.
      */
-    private Composer composer = new Composer(); // Necessary to avoid the non static/static error (See documentation)
+    private Composer composer = new Composer();
     PiecesMemory memory;
 
     {
@@ -25,40 +28,14 @@ public class ComposerUI {
         }
     }
 
-
-
-    // Add notes to piece until program interrupted, then save piece
-    // (Add x to y arbitrarily)
-    // Allow for changing instruments halfway through piece (with keyboard)
-    // Maybe use abstract classes and extensions to represent tempos and such???
-    // Archive saved pieces and retrieve by a string name
-
-    /**
-     * For composing notes: If char name given is not in notesList in NoteConstants give a system print out
-     * saying invalid note! and asks for user to try again (This can be done with some sort of loop?)
-     *
-     * - For composing a piece: use some loop to loop through the composing code for notes, add each composed note
-     * to the piece, until user is done at which point a keyboard press will break the loop and finish the piece
-     *
-     * NOTE: To save the list of pieces to a permanent memory it must be written to a file. Then when the program is
-     * started again it must be retrieved from said file. Otherwise any locally stored memory will be deleted when the
-     * program is quit. NOTE:: SERIALIZATION IS MORE EFFICIENT FOR ARRAYLISTS THAN CONVERTING TO TEXT FILE!!!
-     *
-     * Users will be able to edit any piece they have saved to the memory, and will be able to play back any piece
-     * in memory with JFugue.
-     */
-
-
-
-    // Constructs new composer instance
-    // EFFECTS: Initializes a new Composer in the console
-
+    // EFFECTS: Initializes a new Composer instance in the console
     public ComposerUI() {
         System.out.println("Welcome to the Composer V0.1-Alpha.");
         this.composerMenu();
     }
 
-    // EFFECTS: Takes in a char input and completes the corresponding action depending on input.
+    // EFFECTS: Takes in a char input and progresses to the corresponding methods depending on input.
+    // Acts as a 'main menu' of sorts for the program.
     private void composerMenu() {
         System.out.println(ComposerConstants.getMenuInstructions());
         Scanner input = new Scanner(System.in);
@@ -112,18 +89,23 @@ public class ComposerUI {
         this.composerMenu();
     }
 
-    // REQUIRES: index must be a valid index of the piece (index value given cannot exceed maximum index of piece)
-    // TODO: Add an if block to check against case when index exceeds max index of piece.
+    // REQUIRES: index given must be a valid index of the piece (given index < piece size), index >=0
     // MODIFIES: piece
     // EFFECTS: Allows for deleting notes at given indices, or returns to composerMenu. Prints out current piece
-    // contents to console before each note deletion.
+    // contents to console before each note deletion. If invalid index entered, prints error message
+    // and user can try again.
     private void noteDelete(Piece piece) {
         System.out.println("Enter index of note to be deleted");
         Scanner s = new Scanner(System.in);
         int i = s.nextInt();
         s.nextLine();
-        System.out.println("Deleted note " + piece.getNoteAtIndex(i).noteToString());
-        piece.delNote(i);
+        if (i < piece.length()) {
+            System.out.println("Deleted note " + piece.getNoteAtIndex(i).noteToString());
+            piece.delNote(i);
+        } else {
+            System.out.println("Invalid index, please try again!");
+            noteDelete(piece);
+        }
         System.out.println("Delete another note? If yes, enter D, enter any other key to return to menu.");
         char d = s.nextLine().charAt(0);
         if (d == 'D') {
@@ -133,19 +115,18 @@ public class ComposerUI {
         }
     }
 
-    // REQUIRES: name input is a name of a piece in memory
     // MODIFIES: PiecesMemory memory
-    // EFFECTS: Returns the piece with the given name, if none exist a new piece is created and added to memory.
+    // EFFECTS: Returns the piece with the given name, if none exist a new piece is created and added to memory,
+    // and then returned.
     private Piece pieceSelect() {
         System.out.println("Please provide the name of the piece you want to edit");
         Scanner piecenameinput = new Scanner(System.in);
         String pieceName = piecenameinput.nextLine();
-        // Code to search through PiecesMemory to find piece with said name: If none exist.....
         System.out.println("Editing " + pieceName);
         return memory.getPieceWithName(pieceName);
     }
 
-    // REQUIRES: Given index is a valid index of memory. (Does not exceed index of memory)
+    // REQUIRES: Given index is a valid index of memory. (given index < memory size) , index >=0
     // MODIFIES: PiecesMemory memory
     // EFFECTS: Deletes piece from memory with given index. If given index falls outside of valid indices,
     // prints error message and you can try again.
@@ -157,7 +138,7 @@ public class ComposerUI {
             inputd.next();
         }
         int pieceindex = inputd.nextInt();
-        if (pieceindex < memory.numSavedPieces()) {  //TODO THis ifelse block will need to be moved to model Composer
+        if (pieceindex < memory.numSavedPieces()) {
             System.out.println("Deleted piece " + memory.getPieceWithIndex(pieceindex).getPieceName());
             memory.delPiece(pieceindex);
         } else {
@@ -168,7 +149,7 @@ public class ComposerUI {
     }
 
     // EFFECTS: Plays the given piece in JFugue. If no piece of given name exists, an empty piece is added to
-    // memory and is played. Also prints the piece's contents as a string to console.
+    // PiecesMemory and is played. Also prints the piece's contents as a string to console.
     private void pmethod() {
         System.out.println("Please provide the name of the piece you want to play with JFugue");
         System.out.println("Current pieces in memory are: " + memory.getPieceNames());
@@ -189,7 +170,7 @@ public class ComposerUI {
         }
     }
 
-    // EFFECTS: Tries to save piecesmemory to the serialized file, and then exits the program.
+    // EFFECTS: Tries to save PiecesMemory memory to the serialized file, and then exits the program.
     private void wmethod() {
         try {
             composer.memSave(memory, ComposerConstants.getFilePath() + "/Pieces_memory.ser");
@@ -201,7 +182,8 @@ public class ComposerUI {
     }
 
     // MODIFIES: piece
-    // EFFECTS: Composes a piece by adding notes to the piece until user finishes the piece
+    // EFFECTS: Composes a piece by adding notes created with noteCreator to the piece until
+    // user finishes the piece by entering X when prompted for the Note name. Tries to save piece after finishing.
     private void pieceComposer(Piece piece) {
         boolean isFinished = false;
         System.out.println(ComposerConstants.getPieceComposerPrompt());
@@ -228,7 +210,7 @@ public class ComposerUI {
         }
     }
 
-    // ****************************************************
+    // EFFECTS: Prompts user for inputs for each note parameter, then constructs a Note from the given parameters.
     private Note noteCreator(char inputNoteName) {
         Scanner s = new Scanner(System.in);
         System.out.println("Please enter the duration of the note.");

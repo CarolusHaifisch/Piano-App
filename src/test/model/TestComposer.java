@@ -10,6 +10,10 @@ import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/** Class containing all tests for methods in Composer class.
+ *
+ */
+
 class ComposerTest {
     Note C5quarter;
     Note D0quarter;
@@ -65,5 +69,7 @@ class ComposerTest {
         assertEquals(PMem, composer.memRetrieve(ComposerConstants.getFilePath() + "/Test.txt"));
         assertEquals(PEmpty, composer.memRetrieve(ComposerConstants.getFilePath() + "/Nonexistent.txt"));
     }
+
+
 
 }

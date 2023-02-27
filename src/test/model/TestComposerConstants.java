@@ -2,10 +2,15 @@ package model;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+/** Class containing all tests for methods in ComposerConstants class.
+ *
+ */
 
 public class TestComposerConstants {
     String menuInstructions = "To compose a new piece or edit an existing piece in memory "
@@ -14,6 +19,7 @@ public class TestComposerConstants {
     String saveFailed = "Unable to save properly. Save unsuccessful.";
     String pieceComposerPrompt = "Please input the note parameters when prompted to add a note"
             + " to the piece. When finished, enter X in place of noteName to finish piece and save the memory.";
+    String FilePath = new File("").getAbsolutePath() + "/data";
     ArrayList<Character> notesList = new ArrayList<Character>(asList('C','D','E','F','G','A','B','R'));
 
     @Test
@@ -22,6 +28,7 @@ public class TestComposerConstants {
         assertEquals(saveFailed, ComposerConstants.getSaveFailed());
         assertEquals(pieceComposerPrompt, ComposerConstants.getPieceComposerPrompt());
         assertEquals(notesList, ComposerConstants.getNotesList());
+        assertEquals(FilePath, ComposerConstants.getFilePath());
     }
 
 

@@ -40,7 +40,7 @@ public class Piece implements Serializable {
         return piecetime;
     }
 
-    // REQUIRES: Given index is a valid index of piece (index < piece size)
+    // REQUIRES: Given index is a valid index of piece (index < piece size), index >= 0
     // EFFECTS: Returns note at given index
     public Note getNoteAtIndex(int index) {
         return this.pieceContents.get(index);
@@ -62,7 +62,7 @@ public class Piece implements Serializable {
         this.pieceContents.add(n);
     }
 
-    // REQUIRES: Given index is a valid index of piece (index < piece size)
+    // REQUIRES: Given index is a valid index of piece (index < piece size), index >= 0
     // MODIFIES: this
     // EFFECTS: Deletes Note from piece at given index.
     public void delNote(int index) {
