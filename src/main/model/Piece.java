@@ -3,9 +3,10 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/** Class representing a music piece (list of notes). A Piece is represented as an ArrayList of Notes and is
+ * serializable.
+ */
 public class Piece implements Serializable {
-    /** Class representing a music piece (list of notes).
-     */
     private static final long serialVersionUID = 1L;
     private ArrayList<Note> pieceContents;
     private String pieceName;
@@ -39,7 +40,7 @@ public class Piece implements Serializable {
         return piecetime;
     }
 
-    // REQUIRES: Given index is a valid index of piece (index < size of piece)
+    // REQUIRES: Given index is a valid index of piece (index < piece size)
     // EFFECTS: Returns note at given index
     public Note getNoteAtIndex(int index) {
         return this.pieceContents.get(index);
@@ -56,11 +57,12 @@ public class Piece implements Serializable {
     }
 
     // MODIFIES: this
-    // EFFECTS: Adds Note to piece.
+    // EFFECTS: Adds Note to end of piece.
     public void addNote(Note n) {
         this.pieceContents.add(n);
     }
 
+    // REQUIRES: Given index is a valid index of piece (index < piece size)
     // MODIFIES: this
     // EFFECTS: Deletes Note from piece at given index.
     public void delNote(int index) {

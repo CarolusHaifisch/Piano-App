@@ -4,9 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import static java.util.Arrays.asList;
 
+/** Class containing all common constants used throughout the program.
+ */
 public class ComposerConstants {
-    /** Class containing all common constants used throughout the program.
-     */
     private static final ArrayList<Character> notesList =
             new ArrayList<Character>(asList('C','D','E','F','G','A','B','R'));
     private static final double MAX_DURATION = 10;  // Limit max duration of each note
@@ -29,7 +29,7 @@ public class ComposerConstants {
     private static String basePath = new File("").getAbsolutePath();
     private static String FilePath = basePath + "/data";
 
-    // EFFECTS: Returns FilePath of the memory file.
+    // EFFECTS: Returns the FilePath string.
     public static String getFilePath() {
         return FilePath;
     }
@@ -42,7 +42,7 @@ public class ComposerConstants {
         return menuInstructions;
     }
 
-    // EFFECTS: Returns the list of valid notes notesList
+    // EFFECTS: Returns the list of valid chars for note Names notesList
     public static ArrayList<Character> getNotesList() {
         return notesList;
     }
