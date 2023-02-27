@@ -31,7 +31,7 @@ public class Piece implements Serializable {
     }
 
     // EFFECTS: Returns the duration of the piece as a number of beats
-    public double getPieceDuration() {
+    public double pieceDuration() {
         double piecetime = 0;
         for (Note n : this.pieceContents) {
             piecetime += n.getDuration();
@@ -39,6 +39,7 @@ public class Piece implements Serializable {
         return piecetime;
     }
 
+    // REQUIRES: Given index is a valid index of piece (index < size of piece)
     // EFFECTS: Returns note at given index
     public Note getNoteAtIndex(int index) {
         return this.pieceContents.get(index);

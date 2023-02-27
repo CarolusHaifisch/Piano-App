@@ -1,10 +1,14 @@
 package ui;
 
-import java.io.*;
+import model.Composer;
+import model.Note;
+import model.Piece;
+import model.PiecesMemory;
+import org.jfugue.player.Player;
+
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Scanner;
-import model.*;
-import org.jfugue.player.Player;
 
 public class ComposerUI {
     /** Googled certain components such as serialization of list data and scanner to read console inputs for this class.
@@ -105,7 +109,7 @@ public class ComposerUI {
             }
             case 'P': {
                 System.out.println("Length of piece in number of notes: " + piece.length());
-                System.out.println("Entire duration of piece in number of beats: " + piece.getPieceDuration());
+                System.out.println("Entire duration of piece in number of beats: " + piece.pieceDuration());
             }
         }
         this.composerMenu();

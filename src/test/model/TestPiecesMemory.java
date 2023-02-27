@@ -5,13 +5,12 @@ import org.junit.jupiter.api.Test;
 import ui.ComposerConstants;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ComposerTest {
+public class TestPiecesMemory {
     Note C5quarter;
     Note D0quarter;
     Note F4sharpwhole;
@@ -22,11 +21,9 @@ class ComposerTest {
     Piece Test;
     Piece Test1;
     Piece Test2;
+    Piece Gregor;
     PiecesMemory PMem;
     PiecesMemory PEmpty;
-    File SavedMem;
-    File NewMem;
-    Composer composer;
 
     @BeforeEach
     void runBefore() {
@@ -37,34 +34,42 @@ class ComposerTest {
         Rest5half = new Note('R', 0.5, 5, false, false);
         Rest1half = new Note('R', 0.5, 1, false, false);
         E9sharpquarter = new Note('E', 0.25, 9, true, false);
-        SavedMem = new File(ComposerConstants.getFilePath() + "/Test.txt");
-        NewMem = new File("Notvalidpath.txt");
         Test = new Piece("Test", new ArrayList<Note>());
         Test1 = new Piece("Test1", new ArrayList<Note>());
         Test2 = new Piece("Test2", new ArrayList<Note>());
         PMem = new PiecesMemory(new LinkedList<Piece>());
         PEmpty = new PiecesMemory(new LinkedList<Piece>());
-        composer = new Composer();
-    }
-
-    @Test
-    public void testMemExists() {
-        assertTrue(SavedMem.isFile());
-        assertFalse(NewMem.isFile());
-    }
-
-    @Test
-    public void testMemSaveandRetrieve() throws IOException, ClassNotFoundException {
-        File nonexistent = new File(ComposerConstants.getFilePath() + "/Nonexistent.txt");
-        nonexistent.delete();
         Test.addNote(C5quarter);
         Test.addNote(Rest5half);
         Test.addNote(F4sharpwhole);
-        PMem.addPiece(Test);
-        PMem.addPiece(Test1);
-        composer.memSave(PMem, ComposerConstants.getFilePath() + "/Test.txt");
-        assertEquals(PMem, composer.memRetrieve(ComposerConstants.getFilePath() + "/Test.txt"));
-        assertEquals(PEmpty, composer.memRetrieve(ComposerConstants.getFilePath() + "/Nonexistent.txt"));
+        Test1.addNote(E9sharpquarter);
+        Test1.addNote(B6flathalf);
     }
 
+    @Test
+    public void testPiecesMemory() {
+        assertEquals(0, PMem.numSavedPieces());
+        assertEquals("", PMem.getPieceNames());
+        PMem.addPiece(Test);
+        assertEquals("Test, ", PMem.getPieceNames());
+        assertEquals(1, PMem.numSavedPieces());
+        PMem.addPiece(Test2);
+        PMem.addPiece(Test1);
+        assertEquals(0, PEmpty.numSavedPieces());
+        assertEquals("", PEmpty.getPieceNames());
+        assertEquals(Test2, PMem.getPieceWithIndex(1));
+        assertEquals(Test, PMem.getPieceWithName("Test"));
+        assertEquals(Test2, PMem.getPieceWithName("Test2"));
+        assertEquals(Gregor, PMem.getPieceWithName("Gregor"));
+        assertEquals(Gregor, PEmpty.getPieceWithName("Gregor"));
+        assertEquals("Gregor, Test1, Test2, Test, ", PMem.getPieceNames());
+        assertEquals(4, PMem.numSavedPieces());
+        assertEquals("Gregor, ", PEmpty.getPieceNames());
+        PMem.delPiece(2);
+        assertEquals("Gregor, Test1, Test, ", PMem.getPieceNames());
+        PEmpty.delPiece(0);
+        assertEquals(0, PEmpty.numSavedPieces());
+        PMem.delPiece(2);
+        assertEquals("Gregor, Test1, ", PMem.getPieceNames());
+    }
 }
