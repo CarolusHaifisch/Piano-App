@@ -2,9 +2,7 @@ package model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ui.ComposerConstants;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -21,7 +19,6 @@ public class TestPiecesMemory {
     Piece Test;
     Piece Test1;
     Piece Test2;
-    Piece Gregor;
     PiecesMemory PMem;
     PiecesMemory PEmpty;
 
@@ -60,8 +57,8 @@ public class TestPiecesMemory {
         assertEquals(Test2, PMem.getPieceWithIndex(1));
         assertEquals(Test, PMem.getPieceWithName("Test"));
         assertEquals(Test2, PMem.getPieceWithName("Test2"));
-        assertEquals(Gregor, PMem.getPieceWithName("Gregor"));
-        assertEquals(Gregor, PEmpty.getPieceWithName("Gregor"));
+        assertEquals("Gregor", PMem.getPieceWithName("Gregor").getPieceName());
+        assertEquals("Gregor", PEmpty.getPieceWithName("Gregor").getPieceName());
         assertEquals("Gregor, Test1, Test2, Test, ", PMem.getPieceNames());
         assertEquals(4, PMem.numSavedPieces());
         assertEquals("Gregor, ", PEmpty.getPieceNames());

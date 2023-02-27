@@ -1,9 +1,6 @@
 package ui;
 
-import model.Composer;
-import model.Note;
-import model.Piece;
-import model.PiecesMemory;
+import model.*;
 import org.jfugue.player.Player;
 
 import java.io.IOException;
@@ -160,7 +157,7 @@ public class ComposerUI {
             inputd.next();
         }
         int pieceindex = inputd.nextInt();
-        if (pieceindex < memory.numSavedPieces()) {
+        if (pieceindex < memory.numSavedPieces()) {  //TODO THis ifelse block will need to be moved to model Composer
             System.out.println("Deleted piece " + memory.getPieceWithIndex(pieceindex).getPieceName());
             memory.delPiece(pieceindex);
         } else {

@@ -1,7 +1,5 @@
 package model;
 
-import ui.ComposerConstants;
-
 import java.io.*;
 import java.util.LinkedList;
 
