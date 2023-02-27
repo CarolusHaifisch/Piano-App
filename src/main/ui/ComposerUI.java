@@ -69,7 +69,7 @@ public class ComposerUI {
         Piece piece = this.pieceSelect();
         System.out.println("Current piece: " + piece.pieceToString());
         System.out.println("To add to the piece, enter A. To delete notes from the piece, enter D. To view properties"
-                + "of the piece, enter P. Enter any other key to return to menu. All inputs are case sensitive.");
+                + "of the piece, enter P. Enter any other key to return to menu.");
         Scanner sc = new Scanner(System.in);
         char einput = sc.nextLine().charAt(0);
         switch (einput) {

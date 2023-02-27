@@ -5,23 +5,20 @@ The application will work as a music tuner, given a sound input (initially model
 console input), and will also allow the user to compose music and play it back later. 
 
 ## User Stories
-
+### REALIZED USER STORIES:
 - As a user, I want to be able to compose music pieces of varying lengths of single notes only.
 (arbitrary number of notes, added to a piece)
-- As a user, I want to be able to save composed pieces to a memory for playback later. 
 - As a user, I want to be able to play back composed pieces and see the piece on screen.
 - As a user, I want to be able to view the progress of my piece as I compose it. 
 - As a user, I want to be able to see how long each piece composed is.
 - As a user, I want to be able to go back to pieces that I have composed earlier within the session and edit or modify
 - those pieces. 
 
-
+### Not yet realized user stories:
 - As a user, I want to be able to compose music with notes with different instrument sounds in the same piece.
-- This last point WILL BE ADDED LAST, THINKING OF HOW TO BEST IMPLEMENT THIS 
-- (EITHER SPECIFY INSTRUMENT IN NOTE CLASS (1)
-- OR SPECIFY IT IN COMPOSER AND FIND A WAY TO MERGE IT INTO THE PIECE(2))
-- 1 IS LESS ELEGANT BUT SIMPLER TO IMPLEMENT
-- 2 IS MORE ELEGANT AND SIMPLIFIED BUT HARDER TO IMLEMENT
+- As a user, I want to be able to save composed pieces to a memory for playback later.
+- (Last one will be done in Phase 2, PLEASE DISREGARD CURRENT METHOD OF SAVING TO MEMORY IN PROJECT 
+- SEE @723_f1 ON PIAZZA)
 
 ## Stretch goals:
 - Tuner program: (More complex because requires Fourier Transforms to read frequencies)
