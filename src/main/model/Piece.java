@@ -1,12 +1,20 @@
 package model;
 
-import java.io.Serializable;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 
-/** Class representing a music piece (list of notes). A Piece is represented as an ArrayList of Notes and is
+/**
+ * Class representing a music piece (list of notes). A Piece is represented as an ArrayList of Notes and is
  * serializable.
+ * <p>
+ * Code for JSON serialization inspired by sample code from JSON serialization demo by the CPSC 210
+ * team.
  */
-public class Piece implements Serializable {
+public class Piece implements Writable {
     private static final long serialVersionUID = 1L;
     private ArrayList<Note> pieceContents;
     private String pieceName;
@@ -68,4 +76,24 @@ public class Piece implements Serializable {
     public void delNote(int index) {
         this.pieceContents.remove(index);
     }
+
+    // EFFECTS: Returns a Piece in JSON serialized format as a JSON object.
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("piecename", pieceName);
+        json.put("piececontents", contentstoJson());
+        return json;
+    }
+
+    // EFFECTS: Returns the contents of the Piece as a JSON array
+    private JSONArray contentstoJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Note n : pieceContents) {
+            jsonArray.put(n.toJson());
+        }
+        return jsonArray;
+    }
 }
+

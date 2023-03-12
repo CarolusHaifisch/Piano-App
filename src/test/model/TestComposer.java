@@ -2,6 +2,8 @@ package model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,24 +54,55 @@ class ComposerTest {
 
     @Test
     public void testMemExists() {
-        assertTrue(SavedMem.isFile());
-        assertFalse(NewMem.isFile());
+        assertTrue(composer.memExists(ComposerConstants.getFileDirectory()));
+        assertFalse(composer.memExists(ComposerConstants.getFilePath() + "/Nonexistent.json"));
     }
 
     @Test
-    public void testMemSaveandRetrieve() throws IOException, ClassNotFoundException {
-        File nonexistent = new File(ComposerConstants.getFilePath() + "/Nonexistent.txt");
-        nonexistent.delete();
+    public void testMemSaveandRetrieve(){
         Test.addNote(C5quarter);
         Test.addNote(Rest5half);
         Test.addNote(F4sharpwhole);
         PMem.addPiece(Test);
         PMem.addPiece(Test1);
-        composer.memSave(PMem, ComposerConstants.getFilePath() + "/Test.txt");
-        assertEquals(PMem, composer.memRetrieve(ComposerConstants.getFilePath() + "/Test.txt"));
-        assertEquals(PEmpty, composer.memRetrieve(ComposerConstants.getFilePath() + "/Nonexistent.txt"));
+        try {
+            composer.memSave(PMem, ComposerConstants.getFilePath() + "/Test.json");
+            assertEquals(PMem, composer.memRetrieve(ComposerConstants.getFilePath() + "/Test.json"));
+            PiecesMemory pmemtest = composer.memRetrieve(ComposerConstants.getFilePath() + "/Test.json");
+            assertEquals("Test, Test1, ", pmemtest.getPieceNames());
+            assertEquals(2, pmemtest.numSavedPieces());
+        } catch (IOException e) {
+            fail("Exception should not have been thrown");
+        }
     }
 
+    @Test
+    public void testMemRetrieveFail(){
+        Test.addNote(C5quarter);
+        Test.addNote(Rest5half);
+        Test.addNote(F4sharpwhole);
+        PMem.addPiece(Test);
+        PMem.addPiece(Test1);
+        try {
+            PiecesMemory pmemtest = composer.memRetrieve(ComposerConstants.getFilePath() + "/TestFail.json");
+            fail("Should have thrown exception");
+        } catch (IOException e) {
+        }
+    }
+
+    @Test
+    public void testMemSaveFail(){
+        Test.addNote(C5quarter);
+        Test.addNote(Rest5half);
+        Test.addNote(F4sharpwhole);
+        PMem.addPiece(Test);
+        PMem.addPiece(Test1);
+        try {
+            composer.memSave(PMem, ComposerConstants.getFilePath() + "/$#*&^@#R%$&#*%$(!*&#$<>?|}{.json");
+            fail("Should have thrown exception");
+        } catch (IOException e) {
+        }
+    }
 
 
 }

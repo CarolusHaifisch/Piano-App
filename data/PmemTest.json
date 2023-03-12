@@ -1,0 +1,54 @@
+{"piecesmemory": [
+    {
+        "piececontents": [
+            {
+                "duration": 0.25,
+                "sharp?": false,
+                "octave": 0,
+                "name": 68,
+                "flat?": false
+            },
+            {
+                "duration": 1,
+                "sharp?": true,
+                "octave": 4,
+                "name": 70,
+                "flat?": false
+            }
+        ],
+        "piecename": "Test1"
+    },
+    {
+        "piececontents": [
+            {
+                "duration": 0.25,
+                "sharp?": false,
+                "octave": 5,
+                "name": 67,
+                "flat?": false
+            },
+            {
+                "duration": 0.25,
+                "sharp?": false,
+                "octave": 0,
+                "name": 68,
+                "flat?": false
+            },
+            {
+                "duration": 0.5,
+                "sharp?": false,
+                "octave": 5,
+                "name": 82,
+                "flat?": false
+            },
+            {
+                "duration": 0.5,
+                "sharp?": false,
+                "octave": 6,
+                "name": 66,
+                "flat?": true
+            }
+        ],
+        "piecename": "Test"
+    }
+]}

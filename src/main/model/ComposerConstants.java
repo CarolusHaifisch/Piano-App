@@ -28,6 +28,7 @@ public class ComposerConstants {
 
     private static String basePath = new File("").getAbsolutePath();
     private static String FilePath = basePath + "/data";
+    private static String FileDirectory = FilePath + "/Pieces_Memory.json";
 
     // EFFECTS: Private constructor for ComposerConstants to restrict constructing instances of this utility
     // class.
@@ -38,12 +39,19 @@ public class ComposerConstants {
         return FilePath;
     }
 
+    // EFFECTS: Returns the FileDirectory string.
+    public static String getFileDirectory() {
+        return FileDirectory;
+    }
+
     // EFFECTS: Returns the menuInstructions string.
     public static String getMenuInstructions() {
-        String menuInstructions = "To compose a new piece or edit an existing piece in memory "
+        String menuInstructions = "To load or save Pieces from saved memory enter L, "
+                + "to compose a new piece or edit an existing piece in memory "
                 + "enter E, to delete a piece from memory enter D, to play a piece from memory enter P,"
                 + " to save Pieces and exit the program enter W, and to clear all pieces from PiecesMemory enter C."
-                + "All inputs for this program are case sensitive.";
+                + " Pressing any other key will exit the program."
+                + " All inputs for this program are case sensitive.";
         return menuInstructions;
     }
 

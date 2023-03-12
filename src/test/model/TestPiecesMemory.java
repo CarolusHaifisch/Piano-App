@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /** Class containing all tests for methods in PiecesMemory class.
  *
@@ -59,18 +60,21 @@ public class TestPiecesMemory {
         assertEquals(0, PEmpty.numSavedPieces());
         assertEquals("", PEmpty.getPieceNames());
         assertEquals(Test2, PMem.getPieceWithIndex(1));
-        assertEquals(Test, PMem.getPieceWithName("Test"));
-        assertEquals(Test2, PMem.getPieceWithName("Test2"));
-        assertEquals("Gregor", PMem.getPieceWithName("Gregor").getPieceName());
-        assertEquals("Gregor", PEmpty.getPieceWithName("Gregor").getPieceName());
-        assertEquals("Gregor, Test1, Test2, Test, ", PMem.getPieceNames());
-        assertEquals(4, PMem.numSavedPieces());
-        assertEquals("Gregor, ", PEmpty.getPieceNames());
+        try {
+            assertEquals(Test, PMem.getPieceWithName("Test"));
+            assertEquals(Test2, PMem.getPieceWithName("Test2"));
+        } catch (Exception e) {
+            fail("Should not have thrown exception");
+        }
+        try {
+            assertEquals("Gregor", PMem.getPieceWithName("Gregor").getPieceName());
+            fail("Should have thrown exception");
+        } catch (Exception e) {
+        }
+        assertEquals("Test1, Test2, Test, ", PMem.getPieceNames());
+        assertEquals(3, PMem.numSavedPieces());
+        assertEquals("", PEmpty.getPieceNames());
         PMem.delPiece(2);
-        assertEquals("Gregor, Test1, Test, ", PMem.getPieceNames());
-        PEmpty.delPiece(0);
-        assertEquals(0, PEmpty.numSavedPieces());
-        PMem.delPiece(2);
-        assertEquals("Gregor, Test1, ", PMem.getPieceNames());
+        assertEquals("Test1, Test2, ", PMem.getPieceNames());
     }
 }
