@@ -19,7 +19,7 @@ public class JsonWriter {
 
     // MODIFIES: this
     // EFFECTS: opens the writer, throws FileNotFoundException if the file at given filepath cannot be opened to write
-    public void openWriter() throws FileNotFoundException {
+    public void open() throws FileNotFoundException {
         writer = new PrintWriter(new File(filepath));
     }
 

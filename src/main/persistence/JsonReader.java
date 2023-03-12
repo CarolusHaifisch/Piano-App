@@ -47,7 +47,6 @@ public class JsonReader {
 
     // EFFECTS: parses PiecesMemory from JSON object and returns it
     private PiecesMemory parsePiecesMemory(JSONObject jsonObject) {
-        String name = jsonObject.getString("name");
         PiecesMemory pmem = new PiecesMemory(new LinkedList<Piece>());
         addPieces(pmem, jsonObject);
         return pmem;
@@ -56,7 +55,7 @@ public class JsonReader {
     // MODIFIES: PiecesMemory pmem
     // EFFECTS: parses pieces from JSON object and adds them to PiecesMemory
     private void addPieces(PiecesMemory pmem, JSONObject jsonObject) {
-        JSONArray jsonArray = jsonObject.getJSONArray("memory");
+        JSONArray jsonArray = jsonObject.getJSONArray("piecesmemory");
         for (Object json : jsonArray) {
             JSONObject nextPiece = (JSONObject) json;
             addPiece(pmem, nextPiece);
@@ -81,7 +80,7 @@ public class JsonReader {
     // EFFECTS: parses Note from JSON object and adds it to Piece
     private void addNote(Piece piece, JSONObject jsonObject) {
         int intname = jsonObject.getInt("name");
-        char name = Integer.toString(intname).charAt(0);
+        char name = (char) intname;
         double duration = jsonObject.getDouble("duration");
         int octave = jsonObject.getInt("octave");
         boolean isSharp = jsonObject.getBoolean("sharp?");
