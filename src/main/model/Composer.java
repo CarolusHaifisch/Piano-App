@@ -4,7 +4,7 @@ import persistence.JsonReader;
 import persistence.JsonWriter;
 
 import java.io.*;
-import java.util.LinkedList;
+
 
 /** Class representing the methods used for logic and computations used in the UI class
  * but are not directly linked to user inputs such as methods to read and extract information from memory.
@@ -22,8 +22,7 @@ public class Composer {
     // and returns the PiecesMemory, otherwise retrieves the saved PiecesMemory from the file.
     public PiecesMemory memRetrieve(String pathname) throws IOException {
         JsonReader reader = new JsonReader(pathname);
-        PiecesMemory pmem = reader.read();
-        return pmem;
+        return reader.read();
     }
 
     // MODIFIES: memory file at pathname filepath

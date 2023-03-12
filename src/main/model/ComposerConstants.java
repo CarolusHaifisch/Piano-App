@@ -40,7 +40,9 @@ public class ComposerConstants {
     }
 
     // EFFECTS: Returns the FileDirectory string.
-    public static String getFileDirectory() { return FileDirectory;}
+    public static String getFileDirectory() {
+        return FileDirectory;
+    }
 
     // EFFECTS: Returns the menuInstructions string.
     public static String getMenuInstructions() {

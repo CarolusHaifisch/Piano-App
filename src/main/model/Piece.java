@@ -7,9 +7,10 @@ import persistence.Writable;
 
 import java.util.ArrayList;
 
-/** Class representing a music piece (list of notes). A Piece is represented as an ArrayList of Notes and is
+/**
+ * Class representing a music piece (list of notes). A Piece is represented as an ArrayList of Notes and is
  * serializable.
- *
+ * <p>
  * Code for JSON serialization inspired by sample code from JSON serialization demo by the CPSC 210
  * team.
  */
@@ -85,14 +86,14 @@ public class Piece implements Writable {
         return json;
     }
 
-        // EFFECTS: Returns the contents of the Piece as a JSON array
-        private JSONArray contentstoJson() {
-            JSONArray jsonArray = new JSONArray();
+    // EFFECTS: Returns the contents of the Piece as a JSON array
+    private JSONArray contentstoJson() {
+        JSONArray jsonArray = new JSONArray();
 
-            for (Note n : pieceContents) {
-                jsonArray.put(n.toJson());
-            }
-            return jsonArray;
+        for (Note n : pieceContents) {
+            jsonArray.put(n.toJson());
         }
+        return jsonArray;
     }
+}
 

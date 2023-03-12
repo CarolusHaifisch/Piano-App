@@ -200,7 +200,7 @@ public class ComposerUI {
     // error message and returns to menu.
     private void wmethod() {
         try {
-            composer.memSave(memory,ComposerConstants.getFileDirectory());
+            composer.memSave(memory, ComposerConstants.getFileDirectory());
         } catch (IOException e) {
             System.out.println(ComposerConstants.getSaveFailed());
             this.composerInterface();
