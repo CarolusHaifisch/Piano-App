@@ -80,13 +80,13 @@ public class JsonReader {
     // MODIFIES: Piece piece
     // EFFECTS: parses Note from JSON object and adds it to Piece
     private void addNote(Piece piece, JSONObject jsonObject) {
-        char name = jsonObject.getInt("name");
+        int intname = jsonObject.getInt("name");
+        char name = Integer.toString(intname).charAt(0);
         double duration = jsonObject.getDouble("duration");
         int octave = jsonObject.getInt("octave");
         boolean isSharp = jsonObject.getBoolean("sharp?");
         boolean isFlat = jsonObject.getBoolean("flat?");
-        Category category = Category.valueOf(jsonObject.getString("category"));
-        Thingy thingy = new Thingy(name, category);
-        wr.addThingy(thingy);
+        Note note = new Note(name, duration, octave, isSharp, isFlat);
+        piece.addNote(note);
     }
 }
