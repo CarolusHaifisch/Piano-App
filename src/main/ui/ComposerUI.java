@@ -112,7 +112,7 @@ public class ComposerUI {
     private void pieceEditor(Piece piece) {
         System.out.println("Current piece: " + piece.pieceToString());
         System.out.println("To add to the piece, enter A. To delete notes from the piece, enter D. To view properties"
-                + "of the piece, enter P. Enter any other key to return to menu.");
+                + " of the piece, enter P. Enter any other key to return to menu.");
         Scanner sc = new Scanner(System.in);
         char einput = sc.nextLine().charAt(0);
         switch (einput) {
@@ -127,6 +127,7 @@ public class ComposerUI {
             case 'P': {
                 System.out.println("Length of piece in number of notes: " + piece.length());
                 System.out.println("Entire duration of piece in number of beats: " + piece.pieceDuration());
+                this.pieceEditor(piece);
             }
             default : {
                 this.composerInterface();
@@ -136,7 +137,7 @@ public class ComposerUI {
 
     // REQUIRES: index given must be a valid index of the piece (given index < piece size), index >=0
     // MODIFIES: piece
-    // EFFECTS: Allows for deleting notes at given indices, or returns to composerMenu. Prints out current piece
+    // EFFECTS: Allows for deleting notes at given indices, or returns to piece editor menu. Prints out current piece
     // contents to console before each note deletion. If invalid index entered, prints error message
     // and user can try again.
     private void noteDelete(Piece piece) {
@@ -156,7 +157,7 @@ public class ComposerUI {
         if (d == 'D') {
             noteDelete(piece);
         } else {
-            this.composerInterface();
+            this.pieceEditor(piece);
         }
     }
 
@@ -178,7 +179,8 @@ public class ComposerUI {
     // prints error message and you can try again.
     private void dmethod() {
         System.out.println("Please provide the index of the piece you want to delete from memory. Note pieces are"
-                + " indexed in reverse order with last piece composed being first in order.");
+                + " indexed in the order shown below with left being index 0 and increasing to the right.");
+        System.out.println("Current pieces in memory are: " + memory.getPieceNames());
         Scanner inputd = new Scanner(System.in);
         while (!inputd.hasNextInt()) {
             inputd.next();
@@ -221,7 +223,7 @@ public class ComposerUI {
         }
     }
 
-
+    // MODIFIES: Json memory file
     // EFFECTS: Tries to save PiecesMemory memory to the Json file, and then exits the program. If save fails, prints
     // error message and returns to menu.
     private void wmethod() {
@@ -235,6 +237,7 @@ public class ComposerUI {
         System.exit(0);
     }
 
+    // MODIFIES: PiecesMemory memory
     // EFFECTS: Clears local memory, resetting it to a new PiecesMemory, and returns to main menu.
     private void cmethod() {
         memory = new PiecesMemory(new LinkedList<>());
@@ -249,7 +252,8 @@ public class ComposerUI {
         boolean isFinished = false;
         System.out.println(ComposerConstants.getPieceComposerPrompt());
         while (!isFinished) {
-            System.out.println("Please enter the note name, or X to finish piece. Enter R for a rest.");
+            System.out.println("Please enter the note name, or X to finish piece, or Q to return to editor menu."
+                    + " Enter R for a rest.");
             Scanner s = new Scanner(System.in);
             char inputNoteName = s.nextLine().charAt(0);
             if (ComposerConstants.getNotesList().contains(inputNoteName)) {
@@ -257,19 +261,29 @@ public class ComposerUI {
                 piece.addNote(note);
                 System.out.println("Piece so far: " + piece.pieceToString());
             } else if (inputNoteName == 'X') {
-                System.out.println("Piece has been finished. Saving...");
-                isFinished = true;
-                try {
-                    composer.memSave(memory, ComposerConstants.getFileDirectory());
-                } catch (IOException e) {
-                    System.out.println(ComposerConstants.getSaveFailed());
-                }
-                System.out.println("Save Successful!");
+                isFinished = pieceComposerHelper(isFinished);
+            } else if (inputNoteName == 'Q') {
+                this.pieceEditor(piece);
             } else {
                 System.out.println("Invalid note entered, please try again");
             }
         }
     }
+
+    // MODIFIES: piece
+    // EFFECTS: Handles the case when the piece is finished, saves the finished piece and PiecesMemory to the JSON file
+    private boolean pieceComposerHelper(boolean isFinished) {
+        System.out.println("Piece has been finished. Saving...");
+        isFinished = true;
+        try {
+            composer.memSave(memory, ComposerConstants.getFileDirectory());
+        } catch (IOException e) {
+            System.out.println(ComposerConstants.getSaveFailed());
+        }
+        System.out.println("Save Successful!");
+        return isFinished;
+    }
+
 
     // EFFECTS: Prompts user for inputs for each note parameter, then constructs a Note from the given parameters.
     private Note noteCreator(char inputNoteName) {
