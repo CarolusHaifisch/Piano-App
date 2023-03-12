@@ -96,7 +96,11 @@ public class TestJsonWriter {
             PiecesMemory pmem1 = reader.read();
             assertEquals("Test, Test1, ", pmem1.getPieceNames());
             assertEquals(2, pmem1.numSavedPieces());
-            assertEquals(4, pmem1.getPieceWithName("Test").length());
+            try {
+                assertEquals(4, pmem1.getPieceWithName("Test").length());
+            } catch (Exception e) {
+                fail("Should not have thrown exception");
+            }
             assertEquals(2, pmem1.getPieceWithIndex(1).length());
             assertEquals(1.5, pmem1.getPieceWithIndex(0).pieceDuration());
             assertEquals("D0/0.25 F#4/1.0 ", pmem1.getPieceWithIndex(1).pieceToString());

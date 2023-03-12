@@ -1,11 +1,13 @@
 package ui;
 
+import exception.PieceNotFoundException;
 import model.*;
 import org.jfugue.player.Player;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -20,6 +22,7 @@ public class ComposerUI {
 
     private final Composer composer = new Composer();
     PiecesMemory memory;
+    String pieceName;
 
     {
         try {
@@ -88,11 +91,25 @@ public class ComposerUI {
     }
 
     // EFFECTS: Links pieceComposer to pieceSelect, so that the selected piece is the one that is being composed.
+    // If piece is not found creates a new piece with given name and edits that piece.
     // Prints out list of piece names currently in session memory to console.
     // Also allows for note deletion after finishing composing the piece.
     private void emethod() {
         System.out.println("Current pieces in memory: " + memory.getPieceNames());
-        Piece piece = this.pieceSelect();
+        try {
+            Piece piece = this.pieceSelect();
+            this.pieceEditor(piece);
+        } catch (PieceNotFoundException pnfe) {
+            Piece piece = new Piece(pieceName, new ArrayList<Note>());
+            memory.addPiece(piece);
+            this.pieceEditor(piece);
+        }
+
+        this.composerInterface();
+    }
+
+    // EFFECTS: Edits the selected piece.
+    private void pieceEditor(Piece piece) {
         System.out.println("Current piece: " + piece.pieceToString());
         System.out.println("To add to the piece, enter A. To delete notes from the piece, enter D. To view properties"
                 + "of the piece, enter P. Enter any other key to return to menu.");
@@ -111,8 +128,10 @@ public class ComposerUI {
                 System.out.println("Length of piece in number of notes: " + piece.length());
                 System.out.println("Entire duration of piece in number of beats: " + piece.pieceDuration());
             }
+            default : {
+                this.composerInterface();
+            }
         }
-        this.composerInterface();
     }
 
     // REQUIRES: index given must be a valid index of the piece (given index < piece size), index >=0
@@ -144,10 +163,11 @@ public class ComposerUI {
     // MODIFIES: PiecesMemory memory
     // EFFECTS: Returns the piece with the given name, if none exist a new piece is created and added to session memory,
     // and then returned.
-    private Piece pieceSelect() {
-        System.out.println("Please provide the name of the piece you want to edit");
+    private Piece pieceSelect() throws PieceNotFoundException {
+        System.out.println("Please provide the name of the piece you want to edit. Input another name to create a new"
+                + "Piece with that name.");
         Scanner piecenameinput = new Scanner(System.in);
-        String pieceName = piecenameinput.nextLine();
+        pieceName = piecenameinput.nextLine();
         System.out.println("Editing " + pieceName);
         return memory.getPieceWithName(pieceName);
     }
@@ -174,18 +194,23 @@ public class ComposerUI {
         this.composerInterface();
     }
 
-    // EFFECTS: Plays the given piece in JFugue. If no piece of given name exists, an empty piece is added to
-    // PiecesMemory and is played. Also prints the piece's contents as a string to console.
+    // EFFECTS: Plays the given piece in JFugue. If no piece of given name exists, returns to main menu.
+    // Also prints the piece's contents as a string to console.
     private void pmethod() {
         System.out.println("Please provide the name of the piece you want to play with JFugue");
         System.out.println("Current pieces in memory are: " + memory.getPieceNames());
         Scanner inputp = new Scanner(System.in);
         String pieceName = inputp.nextLine();
         Player piecePlayer = new Player();  // Creates new JFugue Player
-        Piece selectedPiece = memory.getPieceWithName(pieceName);
-        String pieceString = selectedPiece.pieceToString();
-        System.out.println("Piece being played: " + pieceName + " " + pieceString);
-        piecePlayer.play(pieceString);
+        try {
+            Piece selectedPiece = memory.getPieceWithName(pieceName);
+            String pieceString = selectedPiece.pieceToString();
+            System.out.println("Piece being played: " + pieceName + " " + pieceString);
+            piecePlayer.play(pieceString);
+        } catch (PieceNotFoundException pnfe) {
+            System.out.println("Piece does not exist in memory, try again.");
+            this.pmethod();
+        }
         System.out.println("Input Y to play another piece, or any other key to return to menu");
         Scanner inputp2 = new Scanner(System.in);
         char inputval = inputp2.nextLine().charAt(0);
@@ -195,6 +220,7 @@ public class ComposerUI {
             this.composerInterface();
         }
     }
+
 
     // EFFECTS: Tries to save PiecesMemory memory to the Json file, and then exits the program. If save fails, prints
     // error message and returns to menu.

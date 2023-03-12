@@ -1,5 +1,6 @@
 package model;
 
+import exception.PieceNotFoundException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
@@ -43,15 +44,13 @@ public class PiecesMemory extends LinkedList<Piece> implements Writable {
     // control whether we want to add a new piece or not with keyboard presses controlled in Composer. This can be done
     // with exception handling where we can throw an exception here if piece is not found and deal with it however we
     // want.
-    public Piece getPieceWithName(String name) {
+    public Piece getPieceWithName(String name) throws PieceNotFoundException {
         for (Piece p : memory) {
             if (p.getPieceName().equals(name)) {
                 return p;
             }
         }
-        Piece newPiece = new Piece(name, new ArrayList<Note>());
-        this.addPiece(newPiece);
-        return newPiece;
+        throw new PieceNotFoundException("Piece not found.");
     }
 
     // EFFECTS: Returns the piece at the given index.

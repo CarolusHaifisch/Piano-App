@@ -1,13 +1,13 @@
 {"piecesmemory": [
     {
         "piececontents": [{
-            "duration": 0.25,
-            "sharp?": false,
+            "duration": 5,
+            "sharp?": true,
             "octave": 5,
-            "name": 69,
+            "name": 70,
             "flat?": false
         }],
-        "piecename": "A"
+        "piecename": "Test"
     },
     {
         "piececontents": [
@@ -69,5 +69,15 @@
             }
         ],
         "piecename": "Cmajor"
+    },
+    {
+        "piececontents": [{
+            "duration": 0.25,
+            "sharp?": false,
+            "octave": 5,
+            "name": 69,
+            "flat?": false
+        }],
+        "piecename": "A"
     }
 ]}
