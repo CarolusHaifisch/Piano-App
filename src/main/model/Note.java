@@ -1,5 +1,8 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.io.Serializable;
 
 /** Class to represent a note, to be stored in a list of notes (A piece),
@@ -9,8 +12,8 @@ import java.io.Serializable;
  * cannot be both. Octave is limited to between 0 and 9 inclusive. Note duration is limited to less than or equal to
  * MAX_DURATION as defined in ComposerConstants.
  */
-public class Note implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Note implements Writable {
+
     private char noteName;
     private double noteDuration;
     private int noteOctave;
@@ -77,5 +80,17 @@ public class Note implements Serializable {
     // EFFECTS: Returns boolean whether note is flat or not
     public boolean getFlat() {
         return noteIsFlat;
+    }
+
+    // EFFECTS: Converts a Note into a JSON object.
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", noteName);
+        json.put("duration", noteDuration);
+        json.put("octave", noteOctave);
+        json.put("sharp?", noteIsSharp);
+        json.put("flat?", noteIsFlat);
+        return json;
     }
 }

@@ -1,14 +1,17 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class PiecesMemory extends LinkedList<Piece> {
+public class PiecesMemory extends LinkedList<Piece> implements Writable {
     /**
      * Class representing the memory of the program where composed pieces are saved. Pieces are saved in reverse order
      * as they are saved into memory (newest piece is first in memory).
      */
-    private static final long serialVersionUID = 1L;
     private LinkedList<Piece> memory;
 
     // EFFECTS: Constructs a new blank memory of pieces
@@ -65,5 +68,22 @@ public class PiecesMemory extends LinkedList<Piece> {
 
         }
         return names;
+    }
+
+    // EFFECTS: Returns the PiecesMemory as a JSON object
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("piecesmemory", memorytoJson());
+        return json;
+    }
+
+    // EFFECTS: Returns the contents of the PiecesMemory as a JSON array
+    private JSONArray memorytoJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Piece p : memory) {
+            jsonArray.put(p.toJson());
+        }
+        return jsonArray;
     }
 }
