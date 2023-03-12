@@ -27,7 +27,7 @@ public class JsonWriter {
     // EFFECTS: writes JSON representation of the current state of PiecesMemory to a JSON file
     public void write(PiecesMemory currentPMem) {
         JSONObject json = currentPMem.toJson();
-        saveToFile(json.toString(TAB));
+        saveStringToFile(json.toString(TAB));
     }
 
     // MODIFIES: this
@@ -38,7 +38,7 @@ public class JsonWriter {
 
     // MODIFIES: this
     // EFFECTS: writes string to file
-    private void saveToFile(String json) {
+    private void saveStringToFile(String json) {
         writer.print(json);
     }
 
