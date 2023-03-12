@@ -79,7 +79,7 @@ public class ComposerUI {
     // returns to the main menu.
     private void lmethod() {
         try {
-            composer.memRetrieve(ComposerConstants.getFileDirectory());
+            memory = composer.memRetrieve(ComposerConstants.getFileDirectory());
             this.composerInterface();
         } catch (IOException e) {
             System.out.println("Could not retrieve memory.");
