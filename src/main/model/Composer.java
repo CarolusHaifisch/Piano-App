@@ -17,9 +17,7 @@ public class Composer {
         return memorypath.isFile();
     }
 
-    // MODIFIES: memory file at pathname filepath
-    // EFFECTS: Creates a new Pieces_memory file to save serialized PiecesMemory data if it doesn't already exist
-    // and returns the PiecesMemory, otherwise retrieves the saved PiecesMemory from the file.
+    // EFFECTS: Retrieves the saved PiecesMemory from the file.
     public PiecesMemory memRetrieve(String pathname) throws IOException {
         JsonReader reader = new JsonReader(pathname);
         return reader.read();
