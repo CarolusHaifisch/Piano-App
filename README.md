@@ -13,9 +13,10 @@ console input), and will also allow the user to compose music and play it back l
 - As a user, I want to be able to see how long each piece composed is.
 - As a user, I want to be able to go back to pieces that I have composed earlier within the session and edit or modify
 - those pieces. 
-- As a user, I want to be able to save composed pieces to a memory for playback later.
+### User stories related to data persistence:
+- As a user, I want to be able to save composed pieces to a memory for playback later whenever I want.
 - As a user, I want to be able to go back to pieces I have composed earlier and load them from memory to edit, modify,
-- and/or playback.
+- and/or playback, whenever I want. 
 
 ### Not yet realized user stories:
 - As a user, I want to be able to compose music with notes with different instrument sounds in the same piece.

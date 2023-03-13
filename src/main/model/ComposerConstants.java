@@ -46,7 +46,7 @@ public class ComposerConstants {
 
     // EFFECTS: Returns the menuInstructions string.
     public static String getMenuInstructions() {
-        String menuInstructions = "To load Pieces from saved memory enter L, "
+        String menuInstructions = "To load or save Pieces from saved memory enter L, "
                 + "to compose a new piece or edit an existing piece in memory "
                 + "enter E, to delete a piece from memory enter D, to play a piece from memory enter P,"
                 + " to save Pieces and exit the program enter W, and to clear all pieces from PiecesMemory enter C."
