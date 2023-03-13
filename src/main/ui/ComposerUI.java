@@ -78,15 +78,31 @@ public class ComposerUI {
         }
     }
 
-    // EFFECTS: Loads Pieces from saved JSON memory in the JSON file to the local session memory PiecesMemory, and
-    // returns to the main menu.
+    // EFFECTS: Loads or saves Pieces from/to saved JSON memory in the JSON file
+    // to the local session memory PiecesMemory, and returns to the main menu.
     private void lmethod() {
-        try {
-            memory = composer.memRetrieve(ComposerConstants.getFileDirectory());
-            this.composerInterface();
-        } catch (IOException e) {
-            System.out.println("Could not retrieve memory.");
-            this.composerInterface();
+        System.out.println("To load memory, input L. To save memory, input S. Enter any other key to return to menu.");
+        Scanner input = new Scanner(System.in);
+        switch (input.nextLine().charAt(0)) {
+            case 'L': {
+                try {
+                    memory = composer.memRetrieve(ComposerConstants.getFileDirectory());
+                } catch (IOException e) {
+                    System.out.println("Could not retrieve memory.");
+                }
+            }
+            case 'S': {
+                try {
+                    composer.memSave(memory, ComposerConstants.getFileDirectory());
+                    System.out.println("Save Successful!");
+                } catch (IOException e) {
+                    System.out.println("Could not save memory.");
+                }
+            }
+            default : {
+                this.composerInterface();
+            }
+                this.composerInterface();
         }
     }
 
@@ -129,7 +145,7 @@ public class ComposerUI {
                 System.out.println("Entire duration of piece in number of beats: " + piece.pieceDuration());
                 this.pieceEditor(piece);
             }
-            default : {
+            default: {
                 this.composerInterface();
             }
         }
