@@ -65,7 +65,7 @@ public class ComposerGUI extends JFrame {
 
         JMenu codeMenu = new JMenu("Pieces");
         codeMenu.setMnemonic('P');
-        //addMenuItem(codeMenu, new AddPieceAction(), KeyStroke.getKeyStroke("control N"));
+        addMenuItem(codeMenu, new AddPieceAction(), KeyStroke.getKeyStroke("control N"));
         //addMenuItem(codeMenu, new RemovePieceAction(), KeyStroke.getKeyStroke("control R"));
         menuBar.add(codeMenu);
 
@@ -157,6 +157,30 @@ public class ComposerGUI extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
+
+
+
+    /**
+     * Represents clear action to clear all saved memory from current state of the program
+     */
+    private class AddPieceAction extends AbstractAction {
+
+        AddPieceAction() {
+            super("Clear");
+        }
+
+        // EFFECTS: Runs when the clear action occurs (Whenever the clear option is chosen by the user)
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+             SimplePianoGUI sp = new SimplePianoGUI();
+        }
+    }
+
+
+
+
+
 
     // EFFECTS: Runs when the initialization load action occurs (Runs upon starting program to load saved data)
 
