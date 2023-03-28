@@ -9,6 +9,7 @@ import persistence.JsonWriter;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -90,10 +91,10 @@ public class ComposerGUI extends JFrame {
         menuBar.add(fileMenu);
         // TODO BELOW
 
-        JMenu codeMenu = new JMenu("Code");
-        codeMenu.setMnemonic('C');
-        addMenuItem(codeMenu, new AddCodeAction(), null);
-        addMenuItem(codeMenu, new RemoveCodeAction(), null);
+        JMenu codeMenu = new JMenu("Pieces");
+        codeMenu.setMnemonic('P');
+        addMenuItem(codeMenu, new AddPieceAction(), KeyStroke.getKeyStroke("control N"));
+        addMenuItem(codeMenu, new RemovePieceAction(), KeyStroke.getKeyStroke("control R"));
         menuBar.add(codeMenu);
 
         JMenu systemMenu = new JMenu("System");
