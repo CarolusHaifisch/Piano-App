@@ -13,16 +13,6 @@ public class ComposerGUI extends JFrame {
     private final Composer composer = new Composer();
     private PiecesMemory memory;
     private String pieceName;
-    private JPanel panel1;
-    private JButton button1;
-    private JButton button2;
-    private JRadioButton radioButton1;
-    private JRadioButton radioButton2;
-    private JRadioButton radioButton3;
-    private JRadioButton radioButton4;
-    private JScrollBar scrollBar1;
-    private JScrollBar scrollBar2;
-    private JTree tree1;
 
     public static void main(String[] args) {
         new ComposerGUI();
@@ -33,7 +23,7 @@ public class ComposerGUI extends JFrame {
     private ComposerGUI() {
         super("Java Music Composer V0.2");
 
-        setSize(WIDTH, HEIGHT);
+        setSize(ComposerUIConstants.WIDTH, ComposerUIConstants.HEIGHT);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         initializationLoad();
 
@@ -42,6 +32,7 @@ public class ComposerGUI extends JFrame {
 
         add(sidebar);
         addMenu();
+        add(new JButton("A"));
 
         setVisible(true);
     }

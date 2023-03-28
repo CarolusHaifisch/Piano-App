@@ -1,5 +1,7 @@
 package ui;
 
+import model.ComposerConstants;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.BorderLayout;
@@ -15,18 +17,15 @@ public class SimplePianoGUI {
      * proper piano, (It simply won't let me drag and resize the individual jbutton elements, and forces
      * the buttons to a grid that I cannot modify), this simplified GUI of a piano will have to do.
      */
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 600;
     private JButton[] keys;
     private JFrame pianoFrame;
 
     public SimplePianoGUI() {
         pianoFrame = new JFrame("Control Panel");
-        pianoFrame.setSize(WIDTH, HEIGHT);
+        pianoFrame.setSize(ComposerUIConstants.WIDTH, ComposerUIConstants.HEIGHT);
         pianoFrame.setVisible(true);
         addPianoPanel();
         addOctaveandAccidentalPanel();
-        pianoFrame.pack();
         pianoFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -43,7 +42,7 @@ public class SimplePianoGUI {
         pianoKeyboardPanel.add(new JButton("A"));
         pianoKeyboardPanel.add(new JButton("B"));
         pianoKeyboardPanel.add(new JButton("Rest"));
-        pianoFrame.add(pianoKeyboardPanel, BorderLayout.NORTH);
+        pianoFrame.add(pianoKeyboardPanel, BorderLayout.CENTER);
     }
 
     // EFFECTS: Sets up panel for choosing octave
@@ -73,6 +72,6 @@ public class SimplePianoGUI {
         oapanel.setLayout(new GridLayout(1, 2));
         oapanel.add(addAccidentalsPanel());
         oapanel.add(addOctavesPanel());
-        pianoFrame.add(oapanel, BorderLayout.CENTER);
+        pianoFrame.add(oapanel, BorderLayout.SOUTH);
     }
 }
