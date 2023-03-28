@@ -5,6 +5,8 @@ import javax.swing.*;
 import model.*;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.LinkedList;
 
@@ -24,7 +26,8 @@ public class ComposerGUI extends JFrame {
         super("Java Music Composer V0.2");
 
         setSize(ComposerUIConstants.WIDTH, ComposerUIConstants.HEIGHT);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new SaveonClose());
         initializationLoad();
 
         sidebar = new JTabbedPane();
@@ -35,6 +38,31 @@ public class ComposerGUI extends JFrame {
 
         setVisible(true);
     }
+
+    private class SaveonClose extends WindowAdapter {
+        @Override
+        public void windowClosing(WindowEvent we) {
+            String[] choiceButtons = {"Yes","No"};
+            int chosenOption = JOptionPane.showOptionDialog(
+                    null,"Save before exiting?",
+                    "Save",JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,
+                    null,choiceButtons, choiceButtons[1]);
+            if (chosenOption == JOptionPane.YES_OPTION) {
+                try {
+                    composer.memSave(memory, ComposerConstants.getFileDirectory());
+                    JOptionPane.showMessageDialog(null, "Save Successful!", "Save Memory",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null, "Could not save memory.", "Save Memory",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+                System.exit(0);
+            } else {
+                System.exit(0);
+            }
+        }
+    }
+
 
     //EFFECTS: returns Composer object controlled by this UI
     public Composer getComposer() {
@@ -163,7 +191,7 @@ public class ComposerGUI extends JFrame {
         // EFFECTS: Runs when the clear action occurs (Whenever the clear option is chosen by the user)
         @Override
         public void actionPerformed(ActionEvent ae) {
-             SimplePianoGUI sp = new SimplePianoGUI();
+            SimplePianoGUI sp = new SimplePianoGUI();
         }
     }
 
