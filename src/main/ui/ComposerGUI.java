@@ -1,16 +1,11 @@
 package ui;
 
 import javax.swing.*;
-import exception.PieceNotFoundException;
+
 import model.*;
-import org.jfugue.player.Player;
-import persistence.JsonReader;
-import persistence.JsonWriter;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
-import java.security.Key;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class ComposerGUI extends JFrame {
@@ -18,6 +13,16 @@ public class ComposerGUI extends JFrame {
     private final Composer composer = new Composer();
     private PiecesMemory memory;
     private String pieceName;
+    private JPanel panel1;
+    private JButton button1;
+    private JButton button2;
+    private JRadioButton radioButton1;
+    private JRadioButton radioButton2;
+    private JRadioButton radioButton3;
+    private JRadioButton radioButton4;
+    private JScrollBar scrollBar1;
+    private JScrollBar scrollBar2;
+    private JTree tree1;
 
     public static void main(String[] args) {
         new ComposerGUI();
@@ -27,57 +32,23 @@ public class ComposerGUI extends JFrame {
     //EFFECTS: creates ComposerGUI
     private ComposerGUI() {
         super("Java Music Composer V0.2");
+
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        loadAppliances();
+        initializationLoad();
 
         sidebar = new JTabbedPane();
         sidebar.setTabPlacement(JTabbedPane.LEFT);
 
-        loadTabs();
         add(sidebar);
+        addMenu();
 
         setVisible(true);
     }
 
-    //EFFECTS: returns SmartHome object controlled by this UI
-    public SmartHome getSmartHome() {
-        return smartHome;
-    }
-
-    //MODIFIES: this
-    //EFFECTS: installs several appliances and sets no one home
-    private void loadAppliances() {
-        Appliance fridge = new Refrigerator(5);
-        Appliance oven = new Oven(0);
-        Appliance ac = new HeatingAC(18);
-        Appliance fireplace = new Fireplace(0);
-
-        smartHome.install(fridge);
-        smartHome.install(oven);
-        smartHome.install(ac);
-        smartHome.install(fireplace);
-
-        ac.setRunsWhileAway(true);
-        fridge.setRunsWhileAway(true);
-
-        smartHome.leaveHome();
-    }
-
-    //MODIFIES: this
-    //EFFECTS: adds home tab, settings tab and report tab to this UI
-    private void loadTabs() {
-        JPanel homeTab = new HomeTab(this);
-        JPanel settingsTab = new SettingsTab(this);
-        JPanel reportTab = new ReportTab(this);
-
-        sidebar.add(homeTab, HOME_TAB_INDEX);
-        sidebar.setTitleAt(HOME_TAB_INDEX, "Home");
-        sidebar.add(settingsTab, SETTINGS_TAB_INDEX);
-        sidebar.setTitleAt(SETTINGS_TAB_INDEX, "Settings");
-        sidebar.add(reportTab, REPORT_TAB_INDEX);
-        sidebar.setTitleAt(REPORT_TAB_INDEX, "Report");
+    //EFFECTS: returns Composer object controlled by this UI
+    public Composer getComposer() {
+        return composer;
     }
 
     // EFFECTS: Adds menu bar to GUI.
@@ -88,22 +59,15 @@ public class ComposerGUI extends JFrame {
         addMenuItem(fileMenu, new SaveAction(),
                 KeyStroke.getKeyStroke("control S"));
         addMenuItem(fileMenu, new LoadAction(), KeyStroke.getKeyStroke("control L"));
+        addMenuItem(fileMenu, new ClearAction(), null);
         menuBar.add(fileMenu);
         // TODO BELOW
 
         JMenu codeMenu = new JMenu("Pieces");
         codeMenu.setMnemonic('P');
-        addMenuItem(codeMenu, new AddPieceAction(), KeyStroke.getKeyStroke("control N"));
-        addMenuItem(codeMenu, new RemovePieceAction(), KeyStroke.getKeyStroke("control R"));
+        //addMenuItem(codeMenu, new AddPieceAction(), KeyStroke.getKeyStroke("control N"));
+        //addMenuItem(codeMenu, new RemovePieceAction(), KeyStroke.getKeyStroke("control R"));
         menuBar.add(codeMenu);
-
-        JMenu systemMenu = new JMenu("System");
-        systemMenu.setMnemonic('y');
-        addMenuItem(systemMenu, new ArmAction(),
-                KeyStroke.getKeyStroke("control A"));
-        addMenuItem(systemMenu, new DisarmAction(),
-                KeyStroke.getKeyStroke("control D"));
-        menuBar.add(systemMenu);
 
         setJMenuBar(menuBar);
     }
@@ -126,6 +90,10 @@ public class ComposerGUI extends JFrame {
         return sidebar;
     }
 
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+    }
+
     /**
      * Represents save action for saving the current state of the program.
      */
@@ -140,17 +108,17 @@ public class ComposerGUI extends JFrame {
         public void actionPerformed(ActionEvent ae) {
             try {
                 composer.memSave(memory, ComposerConstants.getFileDirectory());
-                JOptionPane.showMessageDialog(null, "Save Successful!", "Save",
+                JOptionPane.showMessageDialog(null, "Save Successful!", "Save Memory",
                         JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Could not save memory.", "Save",
+                JOptionPane.showMessageDialog(null, "Could not save memory.", "Save Memory",
                         JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
     /**
-     * Represents save action for saving the current state of the program.
+     * Represents load action for loading the previously saved state of the program.
      */
     private class LoadAction extends AbstractAction {
 
@@ -163,12 +131,45 @@ public class ComposerGUI extends JFrame {
         public void actionPerformed(ActionEvent ae) {
             try {
                 memory = composer.memRetrieve(ComposerConstants.getFileDirectory());
-                JOptionPane.showMessageDialog(null, "Load Successful!", "Load",
+                JOptionPane.showMessageDialog(null, "Load Successful!", "Load Memory",
                         JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Could not retrieve memory.", "Save",
-                        JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Could not retrieve memory.",
+                        "Load Memory", JOptionPane.ERROR_MESSAGE);
             }
+        }
+    }
+
+    /**
+     * Represents clear action to clear all saved memory from current state of the program
+     */
+    private class ClearAction extends AbstractAction {
+
+        ClearAction() {
+            super("Clear");
+        }
+
+        // EFFECTS: Runs when the clear action occurs (Whenever the clear option is chosen by the user)
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            memory = new PiecesMemory(new LinkedList<>());
+            JOptionPane.showMessageDialog(null, "PiecesMemory cleared.", "Clear Memory",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    // EFFECTS: Runs when the initialization load action occurs (Runs upon starting program to load saved data)
+
+    public void initializationLoad() {
+        try {
+            if (composer.memExists(ComposerConstants.getFileDirectory())) {
+                memory = composer.memRetrieve(ComposerConstants.getFileDirectory());
+            } else {
+                memory = new PiecesMemory(new LinkedList<>());
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Could not retrieve memory.",
+                    "Load Memory", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
