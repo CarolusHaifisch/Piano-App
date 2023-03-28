@@ -1,15 +1,8 @@
 package ui;
 
-import model.ComposerConstants;
-
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 public class SimplePianoGUI {
     /**
@@ -29,9 +22,7 @@ public class SimplePianoGUI {
         pianoFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-
-    // EFFECTS: Sets up simplified piano layout.
-    private void addPianoPanel() {
+    private JPanel setPianoPanel() {
         JPanel pianoKeyboardPanel = new JPanel();
         pianoKeyboardPanel.setLayout(new GridLayout(1, 8));
         pianoKeyboardPanel.add(new JButton("C"));
@@ -42,11 +33,21 @@ public class SimplePianoGUI {
         pianoKeyboardPanel.add(new JButton("A"));
         pianoKeyboardPanel.add(new JButton("B"));
         pianoKeyboardPanel.add(new JButton("Rest"));
+        return pianoKeyboardPanel;
+    }
+
+    // EFFECTS: Sets up simplified piano layout.
+    private void addPianoPanel() {
+        JPanel pianoKeyboardPanel = new JPanel();
+        pianoKeyboardPanel.setLayout(new GridLayout(2, 1));
+        JLabel l = new JLabel("Note", SwingConstants.CENTER);
+        pianoKeyboardPanel.add(l);
+        pianoKeyboardPanel.add(setPianoPanel());
         pianoFrame.add(pianoKeyboardPanel, BorderLayout.CENTER);
     }
 
     // EFFECTS: Sets up panel for choosing octave
-    private JPanel addOctavesPanel() {
+    private JPanel setOctavesPanel() {
         JPanel octavesPanel = new JPanel();
         octavesPanel.setLayout(new GridLayout(3, 3));
         keys = new JButton[12];
@@ -58,15 +59,35 @@ public class SimplePianoGUI {
         return octavesPanel;
     }
 
+    // EFFECTS: Adds octaves panel with label to pianoFrame
+    private JPanel addOctavesPanel() {
+        JPanel octavesPanel = new JPanel();
+        JLabel l = new JLabel("Octave Number", SwingConstants.CENTER);
+        octavesPanel.setLayout(new GridLayout(2, 1));
+        octavesPanel.add(l);
+        octavesPanel.add(setOctavesPanel());
+        return octavesPanel;
+    }
+
     // EFFECTS: Sets up panel for choosing whether note is sharp or flat
     private JPanel addAccidentalsPanel() {
         JPanel accidentalsPanel = new JPanel();
-        accidentalsPanel.setLayout(new GridLayout(1, 2));
-        accidentalsPanel.add(new JButton("#"));
-        accidentalsPanel.add(new JButton("♭"));
+        JLabel l = new JLabel("Accidentals", SwingConstants.CENTER);
+        accidentalsPanel.setLayout(new GridLayout(2, 1));
+        accidentalsPanel.add(l);
+        accidentalsPanel.add(setAccidentalButtons());
         return accidentalsPanel;
     }
 
+    private JPanel setAccidentalButtons() {
+        JPanel accidentals = new JPanel();
+        accidentals.setLayout(new GridLayout(1, 2));
+        accidentals.add(new JButton("#"));
+        accidentals.add(new JButton("♭"));
+        return accidentals;
+    }
+
+    // EFFECTS: Places both octaves and accidentals panel with labels in pianoFrame
     private void addOctaveandAccidentalPanel() {
         JPanel oapanel = new JPanel();
         oapanel.setLayout(new GridLayout(1, 2));
