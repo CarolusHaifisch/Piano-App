@@ -32,7 +32,6 @@ public class ComposerGUI extends JFrame {
 
         add(sidebar);
         addMenu();
-        add(new JButton("A"));
 
         setVisible(true);
     }

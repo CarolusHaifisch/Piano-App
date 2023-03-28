@@ -21,7 +21,7 @@ public class SimplePianoGUI {
     private JFrame pianoFrame;
 
     public SimplePianoGUI() {
-        pianoFrame = new JFrame("Control Panel");
+        pianoFrame = new JFrame("Piano GUI");
         pianoFrame.setSize(ComposerUIConstants.WIDTH, ComposerUIConstants.HEIGHT);
         pianoFrame.setVisible(true);
         addPianoPanel();
