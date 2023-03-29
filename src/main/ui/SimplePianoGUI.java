@@ -32,9 +32,11 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         pianoFrame.setSize(ComposerUIConstants.WIDTH, ComposerUIConstants.HEIGHT);
         pianoFrame.setVisible(true);
         keyHandler = new ClickHandler();
-        label = new JLabel();
-        addPianoPanel();
-        addOctaveandAccidentalPanel();
+        label = new JLabel("Start by selecting a note, then choose an octave and accidental. If no accidental"
+                + " is chosen note will be natural.");
+        addMainPanel();
+        addLabel();
+
         pianoFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -60,13 +62,13 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     }
 
     // EFFECTS: Sets up simplified piano layout.
-    private void addPianoPanel() {
+    private JPanel addPianoPanel() {
         JPanel pianoKeyboardPanel = new JPanel();
         pianoKeyboardPanel.setLayout(new GridLayout(2, 1));
         JLabel l = new JLabel("Note", SwingConstants.CENTER);
         pianoKeyboardPanel.add(l);
         pianoKeyboardPanel.add(setPianoPanel());
-        pianoFrame.add(pianoKeyboardPanel, BorderLayout.CENTER);
+        return pianoKeyboardPanel;
     }
 
     // EFFECTS: Sets up panel for choosing octave
@@ -124,24 +126,33 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
 
 
     // EFFECTS: Places both octaves and accidentals panel with labels in pianoFrame
-    private void addOctaveandAccidentalPanel() {
+    private JPanel addOctaveandAccidentalPanel() {
         JPanel oapanel = new JPanel();
         oapanel.setLayout(new GridLayout(1, 2));
         oapanel.add(addAccidentalsPanel());
         oapanel.add(addOctavesPanel());
-        pianoFrame.add(oapanel, BorderLayout.SOUTH);
+        return oapanel;
+    }
+
+    // EFFECTS: Places the notes, octaves, and accidentals panel into one main GUI panel
+    private void addMainPanel() {
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new GridLayout(2, 1));
+        mainPanel.add(addPianoPanel());
+        mainPanel.add(addOctaveandAccidentalPanel());
+        pianoFrame.add(mainPanel, BorderLayout.CENTER);
     }
 
     // EFFECTS: PLaces label displaying current note being composed at top of pianoFrame
     private void addLabel() {
-        JLabel noteLabel = new JLabel();
         Box hbox = Box.createHorizontalBox();
         hbox.add(Box.createHorizontalGlue());
-        hbox.add(noteLabel);
+        hbox.add(label);
         hbox.add(Box.createHorizontalGlue());
         pianoFrame.add(hbox, BorderLayout.NORTH);
     }
 
+    // TODO: Create new panel for the text input box for duration of notes.
 
     // Listener for keyEvents, checks to see if note inputs are made and updates the noteLabel.
     // TODO: Restructure the if elses into a switch statement that depends only on the identity of the button rather
@@ -172,8 +183,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
                     noteString.insert(1, src.getText());
                 }
             }
-            System.out.println(noteString);
-            label.setText(String.valueOf(noteString));
+            label.setText("Current Note: " + noteString);
             label.repaint();
         }
     }
