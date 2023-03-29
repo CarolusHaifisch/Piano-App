@@ -19,6 +19,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
      */
     private JButton[] keys;
     private JButton[] pianoKeys;
+    private JButton[] accidentalKeys;
     private ClickHandler keyHandler;
     private JFrame pianoFrame;
     private StringBuilder noteString;
@@ -98,17 +99,29 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         JLabel l = new JLabel("Accidentals", SwingConstants.CENTER);
         accidentalsPanel.setLayout(new GridLayout(2, 1));
         accidentalsPanel.add(l);
-        accidentalsPanel.add(setAccidentalButtons());
+        accidentalsPanel.add(setAccidentalButtonsPanel());
         return accidentalsPanel;
     }
 
-    private JPanel setAccidentalButtons() {
+    // EFFECTS: Sets up the panel of accidental buttons
+    private JPanel setAccidentalButtonsPanel() {
         JPanel accidentals = new JPanel();
         accidentals.setLayout(new GridLayout(1, 2));
-        accidentals.add(new JButton("#"));
-        accidentals.add(new JButton("b"));
+        addAccidentalButtons(accidentals);
         return accidentals;
     }
+
+    // EFFECTS: Adds Accidental buttons to panel p
+    private void addAccidentalButtons(JPanel p) {
+        accidentalKeys = new JButton[2];
+        accidentalKeys[0] = new JButton("#");
+        accidentalKeys[0].addActionListener(keyHandler);
+        p.add(accidentalKeys[0]);
+        accidentalKeys[1] = new JButton("b");
+        accidentalKeys[1].addActionListener(keyHandler);
+        p.add(accidentalKeys[1]);
+    }
+
 
     // EFFECTS: Places both octaves and accidentals panel with labels in pianoFrame
     private void addOctaveandAccidentalPanel() {
@@ -139,24 +152,19 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton src = (JButton) e.getSource();
-            System.out.println(noteString.length());
             if (noteString.length() == 0) {
-                System.out.println(src.getText().charAt(0));
                 if (ComposerUIConstants.notesList.contains(src.getText().charAt(0))) {
                     noteString.append(src.getText().charAt(0));
-                    System.out.println(noteString);
                 }
             } else if (noteString.length() == 1) {
-                System.out.println(noteString);
-                try{
+                try {
                     if (ComposerUIConstants.octavesList.contains(Integer.valueOf(src.getText()))) {
                         noteString.append(src.getText());
                     }
                 } catch (NumberFormatException nfe) {
                     // Do nothing
                 }
-            } else {
-                System.out.println(noteString);
+            } else if (noteString.length() == 2) {
                 if (src.getText().equals("#")) {
                     noteString.insert(1, src.getText());
                 }
@@ -164,7 +172,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
                     noteString.insert(1, src.getText());
                 }
             }
-            System.out.println(label);
+            System.out.println(noteString);
             label.setText(String.valueOf(noteString));
             label.repaint();
         }
