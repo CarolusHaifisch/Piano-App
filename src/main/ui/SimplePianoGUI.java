@@ -152,7 +152,8 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         pianoFrame.add(hbox, BorderLayout.NORTH);
     }
 
-    // TODO: Create new panel for the text input box for duration of notes.
+    // TODO: Create new split panel for the text input box for duration of notes on left, and buttons for
+    // Add (note to piece) and Cancel on right
 
     // Listener for keyEvents, checks to see if note inputs are made and updates the noteLabel.
     // TODO: Restructure the if elses into a switch statement that depends only on the identity of the button rather

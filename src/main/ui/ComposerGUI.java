@@ -221,6 +221,9 @@ public class ComposerGUI extends JFrame {
     }
 }
 
-
+// TODO: Add buttons to main frame. Dropdown menu for choosing a piece from composed pieces in memory,
+// Then upon choosing a piece which is noted in local memory there are buttons for playing the piece,
+// opening a panel displaying information about the piece, and a button for adding notes, and a button for deleting
+// notes from the piece. Piece addition and deletion is handled by buttons on top menu bar.
 
 
