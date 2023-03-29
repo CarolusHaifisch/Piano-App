@@ -11,37 +11,51 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class SimplePianoGUI extends JFrame implements KeyListener {
-    /** GUI for the piano keyboard for composing notes.
+    /**
+     * GUI for the piano keyboard for composing notes.
      * Because I cannot figure out how to drag the individual jbutton elements in the GUI form so I can create a
      * proper piano, (It simply won't let me drag and resize the individual jbutton elements, and forces
      * the buttons to a grid that I cannot modify), this simplified GUI of a piano will have to do.
      */
     private JButton[] keys;
+    private JButton[] pianoKeys;
+    private ClickHandler keyHandler;
     private JFrame pianoFrame;
     private StringBuilder noteString;
+    private JPanel pianoKeyboard;
     private JLabel label;
 
     public SimplePianoGUI() {
+        noteString = new StringBuilder("");
         pianoFrame = new JFrame("Piano GUI");
         pianoFrame.setSize(ComposerUIConstants.WIDTH, ComposerUIConstants.HEIGHT);
         pianoFrame.setVisible(true);
+        keyHandler = new ClickHandler();
+        label = new JLabel();
         addPianoPanel();
         addOctaveandAccidentalPanel();
         pianoFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private JPanel setPianoPanel() {
-        JPanel pianoKeyboardPanel = new JPanel();
-        pianoKeyboardPanel.setLayout(new GridLayout(1, 8));
-        pianoKeyboardPanel.add(new JButton("C"));
-        pianoKeyboardPanel.add(new JButton("D"));
-        pianoKeyboardPanel.add(new JButton("E"));
-        pianoKeyboardPanel.add(new JButton("F"));
-        pianoKeyboardPanel.add(new JButton("G"));
-        pianoKeyboardPanel.add(new JButton("A"));
-        pianoKeyboardPanel.add(new JButton("B"));
-        pianoKeyboardPanel.add(new JButton("Rest"));
-        return pianoKeyboardPanel;
+        JPanel pianoKeyboard = new JPanel();
+        pianoKeyboard.setLayout(new GridLayout(1, 8));
+        addPianoButtons(pianoKeyboard);
+        return pianoKeyboard;
+    }
+
+    // EFFECTS: Adds Piano buttons to panel p
+    private void addPianoButtons(JPanel p) {
+        pianoKeys = new JButton[8];
+
+        for (int i = 0; i < 8; i++) {
+            pianoKeys[i] = new JButton(Character.toString(ComposerUIConstants.notesList.get(i)));
+            pianoKeys[i].addActionListener(keyHandler);
+            if (i == 7) {
+                pianoKeys[i].setText("Rest");
+            }
+            p.add(pianoKeys[i]);
+        }
     }
 
     // EFFECTS: Sets up simplified piano layout.
@@ -58,10 +72,11 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     private JPanel setOctavesPanel() {
         JPanel octavesPanel = new JPanel();
         octavesPanel.setLayout(new GridLayout(3, 3));
-        keys = new JButton[12];
+        keys = new JButton[9];
 
         for (int i = 0; i < 9; i++) {
             keys[i] = new JButton(Integer.toString(i + 1));
+            keys[i].addActionListener(keyHandler);
             octavesPanel.add(keys[i]);
         }
         return octavesPanel;
@@ -118,34 +133,44 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     // Listener for keyEvents, checks to see if note inputs are made and updates the noteLabel.
     // TODO: Restructure the if elses into a switch statement that depends only on the identity of the button rather
     // than length of string
+    // TODO: Add clear option at the bottom along with add note and OK/Cancel buttons to clear noteString before adding
+    // Requires modifying the GUI frame
     private class ClickHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton src = (JButton) e.getSource();
-
+            System.out.println(noteString.length());
             if (noteString.length() == 0) {
+                System.out.println(src.getText().charAt(0));
                 if (ComposerUIConstants.notesList.contains(src.getText().charAt(0))) {
-                    noteString.append(Character.toString(src.getText().charAt(0)));
+                    noteString.append(src.getText().charAt(0));
+                    System.out.println(noteString);
                 }
             } else if (noteString.length() == 1) {
-                if (ComposerUIConstants.octavesList.contains(Integer.valueOf(src.getText()))) {
-                    noteString.append(src.getText());
-                } if (ComposerUIConstants.notesList.contains(src.getText().charAt(0))) {
-                    noteString.replace(0, 1, Character.toString(src.getText().charAt(0)));
+                System.out.println(noteString);
+                try{
+                    if (ComposerUIConstants.octavesList.contains(Integer.valueOf(src.getText()))) {
+                        noteString.append(src.getText());
+                    }
+                } catch (NumberFormatException nfe) {
+                    // Do nothing
                 }
             } else {
-                if (ComposerUIConstants.octavesList.contains(Integer.valueOf(src.getText()))) {
-                    noteString.
-                } if (ComposerUIConstants.notesList.contains(src.getText().charAt(0))) {
-                noteString.replace(0, 1, Character.toString(src.getText().charAt(0)));
+                System.out.println(noteString);
+                if (src.getText().equals("#")) {
+                    noteString.insert(1, src.getText());
+                }
+                if (src.getText().equals(("b"))) {
+                    noteString.insert(1, src.getText());
+                }
             }
-
-
-            label.setText("");
+            System.out.println(label);
+            label.setText(String.valueOf(noteString));
             label.repaint();
         }
     }
-// TODO: Add method to deal with note duration! Idea: Radiobuttons for common durations (whole quarter half eighth
+
+    // TODO: Add method to deal with note duration! Idea: Radiobuttons for common durations (whole quarter half eighth
     // triplet, add input bar for choice to enter other duration
     @Override
     public void keyPressed(KeyEvent ke) {
@@ -161,9 +186,12 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     public void keyTyped(KeyEvent ke) {
         char key = ke.getKeyChar();
 
-        if (key == '0')
-            keys[10].doClick();
-        else if (key > '0' && key <= '9')
+        if (key > '1' && key <= '9') {
             keys[ke.getKeyChar() - '1'].doClick();
+        }
+        if (ComposerUIConstants.notesList.contains(key)) {
+            pianoKeys[ComposerUIConstants.notesList.indexOf(key)].doClick();
+        }
     }
 }
+
