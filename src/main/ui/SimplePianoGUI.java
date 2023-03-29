@@ -1,5 +1,7 @@
 package ui;
 
+import model.ComposerConstants;
+
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -17,6 +19,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     private JButton[] keys;
     private JFrame pianoFrame;
     private String noteString;
+    private JLabel label;
 
     public SimplePianoGUI() {
         pianoFrame = new JFrame("Piano GUI");
@@ -88,7 +91,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         JPanel accidentals = new JPanel();
         accidentals.setLayout(new GridLayout(1, 2));
         accidentals.add(new JButton("#"));
-        accidentals.add(new JButton("♭"));
+        accidentals.add(new JButton("b"));
         return accidentals;
     }
 
@@ -103,7 +106,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
 
     // EFFECTS: PLaces label displaying current note being composed at top of pianoFrame
     private void addLabel() {
-        JLabel noteLabel = new JLabel(getLabel());
+        JLabel noteLabel = new JLabel();
         Box hbox = Box.createHorizontalBox();
         hbox.add(Box.createHorizontalGlue());
         hbox.add(noteLabel);
@@ -113,24 +116,29 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
 
 
     // Listener for keyEvents, checks to see if note inputs are made and updates the noteLabel.
+    // TODO: Restructure the if elses into a switch statement that depends only on the identity of the button rather
+    // than length of string
     private class ClickHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton src = (JButton) e.getSource();
 
             if (noteString.length() == 0) {
-                if (src.getText() == )
-                noteString += s;
-            }
-            else if (noteString.length() < AlarmCode.NUM_DIGITS) {
+                if (ComposerUIConstants.notesList.contains(src.getText().charAt(0))) {
+                    noteString += src.getText();
+                }
+            } else if (noteString.length() == 1) {
+                if (ComposerUIConstants.octavesList.contains(Integer.valueOf(src.getText())));
+
                 noteString = noteString + src.getText();
             }
 
-            label.setText(getLabel());
+            label.setText("");
             label.repaint();
         }
     }
-
+// TODO: Add method to deal with note duration! Idea: Radiobuttons for common durations (whole quarter half eighth
+    // triplet, add input bar for choice to enter other duration
     @Override
     public void keyPressed(KeyEvent ke) {
 
