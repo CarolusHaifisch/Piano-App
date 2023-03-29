@@ -18,7 +18,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
      */
     private JButton[] keys;
     private JFrame pianoFrame;
-    private String noteString;
+    private StringBuilder noteString;
     private JLabel label;
 
     public SimplePianoGUI() {
@@ -125,13 +125,21 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
 
             if (noteString.length() == 0) {
                 if (ComposerUIConstants.notesList.contains(src.getText().charAt(0))) {
-                    noteString += src.getText();
+                    noteString.append(Character.toString(src.getText().charAt(0)));
                 }
             } else if (noteString.length() == 1) {
-                if (ComposerUIConstants.octavesList.contains(Integer.valueOf(src.getText())));
-
-                noteString = noteString + src.getText();
+                if (ComposerUIConstants.octavesList.contains(Integer.valueOf(src.getText()))) {
+                    noteString.append(src.getText());
+                } if (ComposerUIConstants.notesList.contains(src.getText().charAt(0))) {
+                    noteString.replace(0, 1, Character.toString(src.getText().charAt(0)));
+                }
+            } else {
+                if (ComposerUIConstants.octavesList.contains(Integer.valueOf(src.getText()))) {
+                    noteString.
+                } if (ComposerUIConstants.notesList.contains(src.getText().charAt(0))) {
+                noteString.replace(0, 1, Character.toString(src.getText().charAt(0)));
             }
+
 
             label.setText("");
             label.repaint();
