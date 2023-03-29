@@ -3,15 +3,20 @@ package ui;
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class SimplePianoGUI {
-    /**
+public class SimplePianoGUI extends JFrame implements KeyListener {
+    /** GUI for the piano keyboard for composing notes.
      * Because I cannot figure out how to drag the individual jbutton elements in the GUI form so I can create a
      * proper piano, (It simply won't let me drag and resize the individual jbutton elements, and forces
      * the buttons to a grid that I cannot modify), this simplified GUI of a piano will have to do.
      */
     private JButton[] keys;
     private JFrame pianoFrame;
+    private String noteString;
 
     public SimplePianoGUI() {
         pianoFrame = new JFrame("Piano GUI");
@@ -94,5 +99,55 @@ public class SimplePianoGUI {
         oapanel.add(addAccidentalsPanel());
         oapanel.add(addOctavesPanel());
         pianoFrame.add(oapanel, BorderLayout.SOUTH);
+    }
+
+    // EFFECTS: PLaces label displaying current note being composed at top of pianoFrame
+    private void addLabel() {
+        JLabel noteLabel = new JLabel(getLabel());
+        Box hbox = Box.createHorizontalBox();
+        hbox.add(Box.createHorizontalGlue());
+        hbox.add(noteLabel);
+        hbox.add(Box.createHorizontalGlue());
+        pianoFrame.add(hbox, BorderLayout.NORTH);
+    }
+
+
+    // Listener for keyEvents, checks to see if note inputs are made and updates the noteLabel.
+    private class ClickHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton src = (JButton) e.getSource();
+
+            if (noteString.length() == 0) {
+                if (src.getText() == )
+                noteString += s;
+            }
+            else if (noteString.length() < AlarmCode.NUM_DIGITS) {
+                noteString = noteString + src.getText();
+            }
+
+            label.setText(getLabel());
+            label.repaint();
+        }
+    }
+
+    @Override
+    public void keyPressed(KeyEvent ke) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent ke) {
+
+    }
+
+    @Override
+    public void keyTyped(KeyEvent ke) {
+        char key = ke.getKeyChar();
+
+        if (key == '0')
+            keys[10].doClick();
+        else if (key > '0' && key <= '9')
+            keys[ke.getKeyChar() - '1'].doClick();
     }
 }

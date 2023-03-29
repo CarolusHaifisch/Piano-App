@@ -10,6 +10,10 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.LinkedList;
 
+
+/** GUI for the Composer. Swing functions inspired by code from Alarm, SmartHome, and SpaceInvaders sample code provided
+ * by CPSC 210 teaching team.
+ */
 public class ComposerGUI extends JFrame {
     private JTabbedPane sidebar;
     private final Composer composer = new Composer();
@@ -39,6 +43,7 @@ public class ComposerGUI extends JFrame {
         setVisible(true);
     }
 
+    // Class for handling saving on close operation.
     private class SaveonClose extends WindowAdapter {
         @Override
         public void windowClosing(WindowEvent we) {
