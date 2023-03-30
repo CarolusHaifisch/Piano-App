@@ -20,11 +20,14 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     private JButton[] keys;
     private JButton[] pianoKeys;
     private JButton[] accidentalKeys;
+    private JButton durationSave;
     private ClickHandler keyHandler;
     private JFrame pianoFrame;
     private StringBuilder noteString;
     private JPanel pianoKeyboard;
     private JLabel label;
+    private static JTextField inputText;
+    private double duration;
 
     public SimplePianoGUI() {
         noteString = new StringBuilder("");
@@ -152,6 +155,19 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         pianoFrame.add(hbox, BorderLayout.NORTH);
     }
 
+    // EFFECTS: Places input for duration and buttons for adding note, clearing note, and cancel
+    private void addBottomPanel() {
+
+    }
+
+    // EFFECTS: Places the input text field for note duration.
+    private void addDurationField() {
+        JPanel inputPanel = new JPanel();
+        inputText = new JTextField();
+        durationSave = new JButton("Enter");
+
+    }
+
     // TODO: Create new split panel for the text input box for duration of notes on left, and buttons for
     // Add (note to piece) and Cancel on right
 
@@ -169,23 +185,38 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
                     noteString.append(src.getText().charAt(0));
                 }
             } else if (noteString.length() == 1) {
-                try {
-                    if (ComposerUIConstants.octavesList.contains(Integer.valueOf(src.getText()))) {
-                        noteString.append(src.getText());
-                    }
-                } catch (NumberFormatException nfe) {
-                    // Do nothing
-                }
+                octaveHelper(src);
             } else if (noteString.length() == 2) {
-                if (src.getText().equals("#")) {
-                    noteString.insert(1, src.getText());
-                }
-                if (src.getText().equals(("b"))) {
-                    noteString.insert(1, src.getText());
+                accidentalHelper(src);
+            }
+            if (noteString.length() > 2 && !noteString.toString().contains("/")) {
+                if (src.getText().equals(("Add Duration"))) {
+                    noteString.append("/" + duration);
                 }
             }
             label.setText("Current Note: " + noteString);
             label.repaint();
+        }
+    }
+
+    // EFFECTS: Helper for adding octave value to noteString
+    private void octaveHelper(JButton src) {
+        try {
+            if (ComposerUIConstants.octavesList.contains(Integer.valueOf(src.getText()))) {
+                noteString.append(src.getText());
+            }
+        } catch (NumberFormatException nfe) {
+            // Do nothing
+        }
+    }
+
+    // EFFECTS: Helper for adding accidental to noteString
+    private void accidentalHelper(JButton src) {
+        if (src.getText().equals("#")) {
+            noteString.insert(1, src.getText());
+        }
+        if (src.getText().equals(("b"))) {
+            noteString.insert(1, src.getText());
         }
     }
 
@@ -210,6 +241,27 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         }
         if (ComposerUIConstants.notesList.contains(key)) {
             pianoKeys[ComposerUIConstants.notesList.indexOf(key)].doClick();
+        }
+    }
+
+// Listener for keyEvents for Enter, Add Note, Clear, and Cancel Buttons
+    private class ClickHandler2 implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton src = (JButton) e.getSource();
+            if (src.getText().equals("Enter")) {
+                try {
+                    if (Double.parseDouble(inputText.getText()) > 0) {
+                        duration = Double.parseDouble(inputText.getText());
+                    } else {
+                        // Print same error message as below!
+                    }
+                } catch (NumberFormatException nfe) {
+                    // TODO: Print an error message popup saying invalid input!
+                }
+            }
+            label.setText("Duration saved! Duration = " + duration);
+            label.repaint();
         }
     }
 }
