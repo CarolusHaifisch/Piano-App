@@ -95,17 +95,17 @@ public class Note implements Writable {
     }
 
     // EFFECTS: Sets note duration
-    public void setDuration() {
+    public void setDuration(Double noteDuration) {
         this.noteDuration = noteDuration;
     }
 
     // EFFECTS: Sets note name
-    public void setName() {
+    public void setName(Character noteName) {
         this.noteName = noteName;
     }
 
     // EFFECTS: Sets note octave
-    public void setOctave() {
+    public void setOctave(Integer noteOctave) {
         this.noteOctave = noteOctave;
     }
 

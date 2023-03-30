@@ -223,43 +223,51 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton src = (JButton) e.getSource();
-            if (noteString.length() == 0) {
-                if (ComposerUIConstants.notesList.contains(src.getText().charAt(0))) {
-                    noteString.append(src.getText().charAt(0));
-                }
-            } else if (noteString.length() == 1) {
-                octaveHelper(src);
-            } else if (noteString.length() == 2) {
-                accidentalHelper(src);
+            if (ComposerUIConstants.notesList.contains(src.getText().charAt(0))) {
+                currentNote.setName(src.getText().charAt(0));
             }
-            if (noteString.length() > 2 && !noteString.toString().contains("/")) {
-                if (src.getText().equals(("Add Duration"))) {
-                    noteString.append("/" + duration);
-                }
+            octaveHelper(src);
+            accidentalHelper(src);
+            if (src.getText().equals(("Add Duration"))) {
+                currentNote.setDuration(duration);
             }
+
             label.setText("Current Note: " + noteString);
             label.repaint();
         }
+    }
+
+    // EFFECTS: Helper for generating note string to be displayed at top of GUI frame
+    private String noteStringBuilder() {
+        if (currentNote.getSharp()) {
+            noteString.append(currentNote.getName() + "#" + currentNote.getOctave() + "/" + currentNote.getDuration());
+        } else if (currentNote.getFlat()) {
+            noteString.append(currentNote.getName() + "♭" + currentNote.getOctave() + "/" + currentNote.getDuration());
+        } else {
+            noteString.append(currentNote.getName() + currentNote.getOctave() + "/" + currentNote.getDuration());
+        }
+        return noteString.toString()
     }
 
     // EFFECTS: Helper for adding octave value to noteString
     private void octaveHelper(JButton src) {
         try {
             if (ComposerUIConstants.octavesList.contains(Integer.valueOf(src.getText()))) {
-                noteString.append(src.getText());
+                currentNote.setOctave(Integer.valueOf(src.getText()));
             }
         } catch (NumberFormatException nfe) {
-            // Do nothing
+            JOptionPane.showMessageDialog(pianoFrame, "Octave must be a positive integer.",
+                    "Invalid Input", JOptionPane.WARNING_MESSAGE);
         }
     }
 
     // EFFECTS: Helper for adding accidental to noteString
     private void accidentalHelper(JButton src) {
         if (src.getText().equals("#")) {
-            noteString.insert(1, src.getText());
+            currentNote.setSharp();
         }
         if (src.getText().equals(("b"))) {
-            noteString.insert(1, src.getText());
+            currentNote.setFlat();
         }
     }
 
