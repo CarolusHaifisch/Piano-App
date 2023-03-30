@@ -26,7 +26,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     private ClickHandler keyHandler;
     private ClickHandler2 keyHandler2;
     private JFrame pianoFrame;
-    private StringBuilder noteString;
+    private String noteString;
     private JPanel pianoKeyboard;
     private JLabel label;
     private static JTextField inputText;
@@ -35,7 +35,6 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     private Note currentNote;
 
     public SimplePianoGUI(Piece piece) {
-        noteString = new StringBuilder("");
         pianoFrame = new JFrame("Piano GUI");
         selectedPiece = piece;
         pianoFrame.setSize(ComposerUIConstants.WIDTH, ComposerUIConstants.HEIGHT);
@@ -225,6 +224,8 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
             JButton src = (JButton) e.getSource();
             if (ComposerUIConstants.notesList.contains(src.getText().charAt(0))) {
                 currentNote.setName(src.getText().charAt(0));
+                label.setText("Current Note:" + currentNote.getName() + currentNote.getOctave()
+                        + "/" + currentNote.getDuration());
             }
             octaveHelper(src);
             accidentalHelper(src);
@@ -240,13 +241,13 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     // EFFECTS: Helper for generating note string to be displayed at top of GUI frame
     private String noteStringBuilder() {
         if (currentNote.getSharp()) {
-            noteString.append(currentNote.getName() + "#" + currentNote.getOctave() + "/" + currentNote.getDuration());
+            noteString = (currentNote.getName() + "#" + currentNote.getOctave() + "/" + currentNote.getDuration());
         } else if (currentNote.getFlat()) {
-            noteString.append(currentNote.getName() + "♭" + currentNote.getOctave() + "/" + currentNote.getDuration());
+            noteString = (currentNote.getName() + "♭" + currentNote.getOctave() + "/" + currentNote.getDuration());
         } else {
-            noteString.append(currentNote.getName() + currentNote.getOctave() + "/" + currentNote.getDuration());
+            noteString = (currentNote.getName() + currentNote.getOctave() + "/" + currentNote.getDuration());
         }
-        return noteString.toString()
+        return noteString;
     }
 
     // EFFECTS: Helper for adding octave value to noteString
@@ -254,6 +255,8 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         try {
             if (ComposerUIConstants.octavesList.contains(Integer.valueOf(src.getText()))) {
                 currentNote.setOctave(Integer.valueOf(src.getText()));
+                label.setText("Current Note:" + currentNote.getName() + currentNote.getOctave()
+                        + "/" + currentNote.getDuration());
             }
         } catch (NumberFormatException nfe) {
             JOptionPane.showMessageDialog(pianoFrame, "Octave must be a positive integer.",
@@ -265,9 +268,13 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     private void accidentalHelper(JButton src) {
         if (src.getText().equals("#")) {
             currentNote.setSharp();
+            label.setText("Current Note:" + currentNote.getName() + "#" + currentNote.getOctave()
+                    + "/" + currentNote.getDuration());
         }
         if (src.getText().equals(("b"))) {
             currentNote.setFlat();
+            label.setText("Current Note:" + currentNote.getName() + "♭" + currentNote.getOctave()
+                    + "/" + currentNote.getDuration());
         }
     }
 
