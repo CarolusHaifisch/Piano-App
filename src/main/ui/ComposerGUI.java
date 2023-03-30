@@ -64,6 +64,7 @@ public class ComposerGUI extends JFrame {
         dropdown.add(piecesDropdown);
         dropdown.add(Box.createRigidArea(new Dimension(5, 20)));
         JButton select = new JButton("Select");
+        select.addActionListener(keyHandler);
         select.setAlignmentX(Component.CENTER_ALIGNMENT);
         dropdown.add(select);
         this.add(dropdown);
@@ -237,6 +238,7 @@ public class ComposerGUI extends JFrame {
             super("Add New Piece");
         }
 
+        // MODIFIES: PiecesMemory memory
         // EFFECTS: Runs when the add action occurs (Whenever the add option is chosen by the user)
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -256,6 +258,8 @@ public class ComposerGUI extends JFrame {
                     pieceButtonPanel.repaint();
                     ComposerGUI.this.validate();
                     ComposerGUI.this.repaint();
+                    ComposerGUI.this.setVisible(false);
+                    ComposerGUI.this.setVisible(true);
                 }
 
             }
@@ -273,6 +277,7 @@ public class ComposerGUI extends JFrame {
             super("Remove Piece");
         }
 
+        // MODIFIES: Piecesmemory memory
         // EFFECTS: Runs when the remove action occurs (Whenever the remove option is chosen by the user)
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -287,6 +292,8 @@ public class ComposerGUI extends JFrame {
                     pieceButtonPanel.repaint();
                     ComposerGUI.this.revalidate();
                     ComposerGUI.this.repaint();
+                    ComposerGUI.this.setVisible(false);
+                    ComposerGUI.this.setVisible(true);
 
                 } catch (PieceNotFoundException pnfe) {
                     JOptionPane.showMessageDialog(ComposerGUI.this, "Piece not found.",
@@ -301,6 +308,7 @@ public class ComposerGUI extends JFrame {
 
 
 
+    // MODIFIES: PiecesMemory memory
     // EFFECTS: Runs when the initialization load action occurs (Runs upon starting program to load saved data)
 
     public void initializationLoad() {
@@ -322,12 +330,24 @@ public class ComposerGUI extends JFrame {
         public void actionPerformed(ActionEvent e) {
             JButton src = (JButton) e.getSource();
             if (src.getText().equals("Play Piece")) {
-                //
+
             } else if (src.getText().equals("View Piece Info")) {
-                //
+                JOptionPane.showMessageDialog(null, "Length of piece in number of notes: "
+                                + selectedPiece.length() + "/n" + "Entire duration of piece in number of beats: "
+                                + selectedPiece.pieceDuration() + "/n" + "Piece contents:  /n" +
+                        "<html><body><p style='width: 200px;'>" + selectedPiece.pieceToString() + "</p></body></html>",
+                        "Piece Info", JOptionPane.INFORMATION_MESSAGE);
             } else if (src.getText().equals("Piece Sheet Music Image")) {
                 //
+                } else if (src.getText().equals("Select")) {
+                try {
+                    pieceName = piecesDropdown.getSelectedItem().toString();
+                    selectedPiece = memory.getPieceWithName(pieceName);
+                } catch (PieceNotFoundException pnfe) {
+                    JOptionPane.showMessageDialog(ComposerGUI.this, "Piece not found.",
+                            "Not Found", JOptionPane.WARNING_MESSAGE);
                 }
+            }
         }
     }
 }
