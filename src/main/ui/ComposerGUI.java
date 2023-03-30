@@ -7,6 +7,7 @@ import model.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import java.util.LinkedList;
 /** GUI for the Composer. Swing functions inspired by code from Alarm, SmartHome, and SpaceInvaders sample code provided
  * by CPSC 210 teaching team.
  */
+// TODO: Fix issue with the combobox on main frame not updating to reflect added/deleted pieces
 public class ComposerGUI extends JFrame {
     private final Composer composer = new Composer();
     private PiecesMemory memory;
@@ -24,6 +26,9 @@ public class ComposerGUI extends JFrame {
     private String pieceName;
     JComboBox<String> piecesDropdown;
     String[] pieces;
+    private JButton[] pieceButtons;
+    JPanel pieceButtonPanel;
+    private ClickHandler keyHandler;
 
     public static void main(String[] args) {
         new ComposerGUI();
@@ -40,6 +45,7 @@ public class ComposerGUI extends JFrame {
         initializationLoad();
         addMenu();
         piecesDropdown();
+        pieceButtons();
         setVisible(true);
     }
 
@@ -71,9 +77,19 @@ public class ComposerGUI extends JFrame {
 
     // EFFECTS: Places buttons for playing pieces, viewing piece information, and viewing piece image.
     private void pieceButtons() {
-        JPanel pieceButtonPanel = new JPanel();
+        pieceButtonPanel = new JPanel();
         pieceButtonPanel.setLayout(new FlowLayout());
-
+        pieceButtons = new JButton[3];
+        pieceButtons[0] = new JButton("Play Piece");
+        pieceButtons[0].addActionListener(keyHandler);
+        pieceButtons[1] = new JButton("View Piece Info");
+        pieceButtons[1].addActionListener(keyHandler);
+        pieceButtons[2] = new JButton("Piece Sheet Music Image");
+        pieceButtons[2].addActionListener(keyHandler);
+        pieceButtonPanel.add(pieceButtons[0]);
+        pieceButtonPanel.add(pieceButtons[1]);
+        pieceButtonPanel.add(pieceButtons[2]);
+        this.add(pieceButtonPanel, BorderLayout.SOUTH);
     }
 
     // Class for handling saving on close operation.
@@ -236,9 +252,15 @@ public class ComposerGUI extends JFrame {
                     selectedPiece = new Piece(inputPieceName, new ArrayList<>());
                     SimplePianoGUI sp = new SimplePianoGUI(selectedPiece);
                     memory.addPiece(selectedPiece);
+                    updatePieces();
+                    pieceButtonPanel.repaint();
+                    ComposerGUI.this.validate();
+                    ComposerGUI.this.repaint();
                 }
 
             }
+
+
         }
     }
 
@@ -254,17 +276,24 @@ public class ComposerGUI extends JFrame {
         // EFFECTS: Runs when the remove action occurs (Whenever the remove option is chosen by the user)
         @Override
         public void actionPerformed(ActionEvent ae) {
+            updatePieces();
             String inputPieceName = (String)JOptionPane.showInputDialog(null,
                     "Select piece to be deleted:", "Delete Piece", JOptionPane.INFORMATION_MESSAGE,
                     null, pieces, null);
             if (inputPieceName != null) {
                 try {
                     memory.delPiece(memory.getIndexOfPiece(inputPieceName));
+                    updatePieces();
+                    pieceButtonPanel.repaint();
+                    ComposerGUI.this.revalidate();
+                    ComposerGUI.this.repaint();
+
                 } catch (PieceNotFoundException pnfe) {
                     JOptionPane.showMessageDialog(ComposerGUI.this, "Piece not found.",
                             "Not Found", JOptionPane.WARNING_MESSAGE);
                 }
             }
+
 
         }
     }
@@ -287,6 +316,20 @@ public class ComposerGUI extends JFrame {
         }
     }
 
+    // Listener for keyEvents for Enter, Add Note, Clear, and Cancel Buttons
+    private class ClickHandler implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton src = (JButton) e.getSource();
+            if (src.getText().equals("Play Piece")) {
+                //
+            } else if (src.getText().equals("View Piece Info")) {
+                //
+            } else if (src.getText().equals("Piece Sheet Music Image")) {
+                //
+                }
+        }
+    }
 }
 
 // TODO: Add buttons to main frame. Dropdown menu for choosing a piece from composed pieces in memory,
