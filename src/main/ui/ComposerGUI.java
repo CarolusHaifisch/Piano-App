@@ -13,11 +13,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.regex.Pattern;
 
 
 /** GUI for the Composer. Swing functions inspired by code from Alarm, SmartHome, and SpaceInvaders sample code provided
@@ -35,6 +37,7 @@ public class ComposerGUI extends JFrame {
     private JButton[] pieceButtons;
     JPanel pieceButtonPanel;
     private ClickHandler keyHandler;
+    StringBuilder parsedNotes;
     Player piecePlayer = new Player();  // Creates new JFugue Player
 
     public static void main(String[] args) {
@@ -388,9 +391,72 @@ public class ComposerGUI extends JFrame {
     }
 
     // EFFECTS: Generates file and saves it to data folder in format accepted by sheet music image creator.
-    public void pieceMusicParser() {
+    public void pieceMusicGenerator(String timeSignature) {
 
+        try {
+            File pieceFile = new File(ComposerConstants.getFilePath() +
+                    selectedPiece.getPieceName() + ".txt");
+            pieceFile.createNewFile();
+            FileWriter writer = new FileWriter(pieceFile, true);
+            writer.write("X:1\nT:" + selectedPiece.getPieceName() + "\nM:" + timeSignature
+            + "\nL:1\nO:Original\nQ:120\nK:C\n" + pieceMusicParser());
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(ComposerGUI.this, "Cannot create file.",
+                    "File", JOptionPane.WARNING_MESSAGE);
+        }
     }
+
+    // TODO: Refactor using regex
+    // EFFECTS: Converts pieceContents into format readable by sheet music image creator.
+    public String pieceMusicParser() {
+        String parsedPiece = "[| ";
+        Pattern pattern = Pattern.compile("[ABCDEFG][#b][1-9][//][0-9]+/.?[0-9]*");
+        String[] pieceNotes = selectedPiece.pieceToString().split(" ");
+        int counter = 0;
+        for (Note note : selectedPiece.getPieceContents()) {
+            parsedNotes = new StringBuilder();
+            if (note.getSharp()) { //Sharp case
+               parsedNotes.append("^");
+               octaveParser(note);
+            } else if (note.getFlat()) {  // Flat case
+                parsedNotes.append("_");
+            } else {  // Natural case
+            }
+            counter += 1;
+            if (counter == 10) {
+                parsedNotes.append(" |\\\n");
+                counter = 0;
+            } else {parsedNotes.append(" ");}
+
+        }
+        return ;
+    }
+
+    // EFFECTS: Handles the octave cases
+public String octaveParser(Note note) {
+        String shiftString;
+        int octaveShift = note.getOctave()-5;
+        if (octaveShift < 0) {
+            shiftString = ",".repeat(-octaveShift);
+        } else if (octaveShift > 0) {
+            shiftString = "'".repeat(octaveShift);
+        }
+        switch(note.getOctave()) {
+            case 1: {
+                parsedNotes.append(note.getName()+)
+            }
+            case 2: {}
+            case 3: {}
+            case 4: {}
+            case 5: {
+                parsedNotes.append(note.getName()+note.getDuration());
+            }
+            case 6: {}
+            case 7: {}
+            case 8: {}
+            case 9: {}
+        }
+}
 }
 
 // TODO: Add buttons to main frame. Dropdown menu for choosing a piece from composed pieces in memory,
