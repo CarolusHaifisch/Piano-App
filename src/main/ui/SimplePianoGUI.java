@@ -207,7 +207,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         bottomKeys[0].addActionListener(keyHandler2);
         bottomKeys[1] = new JButton("Delete Last Added Note");
         bottomKeys[1].addActionListener(keyHandler2);
-        bottomKeys[2] = new JButton("Cancel");
+        bottomKeys[2] = new JButton("Return");
         bottomKeys[2].addActionListener(keyHandler2);
         bottomButtons.add(bottomKeys[0]);
         bottomButtons.add(bottomKeys[1]);
@@ -314,7 +314,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
                     selectedPiece.delNote(selectedPiece.length() - 1);
                     label.setText("Note deleted.");
                 }
-            } else if (src.getText().equals("Cancel")) {
+            } else if (src.getText().equals("Return")) {
                 pianoFrame.dispose();
             }
             label.repaint();

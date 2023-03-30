@@ -4,6 +4,9 @@
 The application will work as a music tuner, given a sound input (initially modeled as a frequency value on
 console input), and will also allow the user to compose music and play it back later. 
 
+USER NOTE: Avoid using octaves lower than 4 or higher than 6 if you want a nice looking image of the music, at 
+higher and lower octaves other than 5 the notes can go off the image. 
+
 ## User Stories
 ### REALIZED USER STORIES:
 - As a user, I want to be able to compose music pieces of varying lengths of single notes only.

@@ -1,13 +1,22 @@
 {"piecesmemory": [
     {
-        "piececontents": [{
-            "duration": 0,
-            "sharp?": false,
-            "octave": 0,
-            "name": 0,
-            "flat?": false
-        }],
-        "piecename": "sf"
+        "piececontents": [
+            {
+                "duration": 0.25,
+                "sharp?": false,
+                "octave": 5,
+                "name": 67,
+                "flat?": false
+            },
+            {
+                "duration": 0.25,
+                "sharp?": false,
+                "octave": 4,
+                "name": 67,
+                "flat?": false
+            }
+        ],
+        "piecename": "ctest"
     },
     {
         "piececontents": [{
@@ -17,27 +26,7 @@
             "name": 0,
             "flat?": false
         }],
-        "piecename": "g"
-    },
-    {
-        "piececontents": [{
-            "duration": 0.5,
-            "sharp?": false,
-            "octave": 1,
-            "name": 69,
-            "flat?": false
-        }],
-        "piecename": "f"
-    },
-    {
-        "piececontents": [{
-            "duration": 4,
-            "sharp?": false,
-            "octave": 4,
-            "name": 69,
-            "flat?": true
-        }],
-        "piecename": "e"
+        "piecename": "r"
     },
     {
         "piececontents": [{
@@ -51,12 +40,42 @@
     },
     {
         "piececontents": [{
+            "duration": 4,
+            "sharp?": false,
+            "octave": 4,
+            "name": 69,
+            "flat?": true
+        }],
+        "piecename": "e"
+    },
+    {
+        "piececontents": [{
+            "duration": 0.5,
+            "sharp?": false,
+            "octave": 1,
+            "name": 69,
+            "flat?": false
+        }],
+        "piecename": "f"
+    },
+    {
+        "piececontents": [{
             "duration": 0,
             "sharp?": false,
             "octave": 0,
             "name": 0,
             "flat?": false
         }],
-        "piecename": "r"
+        "piecename": "g"
+    },
+    {
+        "piececontents": [{
+            "duration": 0,
+            "sharp?": false,
+            "octave": 0,
+            "name": 0,
+            "flat?": false
+        }],
+        "piecename": "sf"
     }
 ]}
