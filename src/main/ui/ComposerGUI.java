@@ -16,7 +16,6 @@ import java.util.LinkedList;
  * by CPSC 210 teaching team.
  */
 public class ComposerGUI extends JFrame {
-    private JTabbedPane sidebar;
     private final Composer composer = new Composer();
     private PiecesMemory memory;
     private Piece selectedPiece;
@@ -35,11 +34,6 @@ public class ComposerGUI extends JFrame {
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new SaveonClose());
         initializationLoad();
-
-        sidebar = new JTabbedPane();
-        sidebar.setTabPlacement(JTabbedPane.LEFT);
-
-        add(sidebar);
         addMenu();
 
         setVisible(true);
@@ -110,11 +104,6 @@ public class ComposerGUI extends JFrame {
     }
 
 
-    //EFFECTS: returns sidebar of this UI
-    public JTabbedPane getTabbedPane() {
-        return sidebar;
-    }
-
     private void createUIComponents() {
         // TODO: place custom component creation code here
     }
@@ -166,7 +155,7 @@ public class ComposerGUI extends JFrame {
     }
 
     /**
-     * Represents clear action to clear all saved memory from current state of the program
+     * Represents clear action to clear all local memory from current state of the program
      */
     private class ClearAction extends AbstractAction {
 
@@ -187,7 +176,7 @@ public class ComposerGUI extends JFrame {
 
 
     /**
-     * Represents clear action to clear all saved memory from current state of the program
+     * Represents action to add piece to memory.
      */
     private class AddPieceAction extends AbstractAction {
 
@@ -198,9 +187,14 @@ public class ComposerGUI extends JFrame {
         // EFFECTS: Runs when the clear action occurs (Whenever the clear option is chosen by the user)
         @Override
         public void actionPerformed(ActionEvent ae) {
-            selectedPiece = new Piece("Test", new ArrayList<>());
-            SimplePianoGUI sp = new SimplePianoGUI(selectedPiece);
-            memory.addPiece(selectedPiece);
+            Object[] possibilities = {null};
+            String inputPieceName = (String)JOptionPane.showInputDialog(null, "Enter name of the piece",
+                    "New Piece", JOptionPane.INFORMATION_MESSAGE);
+            if (inputPieceName != null) {
+                selectedPiece = new Piece(inputPieceName, new ArrayList<>());
+                SimplePianoGUI sp = new SimplePianoGUI(selectedPiece);
+                memory.addPiece(selectedPiece);
+            }
         }
     }
 
