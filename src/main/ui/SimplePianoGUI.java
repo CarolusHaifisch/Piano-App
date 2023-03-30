@@ -36,6 +36,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         pianoFrame.setSize(ComposerUIConstants.WIDTH, ComposerUIConstants.HEIGHT);
         pianoFrame.setVisible(true);
         keyHandler = new ClickHandler();
+        keyHandler2 = new ClickHandler2();
         label = new JLabel("Start by selecting a note, then choose an octave and accidental. If no accidental"
                 + " is chosen note will be natural.");
         addMainPanel();
@@ -159,7 +160,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     // EFFECTS: Places input for duration and buttons for adding note, clearing note, and cancel
     private void addBottomPanel() {
         JPanel bottomPanel = new JPanel();
-        bottomPanel.setLayout(new GridLayout(2,1));
+        bottomPanel.setLayout(new GridLayout(1,2));
         bottomPanel.add(addDurationField());
         bottomPanel.add(addBottomButtons());
         pianoFrame.add(bottomPanel, BorderLayout.SOUTH);
@@ -178,11 +179,12 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     // EFFECTS: Places buttons for duration field panel.
     private JPanel addDurationButtons() {
         JPanel durationButtons = new JPanel();
+        durationSave = new JButton[2];
         durationButtons.setLayout(new GridLayout(2, 1));
         durationSave[0] = new JButton("Enter");
         durationSave[0].addActionListener(keyHandler2);
         durationSave[1] = new JButton("Add Duration");
-        durationSave[1].addActionListener(keyHandler2);
+        durationSave[1].addActionListener(keyHandler);
         durationButtons.add(durationSave[0]);
         durationButtons.add(durationSave[1]);
         return durationButtons;
@@ -191,6 +193,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     // EFFECTS: Places Add Note, Clear, and Cancel buttons for bottomPanel.
     private JPanel addBottomButtons() {
         JPanel bottomButtons = new JPanel();
+        bottomKeys = new JButton[3];
         bottomButtons.setLayout(new FlowLayout());
         bottomKeys[0] = new JButton("Add Note");
         bottomKeys[0].addActionListener(keyHandler2);
