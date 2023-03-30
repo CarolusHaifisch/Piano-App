@@ -3,8 +3,7 @@ package ui;
 import model.ComposerConstants;
 
 import javax.swing.*;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -20,8 +19,10 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     private JButton[] keys;
     private JButton[] pianoKeys;
     private JButton[] accidentalKeys;
-    private JButton durationSave;
+    private JButton[] durationSave;
+    private JButton[] bottomKeys;
     private ClickHandler keyHandler;
+    private ClickHandler2 keyHandler2;
     private JFrame pianoFrame;
     private StringBuilder noteString;
     private JPanel pianoKeyboard;
@@ -39,7 +40,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
                 + " is chosen note will be natural.");
         addMainPanel();
         addLabel();
-
+        addBottomPanel();
         pianoFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
@@ -157,17 +158,51 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
 
     // EFFECTS: Places input for duration and buttons for adding note, clearing note, and cancel
     private void addBottomPanel() {
-
+        JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new GridLayout(2,1));
+        bottomPanel.add(addDurationField());
+        bottomPanel.add(addBottomButtons());
+        pianoFrame.add(bottomPanel, BorderLayout.SOUTH);
     }
 
     // EFFECTS: Places the input text field for note duration.
-    private void addDurationField() {
+    private JPanel addDurationField() {
         JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new GridLayout(2, 1));
         inputText = new JTextField();
-        durationSave = new JButton("Enter");
-
+        inputPanel.add(inputText);
+        inputPanel.add(addDurationButtons());
+        return inputPanel;
     }
 
+    // EFFECTS: Places buttons for duration field panel.
+    private JPanel addDurationButtons() {
+        JPanel durationButtons = new JPanel();
+        durationButtons.setLayout(new GridLayout(2, 1));
+        durationSave[0] = new JButton("Enter");
+        durationSave[0].addActionListener(keyHandler2);
+        durationSave[1] = new JButton("Add Duration");
+        durationSave[1].addActionListener(keyHandler2);
+        durationButtons.add(durationSave[0]);
+        durationButtons.add(durationSave[1]);
+        return durationButtons;
+    }
+
+    // EFFECTS: Places Add Note, Clear, and Cancel buttons for bottomPanel.
+    private JPanel addBottomButtons() {
+        JPanel bottomButtons = new JPanel();
+        bottomButtons.setLayout(new FlowLayout());
+        bottomKeys[0] = new JButton("Add Note");
+        bottomKeys[0].addActionListener(keyHandler2);
+        bottomKeys[1] = new JButton("Clear");
+        bottomKeys[1].addActionListener(keyHandler2);
+        bottomKeys[2] = new JButton("Cancel");
+        bottomKeys[2].addActionListener(keyHandler2);
+        bottomButtons.add(bottomKeys[0]);
+        bottomButtons.add(bottomKeys[1]);
+        bottomButtons.add(bottomKeys[2]);
+        return bottomButtons;
+    }
     // TODO: Create new split panel for the text input box for duration of notes on left, and buttons for
     // Add (note to piece) and Cancel on right
 
@@ -253,14 +288,22 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
                 try {
                     if (Double.parseDouble(inputText.getText()) > 0) {
                         duration = Double.parseDouble(inputText.getText());
+                        label.setText("Duration saved! Duration = " + duration);
                     } else {
                         // Print same error message as below!
                     }
                 } catch (NumberFormatException nfe) {
                     // TODO: Print an error message popup saying invalid input!
                 }
+            } else if (src.getText().equals("Add Note")) {
+                // TODO: Add code for adding note to piece.
+                label.setText("Note added to piece");
+            } else if (src.getText().equals("Clear")) {
+                noteString = new StringBuilder();
+                label.setText("Note cleared.");
+            } else if (src.getText().equals("Cancel")) {
+                pianoFrame.dispose();
             }
-            label.setText("Duration saved! Duration = " + duration);
             label.repaint();
         }
     }
