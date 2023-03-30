@@ -2,16 +2,21 @@ package ui;
 
 import javax.swing.*;
 
+import abc.ui.swing.JScoreComponent;
 import exception.PieceNotFoundException;
 import model.*;
+import org.jfugue.player.Player;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 
@@ -25,10 +30,12 @@ public class ComposerGUI extends JFrame {
     private Piece selectedPiece;
     private String pieceName;
     JComboBox<String> piecesDropdown;
+    private DefaultComboBoxModel cbModel = new DefaultComboBoxModel();
     String[] pieces;
     private JButton[] pieceButtons;
     JPanel pieceButtonPanel;
     private ClickHandler keyHandler;
+    Player piecePlayer = new Player();  // Creates new JFugue Player
 
     public static void main(String[] args) {
         new ComposerGUI();
@@ -42,6 +49,7 @@ public class ComposerGUI extends JFrame {
         setSize(ComposerUIConstants.WIDTH, ComposerUIConstants.HEIGHT);
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new SaveonClose());
+        keyHandler = new ClickHandler();
         initializationLoad();
         addMenu();
         piecesDropdown();
@@ -54,7 +62,7 @@ public class ComposerGUI extends JFrame {
         JPanel dropdown = new JPanel();
         JLabel label = new JLabel("Choose a piece from memory:");
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
-        updatePieces();
+        comboBoxInitializer();
         piecesDropdown.setMaximumSize(new Dimension(200, 50));
         piecesDropdown.setAlignmentX(Component.CENTER_ALIGNMENT);
         dropdown.setLayout(new BoxLayout(dropdown, BoxLayout.Y_AXIS));
@@ -70,10 +78,13 @@ public class ComposerGUI extends JFrame {
         this.add(dropdown);
     }
 
-    // EFFECTS: Updates pieces list in memory.
-    private void updatePieces() {
+    // MODIFIES: list of string of piece names Pieces
+    // EFFECTS: Updates pieces list to match those in memory currently
+    private void comboBoxInitializer() {
         pieces = memory.getPieceNames().split(", ");
-        piecesDropdown = new JComboBox<>(pieces);
+        piecesDropdown = new JComboBox<>(cbModel);
+        List<String> piecesList = Arrays.asList(pieces);
+        cbModel.addAll(piecesList);
     }
 
     // EFFECTS: Places buttons for playing pieces, viewing piece information, and viewing piece image.
@@ -95,6 +106,9 @@ public class ComposerGUI extends JFrame {
 
     // Class for handling saving on close operation.
     private class SaveonClose extends WindowAdapter {
+
+        // MODIFIES: Json memory save file
+        // EFFECTS: Gives users the option to save upon closing or not.
         @Override
         public void windowClosing(WindowEvent we) {
             String[] choiceButtons = {"Yes","No"};
@@ -157,11 +171,6 @@ public class ComposerGUI extends JFrame {
         menu.add(menuItem);
     }
 
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
-
     /**
      * Represents save action for saving the current state of the program.
      */
@@ -171,6 +180,7 @@ public class ComposerGUI extends JFrame {
             super("Save");
         }
 
+        // MODIFIES: Json memory save file
         // EFFECTS: Runs when the save action occurs (Whenever the save option is chosen by the user)
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -194,6 +204,7 @@ public class ComposerGUI extends JFrame {
             super("Load");
         }
 
+        // MODIFIES: Local PiecesMemory memory
         // EFFECTS: Runs when the load action occurs (Whenever the load option is chosen by the user)
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -217,6 +228,7 @@ public class ComposerGUI extends JFrame {
             super("Clear");
         }
 
+        // MODIFIES: Local PiecesMemory memory
         // EFFECTS: Runs when the clear action occurs (Whenever the clear option is chosen by the user)
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -254,12 +266,10 @@ public class ComposerGUI extends JFrame {
                     selectedPiece = new Piece(inputPieceName, new ArrayList<>());
                     SimplePianoGUI sp = new SimplePianoGUI(selectedPiece);
                     memory.addPiece(selectedPiece);
-                    updatePieces();
+                    cbModel.addElement(inputPieceName);
                     pieceButtonPanel.repaint();
                     ComposerGUI.this.validate();
                     ComposerGUI.this.repaint();
-                    ComposerGUI.this.setVisible(false);
-                    ComposerGUI.this.setVisible(true);
                 }
 
             }
@@ -281,27 +291,24 @@ public class ComposerGUI extends JFrame {
         // EFFECTS: Runs when the remove action occurs (Whenever the remove option is chosen by the user)
         @Override
         public void actionPerformed(ActionEvent ae) {
-            updatePieces();
+            comboBoxInitializer();
             String inputPieceName = (String)JOptionPane.showInputDialog(null,
                     "Select piece to be deleted:", "Delete Piece", JOptionPane.INFORMATION_MESSAGE,
                     null, pieces, null);
             if (inputPieceName != null) {
                 try {
                     memory.delPiece(memory.getIndexOfPiece(inputPieceName));
-                    updatePieces();
+                    cbModel.removeAllElements();
+                    comboBoxInitializer();
                     pieceButtonPanel.repaint();
                     ComposerGUI.this.revalidate();
                     ComposerGUI.this.repaint();
-                    ComposerGUI.this.setVisible(false);
-                    ComposerGUI.this.setVisible(true);
 
                 } catch (PieceNotFoundException pnfe) {
                     JOptionPane.showMessageDialog(ComposerGUI.this, "Piece not found.",
                             "Not Found", JOptionPane.WARNING_MESSAGE);
                 }
             }
-
-
         }
     }
 
@@ -330,16 +337,17 @@ public class ComposerGUI extends JFrame {
         public void actionPerformed(ActionEvent e) {
             JButton src = (JButton) e.getSource();
             if (src.getText().equals("Play Piece")) {
-
+                playPieceHelper();
             } else if (src.getText().equals("View Piece Info")) {
+                System.out.println("test");
                 JOptionPane.showMessageDialog(null, "Length of piece in number of notes: "
-                                + selectedPiece.length() + "/n" + "Entire duration of piece in number of beats: "
-                                + selectedPiece.pieceDuration() + "/n" + "Piece contents:  /n" +
-                        "<html><body><p style='width: 200px;'>" + selectedPiece.pieceToString() + "</p></body></html>",
+                                + selectedPiece.length() + "\n" + "Entire duration of piece in number of beats: "
+                                + selectedPiece.pieceDuration() + "\n" + "Piece contents:  \n" +
+                                "<html><body><p style='width: 200px;'>" + selectedPiece.pieceToString() + "</p></body></html>",
                         "Piece Info", JOptionPane.INFORMATION_MESSAGE);
             } else if (src.getText().equals("Piece Sheet Music Image")) {
                 //
-                } else if (src.getText().equals("Select")) {
+            } else if (src.getText().equals("Select")) {
                 try {
                     pieceName = piecesDropdown.getSelectedItem().toString();
                     selectedPiece = memory.getPieceWithName(pieceName);
@@ -349,6 +357,39 @@ public class ComposerGUI extends JFrame {
                 }
             }
         }
+    }
+    // EFFECTS: Plays selected piece.
+    public void playPieceHelper() {
+        JOptionPane.showMessageDialog(null, "Playing piece " +
+                selectedPiece.getPieceName(), "Play Piece", JOptionPane.INFORMATION_MESSAGE);
+        try {
+            Piece selectedPiece = memory.getPieceWithName(pieceName);
+            String pieceString = selectedPiece.pieceToString();
+            piecePlayer.play(pieceString);
+        } catch (PieceNotFoundException pnfe) {
+            JOptionPane.showMessageDialog(ComposerGUI.this, "Piece not found.",
+                    "Not Found", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    // EFFECTS: Returns image of piece represented in sheet music, if image already exists. If image does not
+    // yet exist, creates image of piece represented in sheet music and saves image to data folder, then returns image.
+    public Image pieceImageCreator() {
+        // creates a component that draws the melody on a musical staff
+        JScoreComponent jscore = new JScoreComponent();
+        jscore.setJustification(true);
+        jscore.setTune(tune);
+        JFrame j = new JFrame();
+        j.add(jscore);
+        j.pack();
+        j.setVisible(true);
+        // writes the score to a JPG file
+        jscore.writeScoreTo(new File("spiderScore.jpg"));
+    }
+
+    // EFFECTS: Generates file and saves it to data folder in format accepted by sheet music image creator.
+    public void pieceMusicParser() {
+
     }
 }
 
