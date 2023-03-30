@@ -69,6 +69,12 @@ public class PiecesMemory extends LinkedList<Piece> implements Writable {
         return names;
     }
 
+    // EFFECTS: Returns index of piece with given name. Throws PieceNotFOundException if piece is not found.
+    // TODO: Add tests for this method
+    public int getIndexOfPiece(String name) throws PieceNotFoundException {
+        return memory.indexOf(getPieceWithName(name));
+    }
+
     // EFFECTS: Returns the PiecesMemory as a JSON object
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

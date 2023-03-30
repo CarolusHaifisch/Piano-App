@@ -2,6 +2,7 @@ package ui;
 
 import javax.swing.*;
 
+import exception.PieceNotFoundException;
 import model.*;
 
 import java.awt.*;
@@ -21,6 +22,7 @@ public class ComposerGUI extends JFrame {
     private PiecesMemory memory;
     private Piece selectedPiece;
     private String pieceName;
+    JComboBox<String> piecesDropdown;
     String[] pieces;
 
     public static void main(String[] args) {
@@ -46,8 +48,7 @@ public class ComposerGUI extends JFrame {
         JPanel dropdown = new JPanel();
         JLabel label = new JLabel("Choose a piece from memory:");
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
-        pieces = memory.getPieceNames().split(", ");
-        JComboBox<String> piecesDropdown = new JComboBox<>(pieces);
+        updatePieces();
         piecesDropdown.setMaximumSize(new Dimension(200, 50));
         piecesDropdown.setAlignmentX(Component.CENTER_ALIGNMENT);
         dropdown.setLayout(new BoxLayout(dropdown, BoxLayout.Y_AXIS));
@@ -60,6 +61,19 @@ public class ComposerGUI extends JFrame {
         select.setAlignmentX(Component.CENTER_ALIGNMENT);
         dropdown.add(select);
         this.add(dropdown);
+    }
+
+    // EFFECTS: Updates pieces list in memory.
+    private void updatePieces() {
+        pieces = memory.getPieceNames().split(", ");
+        piecesDropdown = new JComboBox<>(pieces);
+    }
+
+    // EFFECTS: Places buttons for playing pieces, viewing piece information, and viewing piece image.
+    private void pieceButtons() {
+        JPanel pieceButtonPanel = new JPanel();
+        pieceButtonPanel.setLayout(new FlowLayout());
+
     }
 
     // Class for handling saving on close operation.
@@ -108,7 +122,7 @@ public class ComposerGUI extends JFrame {
         JMenu codeMenu = new JMenu("Pieces");
         codeMenu.setMnemonic('P');
         addMenuItem(codeMenu, new AddPieceAction(), KeyStroke.getKeyStroke("control N"));
-        //addMenuItem(codeMenu, new RemovePieceAction(), KeyStroke.getKeyStroke("control R"));
+        addMenuItem(codeMenu, new RemovePieceAction(), KeyStroke.getKeyStroke("control R"));
         menuBar.add(codeMenu);
 
         setJMenuBar(menuBar);
@@ -207,21 +221,53 @@ public class ComposerGUI extends JFrame {
             super("Add New Piece");
         }
 
-        // EFFECTS: Runs when the clear action occurs (Whenever the clear option is chosen by the user)
+        // EFFECTS: Runs when the add action occurs (Whenever the add option is chosen by the user)
         @Override
         public void actionPerformed(ActionEvent ae) {
             Object[] possibilities = {null};
             String inputPieceName = (String)JOptionPane.showInputDialog(null, "Enter name of the piece",
                     "New Piece", JOptionPane.INFORMATION_MESSAGE);
             if (inputPieceName != null) {
-                selectedPiece = new Piece(inputPieceName, new ArrayList<>());
-                SimplePianoGUI sp = new SimplePianoGUI(selectedPiece);
-                memory.addPiece(selectedPiece);
+                try {
+                    memory.getPieceWithName(inputPieceName);
+                    JOptionPane.showMessageDialog(ComposerGUI.this,
+                            "Piece already exists with this name!", "Piece", JOptionPane.ERROR_MESSAGE);
+                } catch (PieceNotFoundException pnfe) {
+                    selectedPiece = new Piece(inputPieceName, new ArrayList<>());
+                    SimplePianoGUI sp = new SimplePianoGUI(selectedPiece);
+                    memory.addPiece(selectedPiece);
+                }
+
             }
         }
     }
 
+    /**
+     * Represents action to remove piece from memory.
+     */
+    private class RemovePieceAction extends AbstractAction {
 
+        RemovePieceAction() {
+            super("Remove Piece");
+        }
+
+        // EFFECTS: Runs when the remove action occurs (Whenever the remove option is chosen by the user)
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            String inputPieceName = (String)JOptionPane.showInputDialog(null,
+                    "Select piece to be deleted:", "Delete Piece", JOptionPane.INFORMATION_MESSAGE,
+                    null, pieces, null);
+            if (inputPieceName != null) {
+                try {
+                    memory.delPiece(memory.getIndexOfPiece(inputPieceName));
+                } catch (PieceNotFoundException pnfe) {
+                    JOptionPane.showMessageDialog(ComposerGUI.this, "Piece not found.",
+                            "Not Found", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+
+        }
+    }
 
 
 

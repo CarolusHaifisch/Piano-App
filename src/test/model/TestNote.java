@@ -44,4 +44,4 @@ class TestNote {
         assertTrue(Resthstring.equals(Rest1half.noteToString()) && Resthstring.equals(Rest5half.noteToString()));
     }
 }
-//TODO: Finish the tests for this class and the other classes!!!
+//TODO: Create tests for setters!!!!!

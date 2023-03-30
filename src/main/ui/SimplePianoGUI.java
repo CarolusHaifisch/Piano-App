@@ -214,13 +214,10 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         bottomButtons.add(bottomKeys[2]);
         return bottomButtons;
     }
-    // TODO: Create new split panel for the text input box for duration of notes on left, and buttons for
-    // Add (note to piece) and Cancel on right
 
     // Listener for keyEvents, checks to see if note inputs are made and updates the noteLabel.
     // TODO: Restructure the if elses into a switch statement that depends only on the identity of the button rather
     // than length of string
-    // TODO: Add clear option at the bottom along with add note and OK/Cancel buttons to clear noteString before adding
     // Requires modifying the GUI frame
     private class ClickHandler implements ActionListener {
         @Override
@@ -278,8 +275,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         }
     }
 
-    // TODO: Add method to deal with note duration! Idea: Radiobuttons for common durations (whole quarter half eighth
-    // triplet, add input bar for choice to enter other duration
+
     @Override
     public void keyPressed(KeyEvent ke) {
 
@@ -314,8 +310,10 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
                         currentNote.getOctave(), currentNote.getSharp(), currentNote.getFlat()));
                 label.setText("Note added to piece");
             } else if (src.getText().equals("Delete Last Added Note")) {
-                selectedPiece.delNote(selectedPiece.length() - 1);
-                label.setText("Note deleted.");
+                if (selectedPiece.length() >= 1) {
+                    selectedPiece.delNote(selectedPiece.length() - 1);
+                    label.setText("Note deleted.");
+                }
             } else if (src.getText().equals("Cancel")) {
                 pianoFrame.dispose();
             }
