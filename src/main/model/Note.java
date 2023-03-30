@@ -120,4 +120,10 @@ public class Note implements Writable {
         this.noteIsFlat = true;
         this.noteIsSharp = false;
     }
+
+    // EFFECTS: Sets note to natural (isFlat and isSharp to false).
+    public void setNatural() {
+        this.noteIsSharp = false;
+        this.noteIsFlat = false;
+    }
 }

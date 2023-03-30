@@ -41,6 +41,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         pianoFrame.setVisible(true);
         keyHandler = new ClickHandler();
         keyHandler2 = new ClickHandler2();
+        currentNote = new Note(Character.MIN_VALUE, 0, 0, false, false);
         label = new JLabel("Start by selecting a note, then choose an octave and accidental. If no accidental"
                 + " is chosen note will be natural.");
         addMainPanel();
@@ -124,13 +125,16 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
 
     // EFFECTS: Adds Accidental buttons to panel p
     private void addAccidentalButtons(JPanel p) {
-        accidentalKeys = new JButton[2];
+        accidentalKeys = new JButton[3];
         accidentalKeys[0] = new JButton("#");
         accidentalKeys[0].addActionListener(keyHandler);
         p.add(accidentalKeys[0]);
-        accidentalKeys[1] = new JButton("b");
+        accidentalKeys[1] = new JButton("♭");
         accidentalKeys[1].addActionListener(keyHandler);
         p.add(accidentalKeys[1]);
+        accidentalKeys[2] = new JButton("♮");
+        accidentalKeys[2].addActionListener(keyHandler);
+        p.add(accidentalKeys[2]);
     }
 
 
@@ -222,16 +226,15 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton src = (JButton) e.getSource();
-            if (ComposerUIConstants.notesList.contains(src.getText().charAt(0))) {
+            if (src.getText().equals(("Add Duration"))) {
+                currentNote.setDuration(duration);
+            } else if (ComposerUIConstants.notesList.contains(src.getText().charAt(0))) {
                 currentNote.setName(src.getText().charAt(0));
             }
             octaveHelper(src);
             accidentalHelper(src);
-            if (src.getText().equals(("Add Duration"))) {
-                currentNote.setDuration(duration);
-            }
 
-            label.setText("Current Note: " + noteStringBuilder());
+            label.setText("Editing Piece: " + selectedPiece.getPieceName() + " Current Note: " + noteStringBuilder());
             label.repaint();
         }
     }
@@ -239,11 +242,14 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     // EFFECTS: Helper for generating note string to be displayed at top of GUI frame
     private String noteStringBuilder() {
         if (currentNote.getSharp()) {
-            noteString = (currentNote.getName() + "#" + currentNote.getOctave() + "/" + currentNote.getDuration());
+            noteString = (String.valueOf(currentNote.getName()) + "#" + currentNote.getOctave() + "/"
+                    + currentNote.getDuration());
         } else if (currentNote.getFlat()) {
-            noteString = (currentNote.getName() + "♭" + currentNote.getOctave() + "/" + currentNote.getDuration());
+            noteString = (String.valueOf(currentNote.getName()) + "♭" + currentNote.getOctave() + "/"
+                    + currentNote.getDuration());
         } else {
-            noteString = (currentNote.getName() + currentNote.getOctave() + "/" + currentNote.getDuration());
+            noteString = (String.valueOf(currentNote.getName()) + currentNote.getOctave() + "/"
+                    + currentNote.getDuration());
         }
         return noteString;
     }
@@ -255,8 +261,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
                 currentNote.setOctave(Integer.valueOf(src.getText()));
             }
         } catch (NumberFormatException nfe) {
-            JOptionPane.showMessageDialog(pianoFrame, "Octave must be a positive integer.",
-                    "Invalid Input", JOptionPane.WARNING_MESSAGE);
+            //Do nothing.
         }
     }
 
@@ -265,8 +270,11 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         if (src.getText().equals("#")) {
             currentNote.setSharp();
         }
-        if (src.getText().equals(("b"))) {
+        if (src.getText().equals(("♭"))) {
             currentNote.setFlat();
+        }
+        if (src.getText().equals("♮")) {
+            currentNote.setNatural();
         }
     }
 
@@ -302,7 +310,8 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
             if (src.getText().equals("Enter")) {
                 enterHelper();
             } else if (src.getText().equals("Add Note")) {
-                selectedPiece.addNote(currentNote);
+                selectedPiece.addNote(new Note(currentNote.getName(), currentNote.getDuration(),
+                        currentNote.getOctave(), currentNote.getSharp(), currentNote.getFlat()));
                 label.setText("Note added to piece");
             } else if (src.getText().equals("Delete Last Added Note")) {
                 selectedPiece.delNote(selectedPiece.length() - 1);

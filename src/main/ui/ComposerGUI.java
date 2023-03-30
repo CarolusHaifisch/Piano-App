@@ -200,6 +200,7 @@ public class ComposerGUI extends JFrame {
         public void actionPerformed(ActionEvent ae) {
             selectedPiece = new Piece("Test", new ArrayList<>());
             SimplePianoGUI sp = new SimplePianoGUI(selectedPiece);
+            memory.addPiece(selectedPiece);
         }
     }
 
