@@ -201,7 +201,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         bottomButtons.setLayout(new FlowLayout());
         bottomKeys[0] = new JButton("Add Note");
         bottomKeys[0].addActionListener(keyHandler2);
-        bottomKeys[1] = new JButton("Clear");
+        bottomKeys[1] = new JButton("Delete Last Added Note");
         bottomKeys[1].addActionListener(keyHandler2);
         bottomKeys[2] = new JButton("Cancel");
         bottomKeys[2].addActionListener(keyHandler2);
@@ -224,8 +224,6 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
             JButton src = (JButton) e.getSource();
             if (ComposerUIConstants.notesList.contains(src.getText().charAt(0))) {
                 currentNote.setName(src.getText().charAt(0));
-                label.setText("Current Note:" + currentNote.getName() + currentNote.getOctave()
-                        + "/" + currentNote.getDuration());
             }
             octaveHelper(src);
             accidentalHelper(src);
@@ -233,7 +231,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
                 currentNote.setDuration(duration);
             }
 
-            label.setText("Current Note: " + noteString);
+            label.setText("Current Note: " + noteStringBuilder());
             label.repaint();
         }
     }
@@ -255,8 +253,6 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         try {
             if (ComposerUIConstants.octavesList.contains(Integer.valueOf(src.getText()))) {
                 currentNote.setOctave(Integer.valueOf(src.getText()));
-                label.setText("Current Note:" + currentNote.getName() + currentNote.getOctave()
-                        + "/" + currentNote.getDuration());
             }
         } catch (NumberFormatException nfe) {
             JOptionPane.showMessageDialog(pianoFrame, "Octave must be a positive integer.",
@@ -268,13 +264,9 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     private void accidentalHelper(JButton src) {
         if (src.getText().equals("#")) {
             currentNote.setSharp();
-            label.setText("Current Note:" + currentNote.getName() + "#" + currentNote.getOctave()
-                    + "/" + currentNote.getDuration());
         }
         if (src.getText().equals(("b"))) {
             currentNote.setFlat();
-            label.setText("Current Note:" + currentNote.getName() + "♭" + currentNote.getOctave()
-                    + "/" + currentNote.getDuration());
         }
     }
 
@@ -312,9 +304,9 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
             } else if (src.getText().equals("Add Note")) {
                 selectedPiece.addNote(currentNote);
                 label.setText("Note added to piece");
-            } else if (src.getText().equals("Clear")) {
-                noteString = new StringBuilder();
-                label.setText("Note cleared.");
+            } else if (src.getText().equals("Delete Last Added Note")) {
+                selectedPiece.delNote(selectedPiece.length() - 1);
+                label.setText("Note deleted.");
             } else if (src.getText().equals("Cancel")) {
                 pianoFrame.dispose();
             }
