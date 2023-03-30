@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import model.*;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -20,6 +21,7 @@ public class ComposerGUI extends JFrame {
     private PiecesMemory memory;
     private Piece selectedPiece;
     private String pieceName;
+    String[] pieces;
 
     public static void main(String[] args) {
         new ComposerGUI();
@@ -35,8 +37,29 @@ public class ComposerGUI extends JFrame {
         addWindowListener(new SaveonClose());
         initializationLoad();
         addMenu();
-
+        piecesDropdown();
         setVisible(true);
+    }
+
+    // EFFECTS: Places dropdown bar to select a piece from memory.
+    private void piecesDropdown() {
+        JPanel dropdown = new JPanel();
+        JLabel label = new JLabel("Choose a piece from memory:");
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pieces = memory.getPieceNames().split(", ");
+        JComboBox<String> piecesDropdown = new JComboBox<>(pieces);
+        piecesDropdown.setMaximumSize(new Dimension(200, 50));
+        piecesDropdown.setAlignmentX(Component.CENTER_ALIGNMENT);
+        dropdown.setLayout(new BoxLayout(dropdown, BoxLayout.Y_AXIS));
+        dropdown.add(Box.createRigidArea(new Dimension(5, 10)));
+        dropdown.add(label);
+        dropdown.add(Box.createRigidArea(new Dimension(5, 20)));
+        dropdown.add(piecesDropdown);
+        dropdown.add(Box.createRigidArea(new Dimension(5, 20)));
+        JButton select = new JButton("Select");
+        select.setAlignmentX(Component.CENTER_ALIGNMENT);
+        dropdown.add(select);
+        this.add(dropdown);
     }
 
     // Class for handling saving on close operation.
