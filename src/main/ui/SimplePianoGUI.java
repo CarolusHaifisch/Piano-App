@@ -1,6 +1,8 @@
 package ui;
 
 import model.ComposerConstants;
+import model.Note;
+import model.Piece;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,10 +31,13 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     private JLabel label;
     private static JTextField inputText;
     private double duration;
+    private Piece selectedPiece;
+    private Note currentNote;
 
-    public SimplePianoGUI() {
+    public SimplePianoGUI(Piece piece) {
         noteString = new StringBuilder("");
         pianoFrame = new JFrame("Piano GUI");
+        selectedPiece = piece;
         pianoFrame.setSize(ComposerUIConstants.WIDTH, ComposerUIConstants.HEIGHT);
         pianoFrame.setVisible(true);
         keyHandler = new ClickHandler();
@@ -160,7 +165,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     // EFFECTS: Places input for duration and buttons for adding note, clearing note, and cancel
     private void addBottomPanel() {
         JPanel bottomPanel = new JPanel();
-        bottomPanel.setLayout(new GridLayout(1,2));
+        bottomPanel.setLayout(new GridLayout(1, 2));
         bottomPanel.add(addDurationField());
         bottomPanel.add(addBottomButtons());
         pianoFrame.add(bottomPanel, BorderLayout.SOUTH);
@@ -282,24 +287,15 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         }
     }
 
-// Listener for keyEvents for Enter, Add Note, Clear, and Cancel Buttons
+    // Listener for keyEvents for Enter, Add Note, Clear, and Cancel Buttons
     private class ClickHandler2 implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton src = (JButton) e.getSource();
             if (src.getText().equals("Enter")) {
-                try {
-                    if (Double.parseDouble(inputText.getText()) > 0) {
-                        duration = Double.parseDouble(inputText.getText());
-                        label.setText("Duration saved! Duration = " + duration);
-                    } else {
-                        // Print same error message as below!
-                    }
-                } catch (NumberFormatException nfe) {
-                    // TODO: Print an error message popup saying invalid input!
-                }
+                enterHelper();
             } else if (src.getText().equals("Add Note")) {
-                // TODO: Add code for adding note to piece.
+                selectedPiece.addNote(currentNote);
                 label.setText("Note added to piece");
             } else if (src.getText().equals("Clear")) {
                 noteString = new StringBuilder();
@@ -308,6 +304,22 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
                 pianoFrame.dispose();
             }
             label.repaint();
+        }
+    }
+
+    // EFFECTS: Helper for Enter button case in ClickHandler2
+    private void enterHelper() {
+        try {
+            if (Double.parseDouble(inputText.getText()) > 0) {
+                duration = Double.parseDouble(inputText.getText());
+                label.setText("Duration saved! Duration = " + duration);
+            } else {
+                JOptionPane.showMessageDialog(pianoFrame, "Duration must be a positive number.",
+                        "Invalid Input", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(pianoFrame, "Duration must be a positive number.",
+                    "Invalid Input", JOptionPane.WARNING_MESSAGE);
         }
     }
 }

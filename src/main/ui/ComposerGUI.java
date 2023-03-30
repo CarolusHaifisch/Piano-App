@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 
@@ -18,6 +19,7 @@ public class ComposerGUI extends JFrame {
     private JTabbedPane sidebar;
     private final Composer composer = new Composer();
     private PiecesMemory memory;
+    private Piece selectedPiece;
     private String pieceName;
 
     public static void main(String[] args) {
@@ -190,13 +192,14 @@ public class ComposerGUI extends JFrame {
     private class AddPieceAction extends AbstractAction {
 
         AddPieceAction() {
-            super("Clear");
+            super("Add New Piece");
         }
 
         // EFFECTS: Runs when the clear action occurs (Whenever the clear option is chosen by the user)
         @Override
         public void actionPerformed(ActionEvent ae) {
-            SimplePianoGUI sp = new SimplePianoGUI();
+            selectedPiece = new Piece("Test", new ArrayList<>());
+            SimplePianoGUI sp = new SimplePianoGUI(selectedPiece);
         }
     }
 
@@ -219,6 +222,7 @@ public class ComposerGUI extends JFrame {
                     "Load Memory", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 }
 
 // TODO: Add buttons to main frame. Dropdown menu for choosing a piece from composed pieces in memory,

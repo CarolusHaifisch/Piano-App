@@ -93,4 +93,31 @@ public class Note implements Writable {
         json.put("flat?", noteIsFlat);
         return json;
     }
+
+    // EFFECTS: Sets note duration
+    public void setDuration() {
+        this.noteDuration = noteDuration;
+    }
+
+    // EFFECTS: Sets note name
+    public void setName() {
+        this.noteName = noteName;
+    }
+
+    // EFFECTS: Sets note octave
+    public void setOctave() {
+        this.noteOctave = noteOctave;
+    }
+
+    // EFFECTS: Set note isSharp to true, if note is already flat sets isFlat to false.
+    public void setSharp() {
+        this.noteIsSharp = true;
+        this.noteIsFlat = false;
+    }
+
+    // EFFECTS: Set note isFlat to true, if note is already sharp sets isSharp to false.
+    public void setFlat() {
+        this.noteIsFlat = true;
+        this.noteIsSharp = false;
+    }
 }
