@@ -92,6 +92,7 @@ public class ComposerGUI extends JFrame {
         cbModel.addAll(piecesList);
     }
 
+    //TODO: add buttomn for deleting note by index (open a popup dialog box with input text field
     // EFFECTS: Places buttons for playing pieces, viewing piece information, and viewing piece image.
     private void pieceButtons() {
         pieceButtonPanel = new JPanel();
@@ -200,6 +201,7 @@ public class ComposerGUI extends JFrame {
         }
     }
 
+    // TODO: Fix Save/Load with the combobox
     /**
      * Represents load action for loading the previously saved state of the program.
      */
@@ -238,6 +240,8 @@ public class ComposerGUI extends JFrame {
         @Override
         public void actionPerformed(ActionEvent ae) {
             memory = new PiecesMemory(new LinkedList<>());
+            cbModel.removeAllElements();
+            comboBoxInitializer();
             JOptionPane.showMessageDialog(null, "PiecesMemory cleared.", "Clear Memory",
                     JOptionPane.INFORMATION_MESSAGE);
         }

@@ -1,81 +1,54 @@
-{"piecesmemory": [
-    {
-        "piececontents": [
-            {
-                "duration": 0.25,
-                "sharp?": false,
-                "octave": 5,
-                "name": 67,
-                "flat?": false
-            },
-            {
-                "duration": 0.25,
-                "sharp?": false,
-                "octave": 4,
-                "name": 67,
-                "flat?": false
-            }
-        ],
-        "piecename": "ctest"
-    },
-    {
-        "piececontents": [{
-            "duration": 0,
+{"piecesmemory": [{
+    "piececontents": [
+        {
+            "duration": 0.25,
             "sharp?": false,
-            "octave": 0,
-            "name": 0,
+            "octave": 5,
+            "name": 68,
             "flat?": false
-        }],
-        "piecename": "r"
-    },
-    {
-        "piececontents": [{
-            "duration": 0,
+        },
+        {
+            "duration": 0.25,
             "sharp?": false,
-            "octave": 0,
-            "name": 0,
-            "flat?": false
-        }],
-        "piecename": "v"
-    },
-    {
-        "piececontents": [{
-            "duration": 4,
-            "sharp?": false,
-            "octave": 4,
-            "name": 69,
-            "flat?": true
-        }],
-        "piecename": "e"
-    },
-    {
-        "piececontents": [{
-            "duration": 0.5,
-            "sharp?": false,
-            "octave": 1,
+            "octave": 5,
             "name": 69,
             "flat?": false
-        }],
-        "piecename": "f"
-    },
-    {
-        "piececontents": [{
-            "duration": 0,
+        },
+        {
+            "duration": 0.25,
             "sharp?": false,
-            "octave": 0,
-            "name": 0,
+            "octave": 5,
+            "name": 70,
             "flat?": false
-        }],
-        "piecename": "g"
-    },
-    {
-        "piececontents": [{
-            "duration": 0,
+        },
+        {
+            "duration": 0.25,
             "sharp?": false,
-            "octave": 0,
-            "name": 0,
+            "octave": 5,
+            "name": 71,
             "flat?": false
-        }],
-        "piecename": "sf"
-    }
-]}
+        },
+        {
+            "duration": 0.25,
+            "sharp?": false,
+            "octave": 5,
+            "name": 65,
+            "flat?": false
+        },
+        {
+            "duration": 0.25,
+            "sharp?": false,
+            "octave": 5,
+            "name": 66,
+            "flat?": false
+        },
+        {
+            "duration": 0.25,
+            "sharp?": false,
+            "octave": 6,
+            "name": 67,
+            "flat?": false
+        }
+    ],
+    "piecename": "Cmaj"
+}]}
