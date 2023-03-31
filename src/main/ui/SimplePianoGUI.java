@@ -306,6 +306,8 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     // MODIFIES: selectedPiece
     // EFFECTS: Listener for keyEvents for Enter, Add Note, Delete Note at Index, Delete Last Added Note,
     // Clear, and Return Buttons. Return does not automatically save piece status.
+
+    //TODO: Add option to insert note at index.
     private class ClickHandler2 implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -318,9 +320,10 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
                 label.setText("Note added to piece");
             } else if (src.getText().equals("Delete Last Added Note")) {
                 if (selectedPiece.length() >= 1) {
+                    Note removedNote = selectedPiece.getNoteAtIndex(selectedPiece.length() - 1);
                     selectedPiece.delNote(selectedPiece.length() - 1);
-                    label.setText("Note deleted.");
-                }
+                    label.setText("Note " + removedNote.noteToString() + " deleted.");
+                } else {label.setText("Piece is already empty!");}
             } else if (src.getText().equals("Delete Note at Index")) {
                 delNoteIndexHelper();
             } else if (src.getText().equals("Return")) {
@@ -339,7 +342,9 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
                     "Enter index of note to be deleted in piece",
                     "New Piece", JOptionPane.INFORMATION_MESSAGE));
             if (inputNoteIndex < selectedPiece.length()) {
+                Note removedNote = selectedPiece.getNoteAtIndex(inputNoteIndex);
                 selectedPiece.delNote(inputNoteIndex);
+                label.setText("Note " + removedNote.noteToString() + " deleted.");
             } else {
                 JOptionPane.showMessageDialog(pianoFrame, "Input must be an integer less than length of piece.",
                         "Invalid Input", JOptionPane.WARNING_MESSAGE);

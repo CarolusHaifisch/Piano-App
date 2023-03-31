@@ -104,6 +104,7 @@ public class ComposerGUI extends JFrame {
         pieceButtons[2] = new JButton("Piece Sheet Music Image");
         pieceButtons[2].addActionListener(keyHandler);
         pieceButtons[3] = new JButton(("Edit Piece"));
+        pieceButtons[3].addActionListener(keyHandler);
         pieceButtonPanel.add(pieceButtons[0]);
         pieceButtonPanel.add(pieceButtons[1]);
         pieceButtonPanel.add(pieceButtons[2]);
@@ -382,7 +383,8 @@ public class ComposerGUI extends JFrame {
 
     // EFFECTS: Opens Piano GUI to add or delete notes to piece.
     public void editPieceHelper(Piece piece) {
-        SimplePianoGUI sp = new SimplePianoGUI(piece);
+        SimplePianoGUI spEdit = new SimplePianoGUI(piece);
+        System.out.println("Test");
     }
 
     // EFFECTS: Plays selected piece.
