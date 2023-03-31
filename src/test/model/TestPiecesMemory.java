@@ -57,12 +57,14 @@ public class TestPiecesMemory {
         assertEquals(1, PMem.numSavedPieces());
         PMem.addPiece(Test2);
         PMem.addPiece(Test1);
+        try {
+        assertEquals(PMem.getIndexOfPiece("Test1"), 0);
+        assertEquals(PMem.getIndexOfPiece("Test2"), 1);
         assertEquals(0, PEmpty.numSavedPieces());
         assertEquals("", PEmpty.getPieceNames());
         assertEquals(Test2, PMem.getPieceWithIndex(1));
-        try {
-            assertEquals(Test, PMem.getPieceWithName("Test"));
-            assertEquals(Test2, PMem.getPieceWithName("Test2"));
+        assertEquals(Test, PMem.getPieceWithName("Test"));
+        assertEquals(Test2, PMem.getPieceWithName("Test2"));
         } catch (Exception e) {
             fail("Should not have thrown exception");
         }
