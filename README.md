@@ -34,3 +34,23 @@ higher and lower octaves other than 5 the notes can go off the image.
 - Potentially add a minigame where the user will need to playback a series of notes, with a few select
 - difficulties. Correctly playing back the notes will earn points which will be displayed at the end of the game.
 - Game will end once X amount of notes are successfully played back or Y amount of wrong notes are played back.
+
+## Instructions for Grader:
+- First required action related to adding X's to Y: (Add X to Y button)
+Select a piece from the dropdown box at the center of the main frame, click select, then choose edit piece
+or create new piece by clicking add piece from button at menu bar at top under Piece and enter a name for the new piece.
+- This opens up a new frame where you can create a Note and then add it to the piece by clicking Add Note.
+- This adds an X (Note) to a Y (Piece).
+
+- Second required action related to adding X's to Y: (Delete X from Y buttons)
+To delete a note from the piece either select Delete last added note which deletes the last indexed note or select
+Delete Note at Index which prompts for an index and deletes the note at that index. 
+
+- Finding the Visual component:
+The visual component can be found by selecting a piece from the dropdown and clicking select, then choose Play Piece.
+After piece is done playing the visual component will pop up in a new frame. It will then also be saved as a jpg file
+in the data folder with the same file name as the piece name. 
+
+- Saving and loading state of the application:
+The user can save and load any time by clicking the save and load options under File at the menu bar on the top. 
+Saving can also be done by pressing X on the main frame and choosing Yes when prompted to save before exiting. 
