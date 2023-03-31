@@ -1,8 +1,0 @@
-X:1
-T:ctest
-M:4/4
-L:1
-O:Original
-Q:1=120
-K:C
-[| C/4.0 C,/4.0  |]

@@ -357,16 +357,29 @@ public class ComposerGUI extends JFrame {
                                 + selectedPiece.pieceToString() + "</p></body></html>",
                         "Piece Info", JOptionPane.INFORMATION_MESSAGE);
             } else if (src.getText().equals("Piece Sheet Music Image")) {
-                JFrame display = new JFrame();
-                display.add(new JLabel(new ImageIcon(ComposerConstants.getFilePath() + "/"
-                        + selectedPiece.getPieceName() + ".jpg")));
-                display.pack();
-                display.setVisible(true);
+                imageDisplayHelper();
             } else if (src.getText().equals("Select")) {
                 selectPiece();
             } else if (src.getText().equals("Edit Piece")) {
                 editPieceHelper(selectedPiece);
             }
+        }
+    }
+
+    // EFFECTS: Sets up display frame and displays image of piece represented as sheet music.
+    public void imageDisplayHelper() {
+        File imagePath = new File(ComposerConstants.getFilePath() + "/"
+                + selectedPiece.getPieceName() + ".jpg");
+        if (imagePath.isFile()) {
+            JFrame display = new JFrame();
+            display.add(new JLabel(new ImageIcon(ComposerConstants.getFilePath() + "/"
+                    + selectedPiece.getPieceName() + ".jpg")));
+            display.pack();
+            display.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "File does not exist! Try playing piece first"
+                            + " to generate the music image file.",
+                    "Piece Image", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -435,7 +448,7 @@ public class ComposerGUI extends JFrame {
             pieceFile.createNewFile();
             FileWriter writer = new FileWriter(pieceFile, false);
             writer.write("X:1\nT:" + selectedPiece.getPieceName() + "\nM:4/4"
-                    + "\nL:1\nO:Original\nQ:1=120\nK:C\n" + pieceMusicParser() + "\n");
+                    + "\nL:1/4\nO:Original\nQ:1=120\nK:C\n" + pieceMusicParser() + "\n");
             writer.close();
             if (!pieceFile.isFile()) {
                 JOptionPane.showMessageDialog(ComposerGUI.this, "File not created.",
