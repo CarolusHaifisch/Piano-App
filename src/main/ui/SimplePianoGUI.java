@@ -323,7 +323,9 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
                     Note removedNote = selectedPiece.getNoteAtIndex(selectedPiece.length() - 1);
                     selectedPiece.delNote(selectedPiece.length() - 1);
                     label.setText("Note " + removedNote.noteToString() + " deleted.");
-                } else {label.setText("Piece is already empty!");}
+                } else {
+                    label.setText("Piece is already empty!");
+                }
             } else if (src.getText().equals("Delete Note at Index")) {
                 delNoteIndexHelper();
             } else if (src.getText().equals("Return")) {

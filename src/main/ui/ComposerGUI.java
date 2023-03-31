@@ -418,6 +418,7 @@ public class ComposerGUI extends JFrame {
         }
     }
 
+    // MODIFIES: image of piece
     // EFFECTS: Returns image of piece represented in sheet music, if image already exists. If image does not
     // yet exist, creates image of piece represented in sheet music and saves image to data folder, then displays image
     // in another frame.
@@ -443,6 +444,7 @@ public class ComposerGUI extends JFrame {
         }
     }
 
+    // MODIFIES: generated .txt file in data folder
     // EFFECTS: Generates file and saves it to data folder in format accepted by sheet music image creator.
     public void pieceMusicGenerator(Piece selectedPiece, String timeSignature) {
         try {
