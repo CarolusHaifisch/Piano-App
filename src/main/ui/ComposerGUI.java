@@ -24,10 +24,10 @@ import java.util.LinkedList;
 import java.util.regex.Pattern;
 
 
-/** GUI for the Composer. Swing functions inspired by code from Alarm, SmartHome, and SpaceInvaders sample code provided
+/**
+ * GUI for the Composer. Swing functions inspired by code from Alarm, SmartHome, and SpaceInvaders sample code provided
  * by CPSC 210 teaching team.
  */
-// TODO: Fix issue with the combobox on main frame not updating to reflect added/deleted pieces
 public class ComposerGUI extends JFrame {
     private final Composer composer = new Composer();
     private PiecesMemory memory;
@@ -92,21 +92,22 @@ public class ComposerGUI extends JFrame {
         cbModel.addAll(piecesList);
     }
 
-    //TODO: add buttomn for deleting note by index (open a popup dialog box with input text field
     // EFFECTS: Places buttons for playing pieces, viewing piece information, and viewing piece image.
     private void pieceButtons() {
         pieceButtonPanel = new JPanel();
         pieceButtonPanel.setLayout(new FlowLayout());
-        pieceButtons = new JButton[3];
+        pieceButtons = new JButton[4];
         pieceButtons[0] = new JButton("Play Piece");
         pieceButtons[0].addActionListener(keyHandler);
         pieceButtons[1] = new JButton("View Piece Info");
         pieceButtons[1].addActionListener(keyHandler);
         pieceButtons[2] = new JButton("Piece Sheet Music Image");
         pieceButtons[2].addActionListener(keyHandler);
+        pieceButtons[3] = new JButton(("Edit Piece"));
         pieceButtonPanel.add(pieceButtons[0]);
         pieceButtonPanel.add(pieceButtons[1]);
         pieceButtonPanel.add(pieceButtons[2]);
+        pieceButtonPanel.add(pieceButtons[3]);
         this.add(pieceButtonPanel, BorderLayout.SOUTH);
     }
 
@@ -192,6 +193,8 @@ public class ComposerGUI extends JFrame {
         public void actionPerformed(ActionEvent ae) {
             try {
                 composer.memSave(memory, ComposerConstants.getFileDirectory());
+                cbModel.removeAllElements();
+                comboBoxInitializer();
                 JOptionPane.showMessageDialog(null, "Save Successful!", "Save Memory",
                         JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException e) {
@@ -201,7 +204,7 @@ public class ComposerGUI extends JFrame {
         }
     }
 
-    // TODO: Fix Save/Load with the combobox
+
     /**
      * Represents load action for loading the previously saved state of the program.
      */
@@ -217,6 +220,8 @@ public class ComposerGUI extends JFrame {
         public void actionPerformed(ActionEvent ae) {
             try {
                 memory = composer.memRetrieve(ComposerConstants.getFileDirectory());
+                cbModel.removeAllElements();
+                comboBoxInitializer();
                 JOptionPane.showMessageDialog(null, "Load Successful!", "Load Memory",
                         JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException e) {
@@ -346,27 +351,44 @@ public class ComposerGUI extends JFrame {
             } else if (src.getText().equals("View Piece Info")) {
                 JOptionPane.showMessageDialog(null, "Length of piece in number of notes: "
                                 + selectedPiece.length() + "\n" + "Entire duration of piece in number of beats: "
-                                + selectedPiece.pieceDuration() + "\n" + "Piece contents:  \n" +
-                                "<html><body><p style='width: 200px;'>" + selectedPiece.pieceToString() + "</p></body></html>",
+                                + selectedPiece.pieceDuration() + "\n" + "Piece contents:  \n"
+                                + "<html><body><p style='width: 200px;'>"
+                                + selectedPiece.pieceToString() + "</p></body></html>",
                         "Piece Info", JOptionPane.INFORMATION_MESSAGE);
             } else if (src.getText().equals("Piece Sheet Music Image")) {
-                //
+                JFrame display = new JFrame();
+                display.add(new JLabel(new ImageIcon(ComposerConstants.getFilePath() + "/"
+                        + selectedPiece.getPieceName() + ".jpg")));
+                display.pack();
+                display.setVisible(true);
             } else if (src.getText().equals("Select")) {
-                try {
-                    pieceName = piecesDropdown.getSelectedItem().toString();
-                    selectedPiece = memory.getPieceWithName(pieceName);
-                } catch (PieceNotFoundException pnfe) {
-                    JOptionPane.showMessageDialog(ComposerGUI.this, "Piece not found.",
-                            "Not Found", JOptionPane.WARNING_MESSAGE);
-                }
+                selectPiece();
+            } else if (src.getText().equals("Edit Piece")) {
+                editPieceHelper(selectedPiece);
             }
         }
     }
 
+    // EFFECTS: Selects piece and puts it in selectedPiece.
+    public void selectPiece() {
+        try {
+            pieceName = piecesDropdown.getSelectedItem().toString();
+            selectedPiece = memory.getPieceWithName(pieceName);
+        } catch (PieceNotFoundException pnfe) {
+            JOptionPane.showMessageDialog(ComposerGUI.this, "Piece not found.",
+                    "Not Found", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    // EFFECTS: Opens Piano GUI to add or delete notes to piece.
+    public void editPieceHelper(Piece piece) {
+        SimplePianoGUI sp = new SimplePianoGUI(piece);
+    }
+
     // EFFECTS: Plays selected piece.
     public void playPieceHelper() {
-        JOptionPane.showMessageDialog(null, "Playing piece " +
-                selectedPiece.getPieceName(), "Play Piece", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Playing piece "
+                + selectedPiece.getPieceName(), "Play Piece", JOptionPane.INFORMATION_MESSAGE);
         try {
             Piece selectedPiece = memory.getPieceWithName(pieceName);
             String pieceString = selectedPiece.pieceToString();
@@ -386,8 +408,8 @@ public class ComposerGUI extends JFrame {
         try {
             // writes the score to a JPG file
             pieceMusicGenerator(selectedPiece, "");
-            TuneBook musicBook = new TuneBook(new File(ComposerConstants.getFilePath() + "/" +
-                    selectedPiece.getPieceName() + ".txt"));
+            TuneBook musicBook = new TuneBook(new File(ComposerConstants.getFilePath() + "/"
+                    + selectedPiece.getPieceName() + ".txt"));
             JScoreComponent jscore = new JScoreComponent();
             jscore.setJustification(true);
             jscore.setTune(musicBook.getTune(1));
@@ -395,8 +417,8 @@ public class ComposerGUI extends JFrame {
             display.add(jscore);
             display.pack();
             display.setVisible(true);
-            jscore.writeScoreTo(new File(ComposerConstants.getFilePath() + "/" +
-                    selectedPiece.getPieceName() + ".jpg"));
+            jscore.writeScoreTo(new File(ComposerConstants.getFilePath() + "/"
+                    + selectedPiece.getPieceName() + ".jpg"));
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not save image.", "Save Image",
                     JOptionPane.ERROR_MESSAGE);
@@ -406,14 +428,14 @@ public class ComposerGUI extends JFrame {
     // EFFECTS: Generates file and saves it to data folder in format accepted by sheet music image creator.
     public void pieceMusicGenerator(Piece selectedPiece, String timeSignature) {
         try {
-            File pieceFile = new File(ComposerConstants.getFilePath() + "/" +
-                    selectedPiece.getPieceName() + ".txt");
+            File pieceFile = new File(ComposerConstants.getFilePath() + "/"
+                    + selectedPiece.getPieceName() + ".txt");
             pieceFile.createNewFile();
             FileWriter writer = new FileWriter(pieceFile, false);
             writer.write("X:1\nT:" + selectedPiece.getPieceName() + "\nM:4/4"
                     + "\nL:1\nO:Original\nQ:1=120\nK:C\n" + pieceMusicParser() + "\n");
             writer.close();
-            if (! pieceFile.isFile()) {
+            if (!pieceFile.isFile()) {
                 JOptionPane.showMessageDialog(ComposerGUI.this, "File not created.",
                         "File", JOptionPane.WARNING_MESSAGE);
             }
@@ -426,7 +448,6 @@ public class ComposerGUI extends JFrame {
     // TODO: Refactor using regex
     // EFFECTS: Converts pieceContents into format readable by sheet music image creator.
     public String pieceMusicParser() {
-        //Pattern pattern = Pattern.compile("[ABCDEFG][#b][1-9][//][0-9]+/.?[0-9]*");
         StringBuilder convertedPieceString = new StringBuilder("[| ");
         int counter = 0;
         for (Note note : selectedPiece.getPieceContents()) {
@@ -449,8 +470,7 @@ public class ComposerGUI extends JFrame {
             }
             convertedPieceString.append(parsedNotes);
         }
-        convertedPieceString.toString().replaceAll("R", "z");
-        return convertedPieceString + " |]";
+        return convertedPieceString.toString().replaceAll("R", "z") + " |]";
     }
 
     // EFFECTS: Handles the octave cases
@@ -469,8 +489,8 @@ public class ComposerGUI extends JFrame {
     public String durationParser(Note note) {
         String durationString = "";
         if (note.getDuration() < 1) {
-            double recip = 1/note.getDuration();
-            durationString = "/" + Double.toString(Math.pow(2, Math.ceil(Math.log(recip)/Math.log(2))));
+            double recip = 1 / note.getDuration();
+            durationString = "/" + Double.toString(Math.pow(2, Math.ceil(Math.log(recip) / Math.log(2))));
         } else if (note.getDuration() > 1) {
             durationString = Double.toString(Math.round(note.getDuration()));
         }

@@ -42,8 +42,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         keyHandler = new ClickHandler();
         keyHandler2 = new ClickHandler2();
         currentNote = new Note(Character.MIN_VALUE, 0, 0, false, false);
-        label = new JLabel("Start by selecting a note, then choose an octave and accidental. If no accidental"
-                + " is chosen note will be natural.");
+        label = new JLabel("Start by selecting a note, then choose an octave and accidental.");
         addMainPanel();
         addLabel();
         addBottomPanel();
@@ -198,24 +197,28 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         return durationButtons;
     }
 
-    // EFFECTS: Places Add Note, Clear, and Cancel buttons for bottomPanel.
+    // EFFECTS: Places Add Note, Clear, and Return buttons for bottomPanel.
     private JPanel addBottomButtons() {
         JPanel bottomButtons = new JPanel();
-        bottomKeys = new JButton[3];
+        bottomKeys = new JButton[4];
         bottomButtons.setLayout(new FlowLayout());
         bottomKeys[0] = new JButton("Add Note");
         bottomKeys[0].addActionListener(keyHandler2);
         bottomKeys[1] = new JButton("Delete Last Added Note");
         bottomKeys[1].addActionListener(keyHandler2);
-        bottomKeys[2] = new JButton("Return");
+        bottomKeys[2] = new JButton("Delete Note at Index");
         bottomKeys[2].addActionListener(keyHandler2);
+        bottomKeys[3] = new JButton("Return");
+        bottomKeys[3].addActionListener(keyHandler2);
         bottomButtons.add(bottomKeys[0]);
         bottomButtons.add(bottomKeys[1]);
         bottomButtons.add(bottomKeys[2]);
+        bottomButtons.add(bottomKeys[3]);
         return bottomButtons;
     }
 
-    // Listener for keyEvents, checks to see if note inputs are made and updates the noteLabel.
+    // MODIFIES: currentNote
+    // EFFECTS: Listener for keyEvents, checks to see if note inputs are made and updates the noteLabel.
     // TODO: Restructure the if elses into a switch statement that depends only on the identity of the button rather
     // than length of string
     // Requires modifying the GUI frame
@@ -251,7 +254,8 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         return noteString;
     }
 
-    // EFFECTS: Helper for adding octave value to noteString
+    // MODIFIES: currentNote
+    // EFFECTS: Helper for adding octave value to currentNote
     private void octaveHelper(JButton src) {
         try {
             if (ComposerUIConstants.octavesList.contains(Integer.valueOf(src.getText()))) {
@@ -262,7 +266,8 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         }
     }
 
-    // EFFECTS: Helper for adding accidental to noteString
+    // MODIFIES: currentNote
+    // EFFECTS: Helper for adding accidental to currentNote
     private void accidentalHelper(JButton src) {
         if (src.getText().equals("#")) {
             currentNote.setSharp();
@@ -298,7 +303,9 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         }
     }
 
-    // Listener for keyEvents for Enter, Add Note, Clear, and Cancel Buttons
+    // MODIFIES: selectedPiece
+    // EFFECTS: Listener for keyEvents for Enter, Add Note, Delete Note at Index, Delete Last Added Note,
+    // Clear, and Return Buttons. Return does not automatically save piece status.
     private class ClickHandler2 implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -314,12 +321,35 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
                     selectedPiece.delNote(selectedPiece.length() - 1);
                     label.setText("Note deleted.");
                 }
+            } else if (src.getText().equals("Delete Note at Index")) {
+                delNoteIndexHelper();
             } else if (src.getText().equals("Return")) {
                 pianoFrame.dispose();
             }
             label.repaint();
         }
     }
+
+    // MODIFIES: selectedPiece
+    // EFFECTS: Helper for Deleting note at index in piece
+    public void delNoteIndexHelper() {
+        Object[] possibilities = {null};
+        try {
+            Integer inputNoteIndex = Integer.valueOf((String) JOptionPane.showInputDialog(null,
+                    "Enter index of note to be deleted in piece",
+                    "New Piece", JOptionPane.INFORMATION_MESSAGE));
+            if (inputNoteIndex < selectedPiece.length()) {
+                selectedPiece.delNote(inputNoteIndex);
+            } else {
+                JOptionPane.showMessageDialog(pianoFrame, "Input must be an integer less than length of piece.",
+                        "Invalid Input", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(pianoFrame, "Must be an integer.",
+                    "Invalid Input", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
 
     // EFFECTS: Helper for Enter button case in ClickHandler2
     private void enterHelper() {
