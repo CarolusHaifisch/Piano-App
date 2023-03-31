@@ -503,11 +503,12 @@ public class ComposerGUI extends JFrame {
     // EFFECTS: Handles note duration parsing
     public String durationParser(Note note) {
         String durationString = "";
-        if (note.getDuration() < 1) {
-            double recip = 1 / note.getDuration();
+        double equivDuration = note.getDuration() * 4;
+        if (equivDuration < 1) {
+            double recip = 1 / equivDuration;
             durationString = "/" + (int)(Math.pow(2, Math.ceil(Math.log(recip) / Math.log(2))));
-        } else if (note.getDuration() > 1) {
-            durationString = Integer.toString((int)(Math.round(note.getDuration())));
+        } else if (equivDuration > 1) {
+            durationString = Integer.toString((int)(Math.round(equivDuration)));
         }
         return durationString;
     }

@@ -1,8 +1,8 @@
 X:1
 T:Bmin
 M:4/4
-L:1
+L:1/4
 O:Original
 Q:1=120
 K:C
-[| B,/2 ^C/2 D/2 E/2 ^F/2 G/2 A/2 B/2  |]
+[| B, ^C D E ^F G A B  |]

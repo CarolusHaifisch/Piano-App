@@ -2,6 +2,277 @@
     {
         "piececontents": [
             {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 5,
+                "name": 66,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 5,
+                "name": 65,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": true,
+                "octave": 5,
+                "name": 71,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 5,
+                "name": 65,
+                "flat?": false
+            },
+            {
+                "duration": 0.125,
+                "sharp?": false,
+                "octave": 6,
+                "name": 67,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 68,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 67,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 5,
+                "name": 66,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 67,
+                "flat?": false
+            },
+            {
+                "duration": 0.125,
+                "sharp?": false,
+                "octave": 6,
+                "name": 69,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 70,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 69,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": true,
+                "octave": 6,
+                "name": 68,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 69,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 66,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 65,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": true,
+                "octave": 6,
+                "name": 71,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 65,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 66,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 65,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": true,
+                "octave": 6,
+                "name": 71,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 65,
+                "flat?": false
+            },
+            {
+                "duration": 0.125,
+                "sharp?": false,
+                "octave": 7,
+                "name": 67,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 65,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 7,
+                "name": 67,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 66,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 65,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": true,
+                "octave": 6,
+                "name": 71,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 65,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 66,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 65,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": true,
+                "octave": 6,
+                "name": 71,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 65,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 66,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 65,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": false,
+                "octave": 6,
+                "name": 71,
+                "flat?": false
+            },
+            {
+                "duration": 0.0625,
+                "sharp?": true,
+                "octave": 6,
+                "name": 70,
+                "flat?": false
+            },
+            {
+                "duration": 0.125,
+                "sharp?": false,
+                "octave": 6,
+                "name": 69,
+                "flat?": false
+            }
+        ],
+        "piecename": "Rondo"
+    },
+    {
+        "piececontents": [
+            {
                 "duration": 0.125,
                 "sharp?": false,
                 "octave": 5,
@@ -169,5 +440,66 @@
             }
         ],
         "piecename": "Cmaj"
+    },
+    {
+        "piececontents": [
+            {
+                "duration": 1,
+                "sharp?": false,
+                "octave": 4,
+                "name": 66,
+                "flat?": false
+            },
+            {
+                "duration": 1,
+                "sharp?": true,
+                "octave": 5,
+                "name": 67,
+                "flat?": false
+            },
+            {
+                "duration": 1,
+                "sharp?": false,
+                "octave": 5,
+                "name": 68,
+                "flat?": false
+            },
+            {
+                "duration": 1,
+                "sharp?": false,
+                "octave": 5,
+                "name": 69,
+                "flat?": false
+            },
+            {
+                "duration": 1,
+                "sharp?": true,
+                "octave": 5,
+                "name": 70,
+                "flat?": false
+            },
+            {
+                "duration": 1,
+                "sharp?": false,
+                "octave": 5,
+                "name": 71,
+                "flat?": false
+            },
+            {
+                "duration": 1,
+                "sharp?": false,
+                "octave": 5,
+                "name": 65,
+                "flat?": false
+            },
+            {
+                "duration": 1,
+                "sharp?": false,
+                "octave": 5,
+                "name": 66,
+                "flat?": false
+            }
+        ],
+        "piecename": "Bmin"
     }
 ]}
