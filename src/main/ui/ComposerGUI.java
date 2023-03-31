@@ -89,7 +89,10 @@ public class ComposerGUI extends JFrame {
         pieces = memory.getPieceNames().split(", ");
         piecesDropdown = new JComboBox<>(cbModel);
         List<String> piecesList = Arrays.asList(pieces);
-        cbModel.addAll(piecesList);
+        for (String str : piecesList) {
+            cbModel.addElement(str);
+        }
+
     }
 
     // EFFECTS: Places buttons for playing pieces, viewing piece information, and viewing piece image.
