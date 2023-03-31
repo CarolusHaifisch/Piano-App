@@ -4,6 +4,13 @@
             "duration": 0.25,
             "sharp?": false,
             "octave": 5,
+            "name": 67,
+            "flat?": false
+        },
+        {
+            "duration": 0.25,
+            "sharp?": false,
+            "octave": 5,
             "name": 68,
             "flat?": false
         },

@@ -492,9 +492,9 @@ public class ComposerGUI extends JFrame {
         String durationString = "";
         if (note.getDuration() < 1) {
             double recip = 1 / note.getDuration();
-            durationString = "/" + Double.toString(Math.pow(2, Math.ceil(Math.log(recip) / Math.log(2))));
+            durationString = "/" + (int)(Math.pow(2, Math.ceil(Math.log(recip) / Math.log(2))));
         } else if (note.getDuration() > 1) {
-            durationString = Double.toString(Math.round(note.getDuration()));
+            durationString = Integer.toString((int)(Math.round(note.getDuration())));
         }
         return durationString;
     }
