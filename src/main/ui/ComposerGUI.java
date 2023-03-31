@@ -493,14 +493,18 @@ public class ComposerGUI extends JFrame {
 
     // EFFECTS: Handles the octave cases
     public String octaveParser(Note note) {
-        String shiftString = "";
+        StringBuilder shiftString = new StringBuilder("");
         int octaveShift = note.getOctave() - 5;
         if (octaveShift < 0) {
-            shiftString = ",".repeat(-octaveShift);
+            for (int i = octaveShift; i <= 0 - 1; i++) {
+                shiftString.append(",");
+            }
         } else if (octaveShift > 0) {
-            shiftString = "'".repeat(octaveShift);
+            for (int i = 0; i <= octaveShift - 1; i++) {
+                shiftString.append("'");
+            }
         }
-        return shiftString;
+        return shiftString.toString();
     }
 
     // EFFECTS: Handles note duration parsing
@@ -509,9 +513,9 @@ public class ComposerGUI extends JFrame {
         double equivDuration = note.getDuration() * 4;
         if (equivDuration < 1) {
             double recip = 1 / equivDuration;
-            durationString = "/" + (int)(Math.pow(2, Math.ceil(Math.log(recip) / Math.log(2))));
+            durationString = "/" + (int) (Math.pow(2, Math.ceil(Math.log(recip) / Math.log(2))));
         } else if (equivDuration > 1) {
-            durationString = Integer.toString((int)(Math.round(equivDuration)));
+            durationString = Integer.toString((int) (Math.round(equivDuration)));
         }
         return durationString;
     }

@@ -70,7 +70,6 @@ public class PiecesMemory extends LinkedList<Piece> implements Writable {
     }
 
     // EFFECTS: Returns index of piece with given name. Throws PieceNotFOundException if piece is not found.
-    // TODO: Add tests for this method
     public int getIndexOfPiece(String name) throws PieceNotFoundException {
         return memory.indexOf(getPieceWithName(name));
     }
