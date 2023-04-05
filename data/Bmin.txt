@@ -5,4 +5,4 @@ L:1/4
 O:Original
 Q:1=120
 K:C
-[| B, ^C D E ^F G A B  |]
+[| B,4 ^C4 D4 E4 ^F4 G4 A4 B4  |]

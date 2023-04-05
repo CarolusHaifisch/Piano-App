@@ -50,7 +50,13 @@ public class ComposerGUI extends JFrame {
     //EFFECTS: creates ComposerGUI
     private ComposerGUI() {
         super("Java Music Composer V0.2");
-
+        try {
+            UIManager.setLookAndFeel(
+                    UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Class not found.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
         setSize(ComposerUIConstants.WIDTH, ComposerUIConstants.HEIGHT);
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new SaveonClose());
