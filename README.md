@@ -23,7 +23,7 @@ higher and lower octaves other than 5 the notes can go off the image.
 
 ### Not yet realized user stories:
 - As a user, I want to be able to compose music with notes with different instrument sounds in the same piece.
-
+ 
 
 ## Stretch goals:
 - Tuner program: (More complex because requires Fourier Transforms to read frequencies)
