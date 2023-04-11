@@ -32,14 +32,15 @@ public class PiecesMemory extends LinkedList<Piece> implements Writable {
     // EFFECTS: Adds a Piece to the PiecesMemory.
     public void addPiece(Piece p) {
         memory.addFirst(p);
-        pieceaddedEvent = new Event("Piece " + p.getPieceName() + " added to local memory");
+        pieceaddedEvent = new Event("Piece " + p.getPieceName() + " added to local memory \n");
         EventLog.getInstance().logEvent(pieceaddedEvent);
     }
 
     // MODIFIES: this
     // EFFECTS: Removes a Piece from the PiecesMemory at given index.
     public void delPiece(int index) {
-        pieceremovedEvent = new Event("Piece " + this.getPieceWithIndex(index) + "removed from local memory");
+        pieceremovedEvent = new Event("Piece " + this.getPieceWithIndex(index).getPieceName()
+                + " removed from local memory \n");
         memory.remove(index);
         EventLog.getInstance().logEvent(pieceremovedEvent);
     }
@@ -102,7 +103,7 @@ public class PiecesMemory extends LinkedList<Piece> implements Writable {
     // EFFECTS: Clear local PiecesMemory memory
     public void clearMemory() {
         this.memory =  new PiecesMemory(new LinkedList<>());
-        memoryclearedEvent = new Event("Local memory cleared!");
+        memoryclearedEvent = new Event("Local memory cleared! \n");
         EventLog.getInstance().logEvent(memoryclearedEvent);
 
     }

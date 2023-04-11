@@ -34,7 +34,7 @@ public class Piece implements Writable {
         for (Note n : this.getPieceContents()) {
             pieceString += n.noteToString();
         }
-        pieceContentsEvent = new Event("Showing contents of piece " + this.getPieceName());
+        pieceContentsEvent = new Event("Displaying contents of piece " + this.getPieceName() + "\n");
         EventLog.getInstance().logEvent(pieceContentsEvent);
         return pieceString;
     }
@@ -73,7 +73,8 @@ public class Piece implements Writable {
     // EFFECTS: Adds Note to end of piece.
     public void addNote(Note n) {
         this.pieceContents.add(n);
-        noteaddedEvent = new Event("Note " + n.noteToString() + " added to piece " + this.getPieceName());
+        noteaddedEvent = new Event("Note " + n.noteToString() + " added to piece " + this.getPieceName()
+        + "\n");
         EventLog.getInstance().logEvent(noteaddedEvent);
     }
 
@@ -81,10 +82,10 @@ public class Piece implements Writable {
     // MODIFIES: this
     // EFFECTS: Deletes Note from piece at given index.
     public void delNote(int index) {
-        this.pieceContents.remove(index);
         noteremovedEvent = new Event("Note " + this.getNoteAtIndex(index).noteToString()
-                + " removed from piece " + this.getPieceName());
+                + " removed from piece " + this.getPieceName() + "\n");
         EventLog.getInstance().logEvent(noteremovedEvent);
+        this.pieceContents.remove(index);
     }
 
     // EFFECTS: Returns a Piece in JSON serialized format as a JSON object.

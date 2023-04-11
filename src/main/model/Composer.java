@@ -22,7 +22,7 @@ public class Composer {
     // EFFECTS: Retrieves the saved PiecesMemory from the file.
     public PiecesMemory memRetrieve(String pathname) throws IOException {
         JsonReader reader = new JsonReader(pathname);
-        loadEvent = new Event("Saved memory loaded.");
+        loadEvent = new Event("Saved memory loaded. \n");
         EventLog.getInstance().logEvent(loadEvent);
         return reader.read();
     }
@@ -35,7 +35,7 @@ public class Composer {
         writer.open();
         writer.write(currentPMem);
         writer.close();
-        saveEvent = new Event("Memory saved to JSON file.");
+        saveEvent = new Event("Memory saved to JSON file. \n");
         EventLog.getInstance().logEvent(saveEvent);
     }
 }
