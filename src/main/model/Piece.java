@@ -18,6 +18,9 @@ public class Piece implements Writable {
     private static final long serialVersionUID = 1L;
     private ArrayList<Note> pieceContents;
     private String pieceName;
+    private Event noteaddedEvent;
+    private Event noteremovedEvent;
+    private Event pieceContentsEvent;
 
     // EFFECTS: Constructs a new blank piece of music with no notes with given name
     public Piece(String name, ArrayList<Note> piececontents) {
@@ -31,6 +34,8 @@ public class Piece implements Writable {
         for (Note n : this.getPieceContents()) {
             pieceString += n.noteToString();
         }
+        pieceContentsEvent = new Event("Showing contents of piece " + this.getPieceName());
+        EventLog.getInstance().logEvent(pieceContentsEvent);
         return pieceString;
     }
 
@@ -68,6 +73,8 @@ public class Piece implements Writable {
     // EFFECTS: Adds Note to end of piece.
     public void addNote(Note n) {
         this.pieceContents.add(n);
+        noteaddedEvent = new Event("Note " + n.noteToString() + " added to piece " + this.getPieceName());
+        EventLog.getInstance().logEvent(noteaddedEvent);
     }
 
     // REQUIRES: Given index is a valid index of piece (index < piece size), index >= 0
@@ -75,6 +82,9 @@ public class Piece implements Writable {
     // EFFECTS: Deletes Note from piece at given index.
     public void delNote(int index) {
         this.pieceContents.remove(index);
+        noteremovedEvent = new Event("Note " + this.getNoteAtIndex(index).noteToString()
+                + " removed from piece " + this.getPieceName());
+        EventLog.getInstance().logEvent(noteremovedEvent);
     }
 
     // EFFECTS: Returns a Piece in JSON serialized format as a JSON object.

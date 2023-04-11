@@ -10,6 +10,8 @@ import java.io.*;
  * but are not directly linked to user inputs such as methods to read and extract information from memory.
  */
 public class Composer {
+    private Event loadEvent;
+    private Event saveEvent;
 
     // EFFECTS: Returns true if memory file already exists at given pathname, false otherwise.
     public boolean memExists(String pathname) {
@@ -20,6 +22,8 @@ public class Composer {
     // EFFECTS: Retrieves the saved PiecesMemory from the file.
     public PiecesMemory memRetrieve(String pathname) throws IOException {
         JsonReader reader = new JsonReader(pathname);
+        loadEvent = new Event("Saved memory loaded.");
+        EventLog.getInstance().logEvent(loadEvent);
         return reader.read();
     }
 
@@ -31,6 +35,8 @@ public class Composer {
         writer.open();
         writer.write(currentPMem);
         writer.close();
+        saveEvent = new Event("Memory saved to JSON file.");
+        EventLog.getInstance().logEvent(saveEvent);
     }
 }
 

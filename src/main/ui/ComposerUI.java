@@ -256,7 +256,7 @@ public class ComposerUI {
     // MODIFIES: PiecesMemory memory
     // EFFECTS: Clears local memory, resetting it to a new PiecesMemory, and returns to main menu.
     private void cmethod() {
-        memory = new PiecesMemory(new LinkedList<>());
+        memory.clearMemory();
         System.out.println("PiecesMemory cleared.");
         this.composerInterface();
     }

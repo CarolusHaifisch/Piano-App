@@ -78,5 +78,7 @@ public class TestPiecesMemory {
         assertEquals("", PEmpty.getPieceNames());
         PMem.delPiece(2);
         assertEquals("Test1, Test2, ", PMem.getPieceNames());
+        PMem.clearMemory();
+        assertEquals(new LinkedList<>(), PMem);
     }
 }

@@ -14,6 +14,9 @@ public class PiecesMemory extends LinkedList<Piece> implements Writable {
      * as they are saved into memory (newest piece is first in memory).
      */
     private LinkedList<Piece> memory;
+    private Event pieceaddedEvent;
+    private Event pieceremovedEvent;
+    private Event memoryclearedEvent;
 
     // EFFECTS: Constructs a new blank memory of pieces
     public PiecesMemory(LinkedList<Piece> mem) {
@@ -29,12 +32,16 @@ public class PiecesMemory extends LinkedList<Piece> implements Writable {
     // EFFECTS: Adds a Piece to the PiecesMemory.
     public void addPiece(Piece p) {
         memory.addFirst(p);
+        pieceaddedEvent = new Event("Piece " + p.getPieceName() + " added to local memory");
+        EventLog.getInstance().logEvent(pieceaddedEvent);
     }
 
     // MODIFIES: this
     // EFFECTS: Removes a Piece from the PiecesMemory at given index.
     public void delPiece(int index) {
+        pieceremovedEvent = new Event("Piece " + this.getPieceWithIndex(index) + "removed from local memory");
         memory.remove(index);
+        EventLog.getInstance().logEvent(pieceremovedEvent);
     }
 
     // REQUIRES: pieces have unique names
@@ -89,5 +96,14 @@ public class PiecesMemory extends LinkedList<Piece> implements Writable {
             jsonArray.put(p.toJson());
         }
         return jsonArray;
+    }
+
+    // MODIFIES: PiecesMemory memory
+    // EFFECTS: Clear local PiecesMemory memory
+    public void clearMemory() {
+        this.memory =  new PiecesMemory(new LinkedList<>());
+        memoryclearedEvent = new Event("Local memory cleared!");
+        EventLog.getInstance().logEvent(memoryclearedEvent);
+
     }
 }

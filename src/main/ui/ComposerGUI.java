@@ -6,6 +6,7 @@ import abc.parser.TuneBook;
 import abc.ui.swing.JScoreComponent;
 import exception.PieceNotFoundException;
 import model.*;
+import model.Event;
 import org.jfugue.player.Player;
 
 import java.awt.*;
@@ -142,8 +143,10 @@ public class ComposerGUI extends JFrame {
                     JOptionPane.showMessageDialog(null, "Could not save memory.", "Save Memory",
                             JOptionPane.ERROR_MESSAGE);
                 }
+                printLog(EventLog.getInstance());
                 System.exit(0);
             } else {
+                printLog(EventLog.getInstance());
                 System.exit(0);
             }
         }
@@ -254,7 +257,7 @@ public class ComposerGUI extends JFrame {
         // EFFECTS: Runs when the clear action occurs (Whenever the clear option is chosen by the user)
         @Override
         public void actionPerformed(ActionEvent ae) {
-            memory = new PiecesMemory(new LinkedList<>());
+            memory.clearMemory();
             cbModel.removeAllElements();
             comboBoxInitializer();
             JOptionPane.showMessageDialog(null, "PiecesMemory cleared.", "Clear Memory",
@@ -526,6 +529,13 @@ public class ComposerGUI extends JFrame {
             durationString = Integer.toString((int) (Math.round(equivDuration)));
         }
         return durationString;
+    }
+
+    // EFFECTS: Prints the EventLog to console upon exit.
+    public void printLog(EventLog elog) {
+        for (Event e : elog) {
+            System.out.println(e.toString());
+        }
     }
 }
 
