@@ -20,6 +20,7 @@ import org.json.*;
 public class JsonReader {
     // Represents a reader that reads a PiecesMemory from JSON data stored in file at given filepath
     private String filepath;
+    private PiecesMemory pmem;
 
     // EFFECTS: constructs reader to read from source file at filepath
     public JsonReader(String pathname) {
@@ -47,7 +48,7 @@ public class JsonReader {
 
     // EFFECTS: parses PiecesMemory from JSON object and returns it
     private PiecesMemory parsePiecesMemory(JSONObject jsonObject) {
-        PiecesMemory pmem = new PiecesMemory(new LinkedList<Piece>());
+        pmem = new PiecesMemory(new LinkedList<Piece>());
         addPieces(pmem, jsonObject);
         return pmem;
     }

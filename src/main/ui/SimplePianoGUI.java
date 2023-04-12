@@ -1,6 +1,5 @@
 package ui;
 
-import model.ComposerConstants;
 import model.Note;
 import model.Piece;
 
@@ -23,8 +22,8 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     private JButton[] accidentalKeys;
     private JButton[] durationSave;
     private JButton[] bottomKeys;
-    private ClickHandler keyHandler;
-    private ClickHandler2 keyHandler2;
+    private DurationNameClickHandler keyHandler;
+    private ClickHandler keyHandler2;
     private JFrame pianoFrame;
     private String noteString;
     private JPanel pianoKeyboard;
@@ -39,8 +38,8 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
         selectedPiece = piece;
         pianoFrame.setSize(ComposerUIConstants.WIDTH, ComposerUIConstants.HEIGHT);
         pianoFrame.setVisible(true);
-        keyHandler = new ClickHandler();
-        keyHandler2 = new ClickHandler2();
+        keyHandler = new DurationNameClickHandler();
+        keyHandler2 = new ClickHandler();
         currentNote = new Note(Character.MIN_VALUE, 0, 0, false, false);
         label = new JLabel("Start by selecting a note, then choose an octave and accidental.");
         addMainPanel();
@@ -218,11 +217,11 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     }
 
     // MODIFIES: currentNote
-    // EFFECTS: Listener for keyEvents, checks to see if note inputs are made and updates the noteLabel.
+    // EFFECTS: Listener for keyEvents for the Add Duration and note name buttons.
     // TODO: Restructure the if elses into a switch statement that depends only on the identity of the button rather
     // than length of string
     // Requires modifying the GUI frame
-    private class ClickHandler implements ActionListener {
+    private class DurationNameClickHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton src = (JButton) e.getSource();
@@ -308,7 +307,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     // Clear, and Return Buttons. Return does not automatically save piece status.
 
     //TODO: Add option to insert note at index.
-    private class ClickHandler2 implements ActionListener {
+    private class ClickHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton src = (JButton) e.getSource();
