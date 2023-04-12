@@ -12,6 +12,8 @@ import java.io.*;
 public class Composer {
     private Event loadEvent;
     private Event saveEvent;
+    private static JsonReader reader;
+    private static JsonWriter writer;
 
     // EFFECTS: Returns true if memory file already exists at given pathname, false otherwise.
     public boolean memExists(String pathname) {
@@ -21,7 +23,7 @@ public class Composer {
 
     // EFFECTS: Retrieves the saved PiecesMemory from the file.
     public PiecesMemory memRetrieve(String pathname) throws IOException {
-        JsonReader reader = new JsonReader(pathname);
+        reader = new JsonReader(pathname);
         loadEvent = new Event("Saved memory loaded. \n");
         EventLog.getInstance().logEvent(loadEvent);
         return reader.read();
@@ -31,7 +33,7 @@ public class Composer {
     // EFFECTS: Saves current PiecesMemory to the memory file at pathname path.
     // This will overwrite whatever was originally in the memory file.
     public void memSave(PiecesMemory currentPMem, String pathname) throws IOException {
-        JsonWriter writer = new JsonWriter(pathname);
+        writer = new JsonWriter(pathname);
         writer.open();
         writer.write(currentPMem);
         writer.close();

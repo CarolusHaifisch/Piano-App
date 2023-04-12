@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
  * by CPSC 210 teaching team.
  */
 public class ComposerGUI extends JFrame {
-    private final Composer composer = new Composer();
+    private final Composer composer;
     private PiecesMemory memory;
     private Piece selectedPiece;
     private String pieceName;
@@ -51,6 +51,7 @@ public class ComposerGUI extends JFrame {
     //EFFECTS: creates ComposerGUI
     private ComposerGUI() {
         super("Java Music Composer V0.2");
+        composer = new Composer();
         try {
             UIManager.setLookAndFeel(
                     UIManager.getSystemLookAndFeelClassName());

@@ -18,6 +18,7 @@ public class EventLog implements Iterable<Event> {
     private Collection<Event> events;
 
     /**
+     * EFFECTS:
      * Prevent external construction.
      * (Singleton Design Pattern).
      */
@@ -26,6 +27,7 @@ public class EventLog implements Iterable<Event> {
     }
 
     /**
+     * EFFECTS:
      * Gets instance of EventLog - creates it
      * if it doesn't already exist.
      * (Singleton Design Pattern)
@@ -40,6 +42,7 @@ public class EventLog implements Iterable<Event> {
     }
 
     /**
+     * EFFECTS:
      * Adds an event to the event log.
      * @param e the event to be added
      */
@@ -48,6 +51,7 @@ public class EventLog implements Iterable<Event> {
     }
 
     /**
+     * EFFECTS:
      * Clears the event log and logs the event.
      */
     public void clear() {
@@ -55,6 +59,7 @@ public class EventLog implements Iterable<Event> {
         logEvent(new Event("Event log cleared."));
     }
 
+    // EFFECTS: Overrides iterator
     @Override
     public Iterator<Event> iterator() {
         return events.iterator();
