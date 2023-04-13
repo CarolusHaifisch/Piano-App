@@ -218,9 +218,7 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
 
     // MODIFIES: currentNote
     // EFFECTS: Listener for keyEvents for the Add Duration and note name buttons.
-    // TODO: Restructure the if elses into a switch statement that depends only on the identity of the button rather
-    // than length of string
-    // Requires modifying the GUI frame
+
     private class DurationNameClickHandler implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

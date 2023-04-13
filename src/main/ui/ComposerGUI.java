@@ -14,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.regex.Pattern;
 
 
 /**
@@ -169,7 +167,7 @@ public class ComposerGUI extends JFrame {
         addMenuItem(fileMenu, new LoadAction(), KeyStroke.getKeyStroke("control L"));
         addMenuItem(fileMenu, new ClearAction(), null);
         menuBar.add(fileMenu);
-        // TODO BELOW
+
 
         JMenu codeMenu = new JMenu("Pieces");
         codeMenu.setMnemonic('P');
@@ -540,9 +538,5 @@ public class ComposerGUI extends JFrame {
     }
 }
 
-// TODO: Add buttons to main frame. Dropdown menu for choosing a piece from composed pieces in memory,
-// Then upon choosing a piece which is noted in local memory there are buttons for playing the piece,
-// opening a panel displaying information about the piece, and a button for adding notes, and a button for deleting
-// notes from the piece. Piece addition and deletion is handled by buttons on top menu bar.
 
 

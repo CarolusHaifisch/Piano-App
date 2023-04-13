@@ -114,3 +114,20 @@ Piece Test added to local memory
 
 Tue Apr 11 02:07:06 PDT 2023
 Piece Test removed from local memory
+
+
+## PHASE 4 TASK 3:
+I would split my current ComposerGUI class into one other class that handles constructing the GUI layout for the main
+JFrame, and let ComposerGUI handle only the initialization and closing of the entire GUI. According to the Single
+Responsibility Principle we want each class to only be centered around one cohesive concept, and currently
+my ComposerGUI has two clusters of methods, one set for initialization and closing of the GUI and one for creating the 
+GUI layout. Advantages of splitting this class would be to adhere to the SRP better, and to help in debugging when
+problems arise in the future as I develop and update the code. Having these concepts separated into separate classes
+will make it easier to see exactly where a bug is arising. 
+
+I would also refactor the more complex if else code blocks in some of my methods and classes like the ClickHandler
+class inside the SimplePianoGUI class to use switch cases instead. This would make the code much more streamlined than
+it currently is, improving readability, and slightly improve runtime since the compiler no longer has to check all the 
+if else cases starting from the top and instead go directly to the corresponding switch case. 
+However a switch case block would cause the method length to go beyond the line limit checkstyle, but since this
+is a justified reason for doing so I feel it is worth refactoring into a switch statement. 
