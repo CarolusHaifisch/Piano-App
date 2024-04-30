@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Objects;
 
 public class SimplePianoGUI extends JFrame implements KeyListener {
     /**
@@ -358,10 +359,16 @@ public class SimplePianoGUI extends JFrame implements KeyListener {
     // EFFECTS: Helper for Enter button case in ClickHandler2
     private void enterHelper() {
         try {
-            if (Double.parseDouble(inputText.getText()) > 0) {
+            if (Objects.equals(inputText.getText(), "q")) {
+                duration = Double.parseDouble("0.25");
+                label.setText("Duration saved! Duration = " + duration);
+            } else if (Objects.equals(inputText.getText(), "h")) {
+                duration = Double.parseDouble("0.5");
+                label.setText("Duration saved! Duration = " + duration);
+            } else if (Double.parseDouble(inputText.getText()) > 0) {
                 duration = Double.parseDouble(inputText.getText());
                 label.setText("Duration saved! Duration = " + duration);
-            } else {
+            }  else {
                 JOptionPane.showMessageDialog(pianoFrame, "Duration must be a positive number.",
                         "Invalid Input", JOptionPane.WARNING_MESSAGE);
             }
